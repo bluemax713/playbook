@@ -72,6 +72,7 @@ MCP (Model Context Protocol) servers give Claude direct access to your tools —
 | **Automation** | n8n, Make, Zapier | Read/update workflows, check execution logs |
 | **Code Hosting** | GitHub (via `gh` CLI) | PRs, issues, code review |
 | **Communication** | Slack, Discord | Read/send messages, monitor channels |
+| **Research** | [Perplexity](https://github.com/ppl-ai/modelcontextprotocol) | Real-time web search, deep research, current best practices |
 
 **The rule of thumb:** If you find yourself repeatedly switching to another app to copy data, check status, or trigger an action — that's a sign you should connect it as an MCP server. Tell Claude "I keep having to manually check X in Y tool" and it will help you evaluate whether an MCP connection would save time.
 
