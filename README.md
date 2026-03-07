@@ -74,6 +74,8 @@ MCP (Model Context Protocol) servers give Claude direct access to your tools —
 | **Communication** | [Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack), Discord | Read/send messages, monitor channels |
 | **Research** | [Perplexity](https://github.com/ppl-ai/modelcontextprotocol) | Real-time web search, deep research, current best practices |
 
+**Authorize broadly, expose everything.** When setting up an MCP server that uses OAuth (like Google Workspace), grant all the scopes/permissions upfront — even for services you don't plan to use immediately. Re-authorizing mid-session requires a browser flow and breaks your workflow. For the Google Workspace CLI specifically, use `-s all --tool-mode compact` to expose every service while keeping the tool list manageable. You can always ask Claude which services are available if you're not sure what's possible.
+
 **The rule of thumb:** If you find yourself repeatedly switching to another app to copy data, check status, or trigger an action — that's a sign you should connect it as an MCP server. Tell Claude "I keep having to manually check X in Y tool" and it will help you evaluate whether an MCP connection would save time.
 
 MCP servers are configured in `~/.claude.json` (global) or in project-level settings. See [Anthropic's MCP docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
