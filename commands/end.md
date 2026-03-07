@@ -1,0 +1,37 @@
+Session closeout. Do everything needed so the user can walk away without taking notes or remembering anything. The next `/start` must pick up seamlessly.
+
+## Steps
+
+1. **Review what was done this session.** Look at all changes made, files edited, commits created, and conversations had. Don't miss anything.
+
+2. **Update WORK_LOG.md.** This is the critical handoff document.
+   - Update "Last updated" date
+   - Update "Overall State" headline if it changed
+   - Add numbered entries under "Recent Changes (this session)" for everything done — be specific (file names, node counts, what changed and why)
+   - Update "Workflow Status" or equivalent current-state section to reflect reality
+   - Update "Known Issues / Next Steps" — remove anything completed, add anything new discovered, reprioritize if needed. Be explicit about what's next and what's blocked
+   - If any task is partially done, document exactly where it was left off and what remains
+
+3. **Update PM tool** (if MCP is connected). Mark completed tasks as done. Update in-progress tasks with status notes. Create new tasks for anything discovered during the session that needs tracking.
+
+4. **Cleanup** — remove temporary artifacts:
+   - Delete `HANDOFF_RESULT.md` if it exists in the project root
+   - Remove any other temp files created during the session (scratch scripts, debug output, etc.)
+   - Do NOT delete docs/decisions/ files — those are permanent
+
+5. **Pre-commit checklist** — before committing, verify:
+   - All changes tested/verified (not just "should work" — show evidence)
+   - No hardcoded secrets, tokens, or credentials in code
+   - No uncommitted changes left behind accidentally
+   - No temp files being committed
+   - Branch pushed to origin
+
+6. **Commit and push.** Stage all changed files, commit with a clear message summarizing the session's work, and push to remote. Do NOT commit .env or credentials.
+
+7. **Present the closeout summary:**
+   - **Done this session** — bullet list of completed work
+   - **Left in progress** — anything partially done and where it stands
+   - **Next session priorities** — what `/start` will surface as the top items
+   - **Action items** — anything that requires action outside of Claude Code
+
+Keep it concise. The goal is zero information loss between sessions.
