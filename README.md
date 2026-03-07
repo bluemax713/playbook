@@ -87,7 +87,7 @@ This playbook is a starting point. Customize `CLAUDE.md` to fit your workflow:
 - Add project-specific rules in project-level `CLAUDE.md` files
 - Add new commands in `~/.claude/commands/` for your recurring workflows
 
-**Tip:** You don't need to do any of this manually. Just tell Claude what you want — "set up the Slack MCP server," "add a rule about always running tests," "create a new command for deployments" — and Claude will handle the file edits and configuration for you.
+**Tip:** You don't need to do any of this manually. Just tell Claude what you want — "set up the Slack MCP server," "add a rule about always running tests," "create a new command for deployments" — and Claude will handle the file edits and configuration for you. Or even just ask Claude, after installing this Playbook, to "/plan review README.md and walk me through everything."
 
 ## License
 
