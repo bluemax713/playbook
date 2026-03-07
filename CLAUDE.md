@@ -56,6 +56,7 @@
 - **Don't use web research when**: working with your own codebase, debugging, querying your databases, or tasks where internal context is sufficient
 - **During `/plan` Phase 1 (brainstorming)**: use research tools to ground options in current data when evaluating external tools or approaches
 - **Transparency**: Always tell the user when using web research — say so before the call, and clearly distinguish what came from live web data vs. existing knowledge in the response
+- **Recency discipline**: Perplexity's base LLM may have stale training data, but its value is **live web search**. If a research response includes caveats about training data cutoff or says "verify current status," that means the search didn't return current results. **Immediately follow up** with targeted searches using recency filters to get actual current data. Never present stale results without first attempting to get fresher data.
 
 ## Tool Integration
 - When a manual task is performed repeatedly (copy-pasting between apps, checking status in external tools, triggering actions manually), proactively suggest connecting the tool as an MCP server to eliminate the manual step
