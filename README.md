@@ -65,13 +65,13 @@ MCP (Model Context Protocol) servers give Claude direct access to your tools —
 
 | Category | MCP Server | What it does |
 |----------|-----------|-------------|
+| **Google Workspace** | [Google Workspace CLI](https://github.com/googleworkspace/cli) | Gmail, Drive, Calendar, Docs, Sheets, Chat, Admin — one MCP for all Google services |
 | **Project Management** | [ClickUp](https://mcp.clickup.com), [Linear](https://github.com/linear/linear-mcp), Notion | Read/update tasks, check priorities, create issues |
 | **Database** | [Supabase](https://mcp.supabase.com), Neon, PlanetScale | Run queries, apply migrations, inspect schema |
-| **Email** | [Google Workspace CLI](https://github.com/nichochar/gws-mcp) | Read/send email, manage drafts |
-| **Analytics** | Metabase, Posthog | Query dashboards, pull metrics |
-| **Automation** | n8n, Make, Zapier | Read/update workflows, check execution logs |
-| **Code Hosting** | GitHub (via `gh` CLI) | PRs, issues, code review |
-| **Communication** | Slack, Discord | Read/send messages, monitor channels |
+| **Analytics** | [Metabase](https://github.com/easecloudio/mcp-metabase-server), Posthog | Query dashboards, pull metrics |
+| **Automation** | [n8n](https://github.com/leonardsellem/n8n-mcp-server), Make, Zapier | Read/update workflows, check execution logs |
+| **Code Hosting** | [GitHub](https://github.com/github/github-mcp-server) | PRs, issues, code review |
+| **Communication** | [Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack), Discord | Read/send messages, monitor channels |
 | **Research** | [Perplexity](https://github.com/ppl-ai/modelcontextprotocol) | Real-time web search, deep research, current best practices |
 
 **The rule of thumb:** If you find yourself repeatedly switching to another app to copy data, check status, or trigger an action — that's a sign you should connect it as an MCP server. Tell Claude "I keep having to manually check X in Y tool" and it will help you evaluate whether an MCP connection would save time.
@@ -84,6 +84,8 @@ This playbook is a starting point. Customize `CLAUDE.md` to fit your workflow:
 - Add tool-specific sections (database, CI/CD, deployment platforms)
 - Add project-specific rules in project-level `CLAUDE.md` files
 - Add new commands in `~/.claude/commands/` for your recurring workflows
+
+**Tip:** You don't need to do any of this manually. Just tell Claude what you want — "set up the Slack MCP server," "add a rule about always running tests," "create a new command for deployments" — and Claude will handle the file edits and configuration for you.
 
 ## License
 
