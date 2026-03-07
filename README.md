@@ -20,7 +20,7 @@ Most Claude Code configs are built for developers. This one is built for operato
 ## Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/playbook.git
+git clone https://github.com/bluemax713/playbook.git
 cd playbook
 chmod +x install.sh
 ./install.sh
