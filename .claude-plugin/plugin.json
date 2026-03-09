@@ -1,0 +1,15 @@
+{
+  "name": "playbook",
+  "version": "1.0.0",
+  "description": "Operating playbook for non-technical founders working with Claude Code. Claude is the quarterback — you're the boss.",
+  "author": {
+    "name": "Max Assoulin",
+    "url": "https://github.com/bluemax713"
+  },
+  "homepage": "https://github.com/bluemax713/playbook",
+  "repository": "https://github.com/bluemax713/playbook",
+  "license": "MIT",
+  "keywords": ["playbook", "session-management", "non-technical", "operations"],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json"
+}

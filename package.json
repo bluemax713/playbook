@@ -1,0 +1,29 @@
+{
+  "name": "playbook-ai",
+  "version": "1.0.0",
+  "description": "Operating playbook for non-technical founders working with Claude Code",
+  "bin": "./bin/cli.js",
+  "type": "module",
+  "files": [
+    "bin/",
+    "lib/",
+    "commands/",
+    "CLAUDE.md",
+    "settings.json",
+    "install.sh",
+    "update.sh",
+    "VERSION",
+    "CHANGELOG.md"
+  ],
+  "keywords": ["claude", "claude-code", "playbook", "ai", "operations"],
+  "author": "Max Assoulin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bluemax713/playbook"
+  },
+  "homepage": "https://github.com/bluemax713/playbook",
+  "engines": {
+    "node": ">=18"
+  }
+}

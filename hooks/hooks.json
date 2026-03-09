@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You are running with the Playbook operating system. Read CLAUDE.md and WORK_LOG.md, then follow the /start command flow."
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Playbook is active. Re-read CLAUDE.md for operating rules. Check WORK_LOG.md for session state."
+          }
+        ]
+      }
+    ]
+  }
+}

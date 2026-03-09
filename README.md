@@ -22,14 +22,30 @@ Most Claude Code configs are built for developers. This one is built for operato
 
 ## Install
 
+### Option 1: npm (recommended)
+
+```bash
+npx playbook-ai install
+```
+
+That's it. Works without installing anything globally.
+
+### Option 2: Plugin
+
+```bash
+/plugin install playbook
+```
+
+Run this inside Claude Code. The plugin gives you the same commands as skills (`/playbook:start`, `/playbook:end`, etc.) and includes a SessionStart hook that kicks off your session automatically.
+
+### Option 3: Manual (git clone)
+
 ```bash
 git clone https://github.com/bluemax713/playbook.git
 cd playbook
 chmod +x install.sh
 ./install.sh
 ```
-
-Then restart Claude Code.
 
 > **Don't have git?** Download the [latest release](https://github.com/bluemax713/playbook/archive/refs/heads/main.zip), unzip it, and run `./install.sh` from the folder. Updates will still work — they'll use direct downloads instead of git.
 
