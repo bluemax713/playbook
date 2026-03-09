@@ -27,7 +27,8 @@
 
 ## Tech Stack Awareness
 - **`~/.claude/tech_stack.md` is the global tech stack registry** — check it before recommending new tools, frameworks, or services
-- **Prefer what's already in use** unless there's a strong reason to introduce something new. Consolidation > sprawl.
+- **Start with what's already in use**, but always evaluate whether it's the best fit. If a new tool is genuinely better for the job, propose the switch — explain what it replaces, why it's better, and what the migration cost is.
+- Consolidation is a tiebreaker, not a constraint. When two options are roughly equal, pick the one already in the stack. When one is clearly better, recommend it regardless.
 - When a new tool is adopted in any project, add it to tech_stack.md immediately
 - When a tool is dropped, move it to the Deprecated section with the reason and date
 - When evaluating options during `/plan`, reference tech_stack.md to see what's already available
