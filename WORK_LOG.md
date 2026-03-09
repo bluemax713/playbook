@@ -4,7 +4,15 @@
 
 ## Overall State: v1.0.0 published to npm, dual distribution complete, repo public
 
-## Recent Changes (2026-03-09)
+## Recent Changes (2026-03-09, session 2)
+
+1. **Fixed /start flow** — briefing no longer blocks on `/rename` response. Rename prompt + briefing in same message. Updated in `commands/start.md`, playbook `CLAUDE.md`, and Max's global `CLAUDE.md`. Pushed to GitHub (ee9017e).
+2. **Added Agent Teams to hierarchy** — Level 3 in Parallel Work section. Enabled via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` env var in both playbook `settings.json` and Max's global `settings.json`. Documented rules (when to use, Opus lead + Sonnet teammates).
+3. **Added Ralph Loop to hierarchy** — Level 4 in Parallel Work section. Plugin-based autonomous iteration for well-defined tasks. Install/invoke/cancel instructions included. Documented rules (binary success criteria only, always set max-iterations).
+4. **Researched everything-claude-code** — decided NOT to add (developer-focused, wrong audience for non-technical founders). Cross-session learning concept noted as future inspiration.
+5. **Researched Claude Code dashboards** — identified existing tools (Claude Code Desktop, Claude Code Crew, ClaudeX, Cox, Beam). Max interested in building/adopting a visual dashboard for multi-project management.
+
+## Recent Changes (2026-03-09, session 1)
 
 1. **Session naming convention** — added to commands/start.md, playbook CLAUDE.md, and Max's global CLAUDE.md. Flow: `/start` prompts user to copy/paste `/rename <project>` before the briefing. One rename, no nagging.
 2. **Plugin structure built** — `.claude-plugin/plugin.json`, `hooks/hooks.json` (SessionStart + compact), 6 skills generated from commands

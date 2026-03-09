@@ -37,11 +37,25 @@
 ### Hierarchy (use the lightest option that works)
 1. **Keep working in main thread** — default for most tasks
 2. **Subagent (automatic)** — for parallel research, exploration, independent sub-tasks within the same topic. You don't need to do anything.
-3. **Parallel session via `/handoff` (manual)** — for substantial independent work that needs a fresh context window. You open a new terminal, paste a prompt, and report back. Use only when: the task is too large for a subagent, the main session's context is degraded, or the work needs its own lifecycle. Must have material positive impact — don't over-trigger.
+3. **Agent Team (automatic or requested)** — for parallel *implementation* across multiple layers (frontend + backend + tests, multi-component features, competing hypotheses). Claude may propose a team, or you can request one. Each teammate is a full Claude instance with its own context. Higher token cost (~7x) — use only when teammates can work independently on distinct scopes. Requires `"agentTeams": true` in settings.json.
+4. **Ralph Loop (explicit, via plugin)** — for autonomous iteration on well-defined tasks with clear success criteria. Claude works in a continuous loop, seeing its own prior work, until a completion promise is met or max iterations reached. Great for "walk away" tasks: migrations, test coverage, batch refactors. Install: `/plugin install ralph-wiggum@claude-plugins-official`. Invoke: `/ralph-loop "prompt" --max-iterations N --completion-promise "DONE"`. Cancel: `/cancel-ralph`.
+5. **Parallel session via `/handoff` (manual)** — for substantial independent work that needs a fresh context window. You open a new terminal, paste a prompt, and report back. Use only when: the task is too large for a subagent, the main session's context is degraded, or the work needs its own lifecycle. Must have material positive impact — don't over-trigger.
 
 ### Subagent rules
 - **Don't use subagents for**: simple file reads, single-file edits, tasks that need back-and-forth with you
 - **Always return results** — subagent output isn't visible to you unless Claude summarizes it
+
+### Agent Team rules
+- **Don't propose teams for**: single-file changes, sequential tasks, same-file edits, or when on a tight token budget
+- **Do propose teams for**: cross-layer features, large refactors with parallelizable chunks, debugging with multiple hypotheses
+- Claude won't create a team without your approval
+- Prefer Opus for team lead, Sonnet for teammates (cost efficiency)
+
+### Ralph Loop rules
+- **Only use for**: tasks with binary success criteria (tests pass, linter clean, migration complete)
+- **Never use for**: tasks requiring judgment calls, design decisions, or unclear completion criteria
+- Always set `--max-iterations` to prevent runaway token usage
+- Start conservative (10-20 iterations), increase if needed
 
 ### Context health
 - **Proactive saves**: In long sessions, save critical state to WORK_LOG.md incrementally — don't wait for `/end`. Decisions, findings, and intermediate results should be written to disk as they happen, so nothing is lost if auto-compaction occurs.
