@@ -1,43 +1,40 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-08
+## Last updated: 2026-03-09
 
-## Overall State: Auto-update shipped, dual distribution (npm + plugin) planned
+## Overall State: v1.0.0 published to npm, dual distribution complete, repo public
 
-## Recent Changes (this session — 2026-03-08)
+## Recent Changes (2026-03-09)
 
-1. **Built auto-update mechanism** — VERSION, CHANGELOG.md, updated install.sh, new update.sh, updated start.md with silent pre-flight + update flow + CLAUDE.md merge (Keep mine / Use Playbook / Merge)
-2. **Updated settings.json** — added permissions for update commands (git -C, bash update.sh, chmod)
-3. **Updated README.md** — added Updates section, non-git install option, customization safety language, new files in table
-4. **Dry-run tested** — fresh install, re-install with customizations, update with outdated version, curl fallback all pass
-5. **Committed and pushed** to main (commit 5a2936b)
-6. **Made repo private** — temporarily, until npm package is ready
-7. **Created project auto-memory** — playbook-maintenance.md with changelog discipline rules
+1. **Session naming convention** — added to commands/start.md, playbook CLAUDE.md, and Max's global CLAUDE.md. Flow: `/start` prompts user to copy/paste `/rename <project>` before the briefing. One rename, no nagging.
+2. **Plugin structure built** — `.claude-plugin/plugin.json`, `hooks/hooks.json` (SessionStart + compact), 6 skills generated from commands
+3. **npm package built** — `package.json`, `bin/cli.js`, `lib/installer.js`. Zero dependencies, ESM, Node 18+.
+4. **Build script** — `scripts/build-skills.js` generates `skills/` from `commands/` (single source of truth). Verified idempotent.
+5. **README updated** — install options: npm first, plugin second, manual third
+6. **npm account created** — bluemax713 on npm, 2FA with Touch ID, linked to GitHub
+7. **Published `playbook-ai@1.0.0` to npm** — `npx playbook-ai install` works globally
+8. **Repo flipped back to public** — all commits pushed (da7deb4)
 
-## Planned: Dual Distribution (npm + plugin)
+## Decisions (this session)
 
-### Decisions made (approved by Max):
-- **npm = primary distribution** — `npx playbook-ai install`, clean `/start` commands, download tracking
-- **Plugin = secondary** — ecosystem discovery, `/playbook:start` namespace, auto-updates via plugin system
-- **SessionStart hook** — both paths get a hook that auto-invokes skills when user speaks naturally ("let's get started", "plan this out", "I'm done for today")
-- **Single source of truth** — commands/*.md are the source, build script generates skills/*/SKILL.md for plugin format
-- **Package name** — `playbook-ai` (available on npm). Backups: `cc-playbook`, `the-playbook`
-- **npm account** — Max needs to create one (walk him through it)
-
-### Implementation plan (approved):
-1. Plugin structure: `.claude-plugin/plugin.json`, `skills/`, SessionStart hook with auto-invocation
-2. npm package: `package.json`, `bin/install.js`
-3. Build script: generate skills from commands (prevents drift)
-4. README: npm first, plugin second, manual third
-5. Keep install.sh/update.sh/VERSION/CHANGELOG for npm + manual paths
-6. Test both paths end-to-end
-
-### Open questions:
-- Plugin CLAUDE.md injection — docs say it works, but needs real testing
-- Plugin settings.json may not support permission allowlists — may need to suggest permissions at first run
-- Marketplace submission (Anthropic official) — do after launch, just a PR to their repo
+- Session naming: one rename at session start only (no topic update). Copy/paste UX with `/rename <project>`.
+- Plugin can't inject CLAUDE.md natively — using SessionStart hook instead
+- Plugin can't set settings.json permissions — users set up manually
+- npm bin field must be object format for publish (`{"playbook-ai": "bin/cli.js"}`)
 
 ## Known Issues / Next Steps
-- **Next session:** Build dual distribution (npm + plugin)
-- **GitHub repo is currently PRIVATE** — flip back to public after npm package is ready
-- 37 unique cloners on March 7 before we made it private — they have old version without auto-update
+- **Plugin marketplace submission** — not done yet. Users can manually install via `/plugin marketplace add bluemax713/playbook`. Submit to Anthropic marketplace when ready (just a PR to their repo).
+- **SessionStart hook for natural language invocation** — planned but not yet implemented (e.g., "let's get started" auto-triggering /start)
+- **37 early cloners** from March 7 have old version without auto-update — no action needed, they'll find the npm/public repo
+- **CHANGELOG discipline** — see auto-memory `playbook-maintenance.md` for rules on when to bump version
+
+## Previous Sessions
+
+### 2026-03-08 (session 2)
+- Created npm package structure (package.json, bin/cli.js, lib/installer.js)
+
+### 2026-03-08 (session 1)
+- Built auto-update mechanism (VERSION, CHANGELOG, update.sh, start.md update flow)
+- Updated settings.json, README.md
+- Made repo private temporarily
+- Created project auto-memory
