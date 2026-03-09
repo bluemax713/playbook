@@ -63,9 +63,9 @@ Keep it short and scannable. Bullet points. No fluff. Wait for direction before 
 
 ## Session Naming
 
-**Before the briefing**, prompt the user to name the session. Output only this — nothing else:
+**At the top of your response**, before the briefing, prompt the user to name the session:
 
 > Copy/paste to name this session:
 > `/rename <project>`
 
-Where `<project>` is the current directory's basename (e.g., `playbook`). Then **wait for the user to respond** before presenting the briefing. Do not include the briefing in the same message.
+Where `<project>` is the current directory's basename (e.g., `playbook`). Then include the full briefing in the **same message** below the rename prompt. The user can rename at any time — do not wait for it.

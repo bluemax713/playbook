@@ -15,8 +15,8 @@
 4. **One feature/task per session** unless you say otherwise — no sprawl
 
 ## Session Naming
-- On `/start`, **before the briefing**, prompt the user to name the session: `Copy/paste to name this session:` followed by `/rename <project>` in a code block (directory basename)
-- **Wait for the user to respond** before presenting the briefing. Do not include both in the same message.
+- On `/start`, **at the top of the response before the briefing**, prompt the user to name the session: `Copy/paste to name this session:` followed by `/rename <project>` in a code block (directory basename)
+- Include the full briefing in the **same message** below the rename prompt. The user can rename at any time — do not wait for it.
 
 ## Project Management Integration
 - Your PM tool (ClickUp, Linear, Notion, Jira, etc.) is the **source of truth for task priorities** when available
