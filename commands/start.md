@@ -38,11 +38,11 @@ Before anything else, silently check if a newer version of Playbook is available
      - Via git: `git -C ~/.claude/.playbook diff vA.B.C..origin/main -- CLAUDE.md` (or compare the files directly)
      - Or: compare `~/.claude/CLAUDE.md` with `~/.claude/.playbook/CLAUDE.md`
    - If CLAUDE.md has NOT changed upstream: done, continue to briefing.
-   - If CLAUDE.md HAS changed upstream, tell the user what changed (summarize the differences in plain language), then offer three choices:
+   - If CLAUDE.md HAS changed upstream, tell the user what changed (summarize the differences in plain language), then offer two choices:
      1. **Keep mine** — no changes to your CLAUDE.md
-     2. **Use Playbook** — replace your CLAUDE.md with the new Playbook version
-     3. **Merge** — I'll combine your customizations with the new Playbook changes into one file. I'll show you the result before saving.
-   - If the user picks **Merge**: read both files, produce a merged version that preserves user customizations while incorporating new upstream content, show it to the user for approval, and only write it after they confirm.
+     2. **Merge** — I'll add the new Playbook changes to your CLAUDE.md while preserving ALL of your customizations. I'll show you the result before saving.
+   - **CRITICAL: Never offer a full replacement option.** Users have personal customizations in their CLAUDE.md (their name, MCP server configs, integrations like ClickUp/Perplexity/n8n, custom rules). A full replacement would destroy all of that. The only safe options are keeping theirs or merging.
+   - If the user picks **Merge**: read both files, produce a merged version that preserves ALL user customizations (name, integrations, MCP configs, custom sections) while incorporating new upstream structural/feature changes. Show the result to the user for approval, and only write it after they confirm.
 
    After any new settings.json permissions are available in the updated Playbook, check if the user's `~/.claude/settings.json` is missing any permissions from the Playbook version. If so, mention: "The new version includes some additional pre-approved permissions: [list them briefly]. Want me to add these to your settings?" Only add with user approval.
 
