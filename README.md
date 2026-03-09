@@ -16,6 +16,9 @@ Most Claude Code configs are built for developers. This one is built for operato
 | `commands/quick.md` | `/quick` — lightweight mode for small fixes |
 | `commands/handoff.md` | `/handoff` — generates parallel session prompts (Claude invokes this, not you) |
 | `settings.json` | Permission allowlist for common tools |
+| `update.sh` | Handles updates when a new Playbook version is available |
+| `VERSION` | Current Playbook version number |
+| `CHANGELOG.md` | What changed in each version (only impactful updates) |
 
 ## Install
 
@@ -28,12 +31,26 @@ chmod +x install.sh
 
 Then restart Claude Code.
 
+> **Don't have git?** Download the [latest release](https://github.com/bluemax713/playbook/archive/refs/heads/main.zip), unzip it, and run `./install.sh` from the folder. Updates will still work — they'll use direct downloads instead of git.
+
 ## After installing
 
 1. **Edit `~/.claude/CLAUDE.md`** — Replace generic references with your name and preferences
 2. **Set up MCP servers** — Connect your project management tool (ClickUp, Linear, etc.), database, and any other services in `~/.claude.json`
 3. **Create `WORK_LOG.md`** in your project root — this is the cross-session handoff document
 4. **Run `/start`** in Claude Code to verify everything works
+
+## Updates
+
+Playbook checks for updates automatically every time you run `/start`. If a new version is available, you'll see a summary of what's new and can choose to update or skip. No surprises — you're always in control.
+
+**Your customizations are always safe.** Updates will never delete or overwrite anything you've personalized:
+
+- **Commands** update automatically (they're standard across all users)
+- **`CLAUDE.md`** is never touched without your explicit permission — if the new version has changes, you choose: keep yours, use the new Playbook version, or let Claude merge both together while preserving your customizations
+- **`settings.json`** keeps your existing permissions intact — new ones are suggested for your approval, never forced
+
+Everything is transparent. Check `settings.json` to see exactly what's auto-approved. The Playbook source is [open on GitHub](https://github.com/bluemax713/playbook) — every command, every permission, and every update mechanism is visible.
 
 ## How it works
 

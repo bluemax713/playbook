@@ -61,6 +61,9 @@
       "Bash(git clone*)",
       "Bash(git tag*)",
       "Bash(git cherry-pick*)",
+      "Bash(git -C ~/.claude/.playbook*)",
+      "Bash(bash ~/.claude/.playbook/update.sh*)",
+      "Bash(chmod +x ~/.claude/.playbook/*)",
       "Bash(gh:*)"
     ]
   }
