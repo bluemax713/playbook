@@ -60,3 +60,12 @@ Present a concise briefing:
 - **Suggested next steps** — prioritized list of what to tackle, flagging anything that needs a decision
 
 Keep it short and scannable. Bullet points. No fluff. Wait for direction before making changes.
+
+## Session Naming
+
+**Before the briefing**, prompt the user to name the session. Output only this — nothing else:
+
+> Copy/paste to name this session:
+> `/rename <project>`
+
+Where `<project>` is the current directory's basename (e.g., `playbook`). Then **wait for the user to respond** before presenting the briefing. Do not include the briefing in the same message.

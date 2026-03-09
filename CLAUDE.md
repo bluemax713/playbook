@@ -14,6 +14,10 @@
 3. `README.md` is a **static setup guide** — never modify it for session-specific progress
 4. **One feature/task per session** unless you say otherwise — no sprawl
 
+## Session Naming
+- On `/start`, **before the briefing**, prompt the user to name the session: `Copy/paste to name this session:` followed by `/rename <project>` in a code block (directory basename)
+- **Wait for the user to respond** before presenting the briefing. Do not include both in the same message.
+
 ## Project Management Integration
 - Your PM tool (ClickUp, Linear, Notion, Jira, etc.) is the **source of truth for task priorities** when available
 - Each project should have a corresponding PM project/board
