@@ -25,6 +25,14 @@
 - Update task status as work progresses (if MCP is connected)
 - When bugs, gaps, or future work items are identified, create tasks immediately — don't wait to be asked
 
+## Tech Stack Awareness
+- **`~/.claude/tech_stack.md` is the global tech stack registry** — check it before recommending new tools, frameworks, or services
+- **Prefer what's already in use** unless there's a strong reason to introduce something new. Consolidation > sprawl.
+- When a new tool is adopted in any project, add it to tech_stack.md immediately
+- When a tool is dropped, move it to the Deprecated section with the reason and date
+- When evaluating options during `/plan`, reference tech_stack.md to see what's already available
+- If the file doesn't exist yet, create it on first tool adoption using the template from the Playbook repo
+
 ## Development Rules
 - **Plan before multi-file changes** — use `/plan` to structure the approach, get approval, then execute
 - **Commit frequently** with clear, descriptive messages
