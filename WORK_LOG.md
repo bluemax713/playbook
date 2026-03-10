@@ -6,8 +6,9 @@
 
 ## Recent Changes (2026-03-10, session 3)
 
-1. **Added `/new-project` command** — new slash command that automates full project setup: clone/create repo, terminal alias, CLAUDE.md + WORK_LOG.md scaffolding, PM integration, initial commit. Installed to `commands/new-project.md` and `~/.claude/commands/`.
-2. **Set up Wildflower project** — cloned `bluemax713/wildflower` to `~/Documents/GitHub/wildflower/`, added terminal alias `wildflower` to `~/.zshrc`, scaffolded CLAUDE.md + WORK_LOG.md, committed and pushed.
+1. **Added `/new-project` command** — `commands/new-project.md`. Automates full project setup: clone/create repo, terminal alias in `~/.zshrc`, thorough CLAUDE.md + WORK_LOG.md scaffolding, PM integration, initial commit. Key design: CLAUDE.md must be comprehensive (reads entire repo before writing), never a skeleton placeholder. Installed to `~/.claude/commands/` locally.
+2. **Set up Wildflower project** — cloned `bluemax713/wildflower` (private) to `~/Documents/GitHub/wildflower/`, added terminal alias `wildflower` to `~/.zshrc`, wrote full CLAUDE.md (ops hub scope — not just reconciliation, covers all Wildflower/Rosie Assoulin operations work), WORK_LOG.md initialized. Three commits pushed.
+3. **Updated `~/.zshrc`** — added `alias wildflower='cd ~/Documents/GitHub/wildflower && claude'` to project aliases block.
 
 ## Recent Changes (2026-03-09, session 2)
 
@@ -33,6 +34,7 @@
 - No version bump needed for post-1.1.0 fixes (prompt-only changes, no functional code changes)
 
 ## Known Issues / Next Steps
+- **npm publish needed** — `/new-project` command added but npm package not republished yet. Run `npm publish` when ready to ship v1.2.0 (or batch with other changes).
 - **Plugin marketplace submission** — not done yet. Users can manually install via `/plugin marketplace add bluemax713/playbook`. Submit to Anthropic marketplace when ready (PR to their repo).
 - **SessionStart hook for natural language invocation** — planned but not yet implemented (e.g., "let's get started" auto-triggering /start)
 - **37 early cloners** from March 7 have old version without auto-update — no action needed
