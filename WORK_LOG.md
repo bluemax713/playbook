@@ -1,8 +1,13 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-09
+## Last updated: 2026-03-10
 
-## Overall State: v1.1.0 live, Agent Teams + Ralph Loop + tech_stack.md added, repo public
+## Overall State: v1.1.0 live, /new-project command added
+
+## Recent Changes (2026-03-10, session 3)
+
+1. **Added `/new-project` command** — new slash command that automates full project setup: clone/create repo, terminal alias, CLAUDE.md + WORK_LOG.md scaffolding, PM integration, initial commit. Installed to `commands/new-project.md` and `~/.claude/commands/`.
+2. **Set up Wildflower project** — cloned `bluemax713/wildflower` to `~/Documents/GitHub/wildflower/`, added terminal alias `wildflower` to `~/.zshrc`, scaffolded CLAUDE.md + WORK_LOG.md, committed and pushed.
 
 ## Recent Changes (2026-03-09, session 2)
 
