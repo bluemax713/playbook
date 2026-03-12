@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "playbook",
+  "description": "Operating playbook for non-technical founders working with Claude Code",
+  "owner": {
+    "name": "Max Assoulin",
+    "email": "max@bluemax.ai"
+  },
+  "plugins": [
+    {
+      "name": "playbook",
+      "description": "Session commands (/start, /end, /plan, /debug, /quick, /new-project, /handoff), quarterback model, context management, and auto-update for Claude Code",
+      "version": "1.2.0",
+      "author": {
+        "name": "Max Assoulin"
+      },
+      "source": ".",
+      "category": "productivity",
+      "homepage": "https://github.com/bluemax713/playbook"
+    }
+  ]
+}
