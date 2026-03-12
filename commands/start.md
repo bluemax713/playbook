@@ -1,4 +1,10 @@
-Read CLAUDE.md and WORK_LOG.md to understand the project and where we left off.
+Read CLAUDE.md to understand the project rules and conventions.
+
+Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
+- Read the **first 30 lines** (Overall State, current status headers)
+- Read the **most recent session section** only (the first dated session entry)
+- Skip all "Previous Sessions" / older dated entries — that history exists for reference but shouldn't be loaded into context on every start
+- If WORK_LOG.md is under 80 lines total, just read the whole thing
 
 Check your project management tool via MCP (if available) for current task priorities. If not connected, skip this step and rely on WORK_LOG.md.
 
@@ -47,6 +53,21 @@ Before anything else, silently check if a newer version of Playbook is available
    After any new settings.json permissions are available in the updated Playbook, check if the user's `~/.claude/settings.json` is missing any permissions from the Playbook version. If so, mention: "The new version includes some additional pre-approved permissions: [list them briefly]. Want me to add these to your settings?" Only add with user approval.
 
 5. **If the user says no (skip the update):** Continue with the normal briefing. Do not mention the update again during this session.
+
+---
+
+## Step 1: Claude Code Version Check
+
+After the Playbook update check, verify the user's Claude Code version is reasonably current.
+
+1. Run `claude --version` to get the installed version (format: `X.Y.Z (Claude Code)`).
+2. Compare the **minor version** (the Y in X.Y.Z) against a minimum: **2.0.0**.
+3. **Only warn if the user is 2+ minor versions behind the minimum** (e.g., on 1.8.x when minimum is 2.0.0). Patch versions don't matter.
+4. If behind, show a single-line nudge — not a blocker:
+   > **Heads up:** Your Claude Code is vX.Y.Z — the Playbook works best on v2.0+. Run `claude update` to get the latest.
+5. If current or close enough, say nothing. No output = no noise.
+
+This check should be fast (one bash command) and never block the session.
 
 ---
 
