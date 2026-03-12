@@ -89,6 +89,15 @@
 - When a manual task is performed repeatedly (copy-pasting between apps, checking status in external tools, triggering actions manually), proactively suggest connecting the tool as an MCP server to eliminate the manual step
 - Frame the suggestion with the time/effort saved vs. setup cost
 
+## Inbox
+- Every project can have an `inbox/` folder at the repo root — a drop zone for files you want Claude to read
+- `inbox/` must be in `.gitignore` — nothing in it should ever be committed
+- **Large files warning:** If you're dropping in large files (PDFs, CSVs, images, etc.), know that `inbox/` is temporary and local only. If you need to keep those files long-term, save them somewhere permanent (Google Drive, your file system, etc.) before or after the session. Claude will not preserve them.
+- When you say things like "check the files I gave you," "look at what I dropped in," or "read the files" without specifying a path — Claude should check `inbox/` first
+- During the session, Claude reads and uses inbox files freely
+- At `/end`, Claude cleans up: extracts any useful information (saves to memory, docs, or code as needed), then **deletes all files** from `inbox/`. If a file needs to persist, Claude moves it to an appropriate location in the project (e.g., `docs/`, `templates/`) before deleting the original
+- The goal is zero files in `inbox/` after every session — no accumulation, no bloat
+
 ## Code Quality
 - No fabricated data in production — 100% accuracy
 - Propose parallel work when independent tasks can run simultaneously

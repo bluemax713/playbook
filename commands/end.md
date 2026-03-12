@@ -24,6 +24,11 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - Delete `HANDOFF_RESULT.md` if it exists in the project root
    - Remove any other temp files created during the session (scratch scripts, debug output, etc.)
    - Do NOT delete docs/decisions/ files — those are permanent
+   - **Inbox cleanup:** If `inbox/` exists and has files:
+     - Review each file — extract any information that should persist (save to memory, docs, code, etc.)
+     - If a file needs to live permanently in the project, move it to the right location (e.g., `docs/`, `templates/`)
+     - Delete everything remaining in `inbox/` — the goal is zero files after every session
+     - Report what was cleaned up: "Cleaned inbox: deleted X files, moved Y to Z"
 
 6. **Pre-commit checklist** — before committing, verify:
    - All changes tested/verified (not just "should work" — show evidence)

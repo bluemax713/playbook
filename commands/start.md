@@ -71,6 +71,17 @@ This check should be fast (one bash command) and never block the session.
 
 ---
 
+## Step 2: Inbox Check
+
+Check if an `inbox/` folder exists at the project root and contains any files.
+
+1. If `inbox/` doesn't exist or is empty — skip, say nothing.
+2. If `inbox/` has files, list them in the briefing under **Inbox files:** with file names and sizes.
+3. Do NOT read or process the files yet — just surface what's there so the user knows Claude is aware of them.
+4. When the user says things like "check the files I gave you," "look at what I dropped in," or "read the files" without specifying a path — check `inbox/` first.
+
+---
+
 ## Normal Briefing
 
 Present a concise briefing:

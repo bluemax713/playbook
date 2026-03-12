@@ -55,7 +55,9 @@ Only create files that don't already exist in the repo:
   - Run `/start` to begin first working session
   ```
 
-- **.gitignore** — Only create if one doesn't exist. Use a sensible default based on what's in the repo (Node, Python, etc.), or a minimal one if unclear.
+- **inbox/** — Create the directory with a `.gitkeep` inside so git tracks the empty folder: `mkdir -p inbox && touch inbox/.gitkeep`
+
+- **.gitignore** — Only create if one doesn't exist. Use a sensible default based on what's in the repo (Node, Python, etc.), or a minimal one if unclear. **Always include `inbox/*` and `!inbox/.gitkeep`** so the folder exists in the repo but its contents are never committed.
 
 ### 4. PM integration (optional)
 
