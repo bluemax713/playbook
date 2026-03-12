@@ -9,7 +9,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f WORK_LOG.md ] && [ -f CLAUDE.md ]; then echo 'This is a Playbook-managed project. Run /start to begin the session.'; fi"
+            "command": "if [ -f WORK_LOG.md ]; then echo 'This is a Playbook-managed project. Run /start to begin the session.'; fi"
           }
         ]
       }
