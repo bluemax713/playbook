@@ -80,6 +80,16 @@ else
   echo "  Installed settings.json"
 fi
 
+# Copy tech_stack.md template (won't overwrite if exists — user populates this)
+if [ -f "$CLAUDE_DIR/tech_stack.md" ]; then
+  echo "  tech_stack.md already exists — skipping"
+else
+  if [ -f "$PLAYBOOK_DIR/templates/tech_stack.md" ]; then
+    cp "$PLAYBOOK_DIR/templates/tech_stack.md" "$CLAUDE_DIR/tech_stack.md"
+    echo "  Installed tech_stack.md template"
+  fi
+fi
+
 # --- Record installed version ---
 if [ -f "$PLAYBOOK_DIR/VERSION" ]; then
   cp "$PLAYBOOK_DIR/VERSION" "$CLAUDE_DIR/.playbook-version"

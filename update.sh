@@ -29,9 +29,10 @@ fetch_via_git() {
 fetch_via_curl() {
   # Download key files individually via GitHub raw content
   local files=("VERSION" "CHANGELOG.md" "CLAUDE.md" "settings.json" "install.sh" "update.sh")
-  local cmd_files=("start.md" "end.md" "plan.md" "debug.md" "quick.md" "handoff.md")
+  local cmd_files=("start.md" "end.md" "plan.md" "debug.md" "quick.md" "handoff.md" "new-project.md")
 
   mkdir -p "$PLAYBOOK_DIR/commands"
+  mkdir -p "$PLAYBOOK_DIR/templates"
 
   for f in "${files[@]}"; do
     curl -sf "$RAW_BASE/$f" -o "$PLAYBOOK_DIR/$f" || return 1
@@ -40,6 +41,9 @@ fetch_via_curl() {
   for f in "${cmd_files[@]}"; do
     curl -sf "$RAW_BASE/commands/$f" -o "$PLAYBOOK_DIR/commands/$f" || return 1
   done
+
+  # Fetch templates (non-fatal if missing — they're optional)
+  curl -sf "$RAW_BASE/templates/tech_stack.md" -o "$PLAYBOOK_DIR/templates/tech_stack.md" 2>/dev/null
 
   return 0
 }
@@ -95,6 +99,13 @@ if [ -f "$TEMP_DIR/settings.json" ] && [ -f "$CLAUDE_DIR/settings.json" ]; then
 elif [ -f "$TEMP_DIR/settings.json" ]; then
   cp "$TEMP_DIR/settings.json" "$CLAUDE_DIR/settings.json"
   echo "  Installed settings.json"
+fi
+
+# --- Install tech_stack.md template if missing ---
+
+if [ ! -f "$CLAUDE_DIR/tech_stack.md" ] && [ -f "$PLAYBOOK_DIR/templates/tech_stack.md" ]; then
+  cp "$PLAYBOOK_DIR/templates/tech_stack.md" "$CLAUDE_DIR/tech_stack.md"
+  echo "  Installed tech_stack.md template"
 fi
 
 # --- Update version (LAST — only on success) ---
