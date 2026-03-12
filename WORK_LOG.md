@@ -1,8 +1,15 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-10
+## Last updated: 2026-03-11
 
-## Overall State: v1.1.0 live, /new-project command added
+## Overall State: v1.1.0 live, context bloat prevention added
+
+## Recent Changes (2026-03-11, session 4)
+
+1. **Context bloat fix in `/start`** — `commands/start.md` now reads WORK_LOG.md efficiently: first 30 lines + most recent session only (full read only if <80 lines). Prevents unbounded context growth as WORK_LOG files grow across projects like palm_beach (899 lines) and magnum (708 lines).
+2. **WORK_LOG auto-trim in `/end`** — `commands/end.md` step 3 trims WORK_LOG to 25 sessions max on closeout. Older entries deleted (git history preserves them). Threshold chosen to allow months of history before kicking in.
+3. **Claude Code version check in `/start`** — `commands/start.md` step 1 runs `claude --version` and nudges users if 2+ minor versions behind v2.0.0. Non-blocking single-line warning.
+4. **Feedback memory saved** — always sync `commands/*.md` to `~/.claude/commands/` after editing, without being asked.
 
 ## Recent Changes (2026-03-10, session 3)
 
@@ -34,7 +41,7 @@
 - No version bump needed for post-1.1.0 fixes (prompt-only changes, no functional code changes)
 
 ## Known Issues / Next Steps
-- **npm publish needed** — `/new-project` command added but npm package not republished yet. Run `npm publish` when ready to ship v1.2.0 (or batch with other changes).
+- **npm publish needed** — `/new-project` command + context bloat fixes added but npm package not republished yet. Run `npm publish` when ready to ship v1.2.0 (or batch with other changes).
 - **Plugin marketplace submission** — not done yet. Users can manually install via `/plugin marketplace add bluemax713/playbook`. Submit to Anthropic marketplace when ready (PR to their repo).
 - **SessionStart hook for natural language invocation** — planned but not yet implemented (e.g., "let's get started" auto-triggering /start)
 - **37 early cloners** from March 7 have old version without auto-update — no action needed
