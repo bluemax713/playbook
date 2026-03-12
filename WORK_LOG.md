@@ -4,7 +4,17 @@
 
 ## Overall State: v1.2.0 live on npm + GitHub, plugin marketplace submitted
 
-## Recent Changes (2026-03-12, session 5)
+## Recent Changes (2026-03-12, session 6)
+
+1. **Inbox drop zone convention** — new feature across 4 files:
+   - `CLAUDE.md`: new `## Inbox` section — gitignored drop zone, large file warning, implicit intent detection ("check my files" → inbox/), cleanup at /end
+   - `commands/start.md`: Step 2 lists inbox files in briefing (name + size), no auto-read
+   - `commands/end.md`: inbox cleanup step — extract useful info, move keepers, delete the rest, report
+   - `commands/new-project.md`: creates `inbox/` with `.gitkeep`, adds `inbox/*` + `!inbox/.gitkeep` to `.gitignore`
+2. **Commands synced** — updated start.md, end.md, new-project.md copied to `~/.claude/commands/`
+3. **Committed + pushed** — `6ce6038` on main
+
+## Previous Session: 2026-03-12, session 5
 
 1. **Context bloat fix in `/start`** — `commands/start.md` reads WORK_LOG.md efficiently: first 30 lines + most recent session only (full read if <80 lines). Prevents unbounded context growth across projects.
 2. **WORK_LOG auto-trim in `/end`** — `commands/end.md` step 3 trims to 25 sessions max on closeout.
@@ -31,12 +41,13 @@
 - Official marketplace: submit once, only re-submit for major versions
 
 ## Known Issues / Next Steps
+- **Version bump needed** — inbox feature is user-facing, warrants a minor or patch bump before next npm publish
 - **Anthropic marketplace review pending** — submitted, awaiting approval. No action needed.
 - **SessionStart hook** — blocked on Claude Code adding session lifecycle hooks. Monitor future releases.
 - **37 early cloners** from March 7 have old version without auto-update — no action needed
 - **CHANGELOG discipline** — see auto-memory `playbook-maintenance.md` for rules on when to bump version
 - **Cockpit** — separate project at `bluemax713/cockpit`. Not a playbook task.
-- **npm 1.2.0 vs main drift** — marketplace files + hook revert not in npm. Not user-facing, no publish needed unless functional changes accumulate.
+- **npm 1.2.0 vs main drift** — marketplace files + hook revert + inbox feature not in npm. Publish when ready to bump.
 
 ## Previous Sessions
 
