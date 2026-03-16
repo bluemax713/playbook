@@ -1,10 +1,20 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-12
+## Last updated: 2026-03-15
 
-## Overall State: v1.2.0 live on npm + GitHub, plugin marketplace submitted
+## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted
 
-## Recent Changes (2026-03-12, session 6)
+## Recent Changes (2026-03-15, session 7)
+
+1. **Speedtest CLI integration** — added network diagnostics across 4 playbook files:
+   - `templates/tech_stack.md`: new "Diagnostics" section with Speedtest CLI entry
+   - `commands/debug.md`: conditional Step 0 — connectivity check only when sessions are slow
+   - `README.md`: new "Troubleshooting" section with install instructions and thresholds (>500ms latency, >5% packet loss, <1 Mbps upload)
+   - `~/.claude/tech_stack.md` (global): added Speedtest under Diagnostics
+2. **Version bump to v1.2.1** — VERSION, CHANGELOG, package.json updated. Published `playbook-ai@1.2.1` to npm.
+3. **Committed + pushed** — `bab4a38` on main
+
+## Previous Session: 2026-03-12, session 6
 
 1. **Inbox drop zone convention** — new feature across 4 files:
    - `CLAUDE.md`: new `## Inbox` section — gitignored drop zone, large file warning, implicit intent detection ("check my files" → inbox/), cleanup at /end
@@ -41,13 +51,11 @@
 - Official marketplace: submit once, only re-submit for major versions
 
 ## Known Issues / Next Steps
-- **Version bump needed** — inbox feature is user-facing, warrants a minor or patch bump before next npm publish
 - **Anthropic marketplace review pending** — submitted, awaiting approval. No action needed.
 - **SessionStart hook** — blocked on Claude Code adding session lifecycle hooks. Monitor future releases.
 - **37 early cloners** from March 7 have old version without auto-update — no action needed
 - **CHANGELOG discipline** — see auto-memory `playbook-maintenance.md` for rules on when to bump version
 - **Cockpit** — separate project at `bluemax713/cockpit`. Not a playbook task.
-- **npm 1.2.0 vs main drift** — marketplace files + hook revert + inbox feature not in npm. Publish when ready to bump.
 
 ## Previous Sessions
 
