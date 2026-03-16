@@ -33,6 +33,11 @@
 |------|---------|-------|
 | — | — | — |
 
+## Diagnostics
+| Tool | Purpose | Notes |
+|------|---------|-------|
+| [Speedtest CLI](https://www.speedtest.net/apps/cli) | Network diagnostics | `brew install teamookla/speedtest/speedtest` — rule out connectivity before debugging slow sessions |
+
 ## Deprecated
 | Tool | Was Used In | Reason | Date |
 |------|-------------|--------|------|

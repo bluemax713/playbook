@@ -113,6 +113,17 @@ MCP (Model Context Protocol) servers give Claude direct access to your tools —
 
 MCP servers are configured in `~/.claude.json` (global) or in project-level settings. See [Anthropic's MCP docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
 
+## Troubleshooting
+
+**Sessions are slow or timing out?** It might be your connection, not Claude. Install the [Speedtest CLI](https://www.speedtest.net/apps/cli) to rule out network issues:
+
+```bash
+brew install teamookla/speedtest/speedtest
+speedtest
+```
+
+If you see high latency (>500ms), significant packet loss (>5%), or very low upload speeds (<1 Mbps), your connection is the bottleneck. This is common on in-flight Wi-Fi, tethered connections, or congested networks. Claude's `/debug` command will automatically suggest checking connectivity when sessions are sluggish.
+
 ## Customizing
 
 This playbook is a starting point. Customize `CLAUDE.md` to fit your workflow:

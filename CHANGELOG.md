@@ -2,6 +2,13 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.2.1] — 2026-03-15
+
+### Improvements
+- **Network diagnostics** — `/debug` now includes a Step 0 connectivity check when sessions are slow. Runs `speedtest` (if installed) to rule out network issues before diving into code debugging.
+- **Speedtest CLI recommended** — Added to tech stack template under new "Diagnostics" section. Install with `brew install teamookla/speedtest/speedtest`.
+- **Troubleshooting section in README** — Guidance for diagnosing slow sessions with install instructions and thresholds.
+
 ## [1.2.0] — 2026-03-11
 
 ### New Commands
