@@ -14,13 +14,49 @@ Most Claude Code configs are built for developers. This one is built for operato
 | `commands/plan.md` | `/plan` — brainstorm + plan in one command (auto-detects complexity) |
 | `commands/debug.md` | `/debug` — 4-step systematic debugging |
 | `commands/quick.md` | `/quick` — lightweight mode for small fixes |
+| `commands/new-project.md` | `/new-project` — full project setup with guided interview |
 | `commands/handoff.md` | `/handoff` — generates parallel session prompts (Claude invokes this, not you) |
 | `settings.json` | Permission allowlist for common tools |
 | `update.sh` | Handles updates when a new Playbook version is available |
 | `VERSION` | Current Playbook version number |
 | `CHANGELOG.md` | What changed in each version (only impactful updates) |
 
-## Install
+## Prerequisites
+
+Before installing Playbook, you need Claude Code — Anthropic's command-line tool that lets Claude work directly on your computer.
+
+**How is this different from the Claude app?** The Claude chat app (claude.ai) only sees what you paste into it and forgets everything between conversations. Claude Code can see your entire project, run commands, make changes to files, and — with Playbook — pick up exactly where you left off between sessions. It's the difference between texting a contractor photos vs. handing them the keys to the building.
+
+### Mac
+
+1. **Open Terminal** — it's already on your Mac. Press `Cmd + Space`, type "Terminal", and hit Enter.
+2. **Install Claude Code** — paste this into Terminal and press Enter:
+   ```
+   curl -fsSL https://claude.ai/install.sh | bash
+   ```
+   That's it. No other software needed.
+
+### Windows
+
+1. **Install VS Code** — download it free from [code.visualstudio.com](https://code.visualstudio.com)
+2. **Install the Claude Code extension** — open VS Code, click the Extensions icon in the left sidebar, search "Claude Code", and install the official Anthropic extension.
+
+Alternatively, open PowerShell and run:
+```
+irm https://claude.ai/install.ps1 | iex
+```
+
+### Account
+
+You need an Anthropic account with a Claude Pro ($20/month), Max, Teams, or Enterprise subscription. Sign up at [claude.ai](https://claude.ai) if you don't have one.
+
+When you first launch Claude Code, it will open your browser to log in. After that, you're authenticated automatically.
+
+For full details, see [Anthropic's Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code).
+
+---
+
+## Install Playbook
 
 ### Option 1: npm (recommended)
 
@@ -53,8 +89,10 @@ chmod +x install.sh
 
 1. **Edit `~/.claude/CLAUDE.md`** — Replace generic references with your name and preferences
 2. **Set up MCP servers** — Connect your project management tool (ClickUp, Linear, etc.), database, and any other services in `~/.claude.json`
-3. **Create `WORK_LOG.md`** in your project root — this is the cross-session handoff document
+3. **Run `/new-project`** to set up your first project — Claude will interview you and create everything you need
 4. **Run `/start`** in Claude Code to verify everything works
+
+**New to all of this?** Read the [Beginner's Guide](GUIDE.md) — a plain-English walkthrough of how to use Claude Code and Playbook, with examples.
 
 ## Updates
 
@@ -83,6 +121,7 @@ Every session follows a consistent pattern:
 - **`/plan`** — Before complex work. Claude assesses whether brainstorming is needed (multiple approaches? tradeoffs?) and either explores options first or jumps straight to an implementation plan. Always waits for your approval.
 - **`/debug`** — When something is broken. Follows: reproduce, isolate root cause, fix, verify. No guessing.
 - **`/quick`** — For small fixes that don't need the full session ceremony.
+- **`/new-project`** — Sets up a new project from scratch. Claude interviews you — what's the project about, do you have an existing repo or need a new one, do you want to connect a PM tool? Then it creates the repo, wires your terminal shortcut, and generates a comprehensive CLAUDE.md (the rules file) based on what it learned about your project and how you want to work. One command, everything ready.
 - **`/handoff`** — Claude uses this (not you) when a task should run in a separate terminal with fresh context.
 
 ### Context management
@@ -91,6 +130,28 @@ Claude proactively manages session quality:
 - Warns you when context is getting heavy and suggests strategies
 - Uses subagents for parallel work automatically
 - Generates parallel session prompts when a fresh context would produce better results
+
+### What is a project?
+
+A **project** is a folder on your computer where Playbook keeps everything organized. Each project is a self-contained hub — it has its own rules (CLAUDE.md), session history (WORK_LOG.md), and file drop zone (inbox/).
+
+A project can hold multiple areas of work. For example, a small business might have one project with separate folders inside it for store setup, inventory management, and marketing automations. A corporate team might use one project per department. It's up to you — whatever makes sense for how you organize your work.
+
+Inside a project, Claude organizes work into folders as the scope grows:
+
+```
+my-business/
+├── store-setup/         — e-commerce configuration
+├── inventory/           — stock tracking and reconciliation
+├── automations/         — email workflows, notifications
+├── docs/decisions/      — architectural and business decisions
+├── CLAUDE.md            — project rules (Claude reads this every session)
+└── WORK_LOG.md          — session history and handoff notes
+```
+
+**Important:** context and connected data sources (databases, PM tools, etc.) are shared within a project but **isolated between projects**. Claude won't accidentally mix up information from different projects unless you explicitly tell it to. This is by design — it keeps your work clean and separated.
+
+**You don't need GitHub.** Projects can live entirely on your computer as local folders. GitHub is optional — useful for backup and collaboration, but not required to get started. The `/new-project` command gives you the choice.
 
 ## Recommended MCP Servers
 

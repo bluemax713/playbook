@@ -46,3 +46,7 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - **Action items** — anything that requires action outside of Claude Code
 
 Keep it concise. The goal is zero information loss between sessions.
+
+9. **Sign off.** After everything above is complete, end your response with a clear, unmissable closing line so the user knows the session is fully wrapped — even if they scroll back later:
+
+   > **Session complete. You can close this window.**
