@@ -1,10 +1,26 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-15
+## Last updated: 2026-03-23
 
-## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted
+## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted, beginner's guide + README overhaul live
 
-## Recent Changes (2026-03-15, session 7)
+## Recent Changes (2026-03-23, session 8)
+
+1. **README overhaul** — 4 major additions to `README.md`:
+   - **Prerequisites section** — Claude Code install instructions for Mac (Terminal + curl) and Windows (VS Code extension or PowerShell). Explains Claude Code vs Claude chat app (context/memory differences). Account requirements + link to Anthropic docs.
+   - **"What is a project?" section** — defines project as a self-contained hub, shows folder structure example, explains context isolation between projects, clarifies GitHub is not required.
+   - **`/new-project` added** to "What's included" table and Commands section — describes the guided interview process (not just scaffolding).
+   - **"After installing" updated** — step 3 now uses `/new-project` instead of manual WORK_LOG creation. Link to GUIDE.md for beginners.
+2. **GUIDE.md created** — 235-line beginner's guide for non-technical founders/ops people:
+   - 6 sections: What Is This, Key Concepts, Your First Session, Example Conversations, Common Patterns, Tips for Ops People
+   - 4 fictional examples using "Sunrise Bakery" (simple update, debugging, complex planning with 3 rounds of back-and-forth, quick fix)
+   - Heavy emphasis on planning before execution as the single most important habit
+   - Zero developer jargon throughout
+3. **`/end` sign-off line** — `commands/end.md` now ends with "Session complete. You can close this window." so users can confirm session ended without scrolling. Synced to `~/.claude/commands/end.md`.
+4. **Nomenclature decision** — settled on "project" for top-level repos (what `/new-project` creates), no formal term for subdirectories inside. Rejected "hub" (not natural enough for ops audience) and "workstream" (too close to "workflow").
+5. **Committed + pushed** — `55d86fd` on main
+
+## Previous Session: 2026-03-15, session 7
 
 1. **Speedtest CLI integration** — added network diagnostics across 4 playbook files:
    - `templates/tech_stack.md`: new "Diagnostics" section with Speedtest CLI entry
