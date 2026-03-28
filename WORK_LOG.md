@@ -2,12 +2,17 @@
 
 ## Last updated: 2026-03-28
 
-## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted, beginner's guide + README overhaul live
+## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted, demo project live
 
 ## Recent Changes (2026-03-28, session 9)
 
 1. **WORK_LOG trim cap raised from 25 to 100** — `commands/end.md` updated + synced to `~/.claude/commands/end.md`. At ~12 lines/session, 100 sessions = ~3-4 months before any trimming. No context cost since `/start` only reads header + latest session.
 2. **iMessage plugin evaluated** — researched official Anthropic plugin (`anthropics/claude-plugins-official/external_plugins/imessage`). Full two-way iMessage integration via chat.db + AppleScript. **Deferred** — Max found it hacky (not sandboxed, uses your real number, Full Disk Access to all messages, awkward self-chat UX). Saved to auto-memory for future reference if a cleaner mobile input channel emerges.
+3. **Demo project created** — private repo `bluemax713/demo` ("Acme Tees") for teaching friends/family Claude Code + Playbook. Wholesale t-shirt company scenario. Includes:
+   - Seed data: 38 SKUs, 8 buyers, 7 orders (21 line items), 1 deliberately messy spreadsheet
+   - RUNBOOK.md: modular demo script — 15/30/45/60 min combos (Quick Win, Build Something, The Memory)
+   - reset.sh: one-command cleanup between demos
+   - Terminal alias `demo` wired in .zshrc
 
 ## Previous Session: 2026-03-23, session 8
 
