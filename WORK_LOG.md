@@ -1,10 +1,15 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-23
+## Last updated: 2026-03-28
 
 ## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted, beginner's guide + README overhaul live
 
-## Recent Changes (2026-03-23, session 8)
+## Recent Changes (2026-03-28, session 9)
+
+1. **WORK_LOG trim cap raised from 25 to 100** — `commands/end.md` updated + synced to `~/.claude/commands/end.md`. At ~12 lines/session, 100 sessions = ~3-4 months before any trimming. No context cost since `/start` only reads header + latest session.
+2. **iMessage plugin evaluated** — researched official Anthropic plugin (`anthropics/claude-plugins-official/external_plugins/imessage`). Full two-way iMessage integration via chat.db + AppleScript. **Deferred** — Max found it hacky (not sandboxed, uses your real number, Full Disk Access to all messages, awkward self-chat UX). Saved to auto-memory for future reference if a cleaner mobile input channel emerges.
+
+## Previous Session: 2026-03-23, session 8
 
 1. **README overhaul** — 4 major additions to `README.md`:
    - **Prerequisites section** — Claude Code install instructions for Mac (Terminal + curl) and Windows (VS Code extension or PowerShell). Explains Claude Code vs Claude chat app (context/memory differences). Account requirements + link to Anthropic docs.

@@ -12,9 +12,9 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - Update "Known Issues / Next Steps" — remove anything completed, add anything new discovered, reprioritize if needed. Be explicit about what's next and what's blocked
    - If any task is partially done, document exactly where it was left off and what remains
 
-3. **Trim WORK_LOG.md if needed.** Count the number of dated session entries (lines matching `## YYYY-MM-DD` or `### YYYY-MM-DD`). If there are more than 25 sessions:
+3. **Trim WORK_LOG.md if needed.** Count the number of dated session entries (lines matching `## YYYY-MM-DD` or `### YYYY-MM-DD`). If there are more than 100 sessions:
    - Keep the Overall State / header section intact
-   - Keep the 25 most recent session entries
+   - Keep the 100 most recent session entries
    - Remove everything older — those sessions have served their purpose and the important bits should already be captured in Overall State and auto-memory
    - Do NOT archive to a separate file — just delete. Git history has the full log if ever needed.
 
