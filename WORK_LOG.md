@@ -1,10 +1,19 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-28
+## Last updated: 2026-03-30
 
-## Overall State: v1.2.1 live on npm + GitHub, plugin marketplace submitted, demo project live
+## Overall State: v1.3.0 live on npm + GitHub, plugin marketplace submitted, demo project live
 
-## Recent Changes (2026-03-28, session 9)
+## Recent Changes (2026-03-30, session 10)
+
+1. **Frontend Design plugin — default** — added as default plugin for all Playbook users. `settings.json` has `enabledPlugins` entry, `install.sh` runs `claude plugin install` automatically, documented in CLAUDE.md, README.md, GUIDE.md.
+2. **Code Review Agents plugin — recommended** — added to README.md Plugins section as opt-in. Documented install command.
+3. **Context7 MCP server — recommended** — added to README.md MCP servers table. Pulls version-specific library docs into Claude's context.
+4. **Model routing guidance** — new "Model Selection" subsection in CLAUDE.md under Parallel Work. Replaced rigid "Opus for lead, Sonnet for teammates" with task-complexity principle. Claude picks the model, defaults to stronger, never prompts user.
+5. **Max's personal config updated** — `~/.claude/CLAUDE.md` (model routing + plugins), `~/.claude/settings.json` (enabledPlugins), `~/.claude.json` (Context7 MCP added).
+6. **Version bump to v1.3.0** — VERSION, CHANGELOG updated. Committed and pushed to main.
+
+## Previous Session: 2026-03-28, session 9
 
 1. **WORK_LOG trim cap raised from 25 to 100** — `commands/end.md` updated + synced to `~/.claude/commands/end.md`. At ~12 lines/session, 100 sessions = ~3-4 months before any trimming. No context cost since `/start` only reads header + latest session.
 2. **iMessage plugin evaluated** — researched official Anthropic plugin (`anthropics/claude-plugins-official/external_plugins/imessage`). Full two-way iMessage integration via chat.db + AppleScript. **Deferred** — Max found it hacky (not sandboxed, uses your real number, Full Disk Access to all messages, awkward self-chat UX). Saved to auto-memory for future reference if a cleaner mobile input channel emerges.
