@@ -33,6 +33,8 @@ It's different from the regular Claude chat app in a big way: the chat app only 
 
 **WORK_LOG.md** — The handoff document. Claude updates this at the end of every session so the next one starts with full context. It's how Claude "remembers" what happened — what was built, what decisions were made, what's left to do.
 
+**Plugins** — Optional add-ons that give Claude specialized abilities. Playbook installs the Frontend Design plugin by default (it makes Claude produce polished, professional-looking interfaces). You can add more — like the Code Review plugin for automated PR reviews — by running `/plugin install` inside Claude Code.
+
 ---
 
 ## 3. Your First Session

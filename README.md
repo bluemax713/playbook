@@ -167,12 +167,34 @@ MCP (Model Context Protocol) servers give Claude direct access to your tools —
 | **Code Hosting** | [GitHub](https://github.com/github/github-mcp-server) | PRs, issues, code review |
 | **Communication** | [Slack](https://github.com/modelcontextprotocol/servers/tree/main/src/slack), Discord | Read/send messages, monitor channels |
 | **Research** | [Perplexity](https://github.com/ppl-ai/modelcontextprotocol) | Real-time web search, deep research, current best practices |
+| **Library Docs** | [Context7](https://github.com/upstash/context7) | Pulls version-specific, up-to-date documentation for any library directly into Claude's context |
 
 **Authorize broadly, expose everything.** When setting up an MCP server that uses OAuth (like Google Workspace), grant all the scopes/permissions upfront — even for services you don't plan to use immediately. Re-authorizing mid-session requires a browser flow and breaks your workflow. For the Google Workspace CLI specifically, use `-s all --tool-mode compact` to expose every service while keeping the tool list manageable. You can always ask Claude which services are available if you're not sure what's possible.
 
 **The rule of thumb:** If you find yourself repeatedly switching to another app to copy data, check status, or trigger an action — that's a sign you should connect it as an MCP server. Tell Claude "I keep having to manually check X in Y tool" and it will help you evaluate whether an MCP connection would save time.
 
 MCP servers are configured in `~/.claude.json` (global) or in project-level settings. See [Anthropic's MCP docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for setup instructions.
+
+## Plugins
+
+Claude Code plugins add specialized capabilities on top of Playbook. Playbook includes one default plugin and recommends others you can add based on your workflow.
+
+### Default (installed automatically)
+
+| Plugin | What it does |
+|--------|-------------|
+| **Frontend Design** | Generates distinctive, production-grade frontend interfaces with bold typography, unique color palettes, and creative layouts. You don't need to know you need better UI — this plugin ensures Claude produces polished interfaces by default. |
+
+The Frontend Design plugin is installed automatically by `install.sh`. If you installed via npm or plugin, run this inside Claude Code to add it manually:
+```
+/plugin install frontend-design@claude-plugins-official
+```
+
+### Recommended (opt-in)
+
+| Plugin | What it does | Install |
+|--------|-------------|---------|
+| **Code Review Agents** | Automated PR code review using multiple specialized agents in parallel. Analyzes comments, test coverage, silent failures, type design, code quality, and simplification with confidence-based scoring. Great if your workflow involves PRs (which Playbook encourages). | `/plugin install code-review@claude-plugins-official` |
 
 ## Troubleshooting
 

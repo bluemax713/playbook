@@ -90,6 +90,17 @@ else
   fi
 fi
 
+# --- Install default plugins ---
+if command -v claude &> /dev/null; then
+  echo "  Installing default plugins..."
+  claude plugin install frontend-design@claude-plugins-official --scope user 2>/dev/null && \
+    echo "  Installed plugin: Frontend Design" || \
+    echo "  Could not install Frontend Design plugin (install manually: /plugin install frontend-design@claude-plugins-official)"
+else
+  echo "  Claude Code CLI not found — install Frontend Design plugin manually after setup:"
+  echo "    /plugin install frontend-design@claude-plugins-official"
+fi
+
 # --- Record installed version ---
 if [ -f "$PLAYBOOK_DIR/VERSION" ]; then
   cp "$PLAYBOOK_DIR/VERSION" "$CLAUDE_DIR/.playbook-version"

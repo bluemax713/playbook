@@ -58,13 +58,23 @@
 - **Don't propose teams for**: single-file changes, sequential tasks, same-file edits, or when on a tight token budget
 - **Do propose teams for**: cross-layer features, large refactors with parallelizable chunks, debugging with multiple hypotheses
 - Claude won't create a team without your approval
-- Prefer Opus for team lead, Sonnet for teammates (cost efficiency)
+- Match model to task complexity (see Model Selection below), not to role
 
 ### Ralph Loop rules
 - **Only use for**: tasks with binary success criteria (tests pass, linter clean, migration complete)
 - **Never use for**: tasks requiring judgment calls, design decisions, or unclear completion criteria
 - Always set `--max-iterations` to prevent runaway token usage
 - Start conservative (10-20 iterations), increase if needed
+
+### Model Selection
+- Claude decides which model to use for every task. Never prompt the user to confirm model choice.
+- **Default to the stronger model.** Err on the side of more capability, not cost savings.
+- Only use a lighter model when the task is genuinely mechanical and there is zero risk of quality loss.
+- Model choice is based on **task complexity**, not on role. A subagent doing financial analysis needs the strongest model just as much as the main thread. A subagent doing a simple grep doesn't.
+- **General tiers (guidance, not rigid rules):**
+  - Genuinely mechanical/routine work (formatting, boilerplate, simple lookups, file transforms) — lighter model is fine
+  - Standard implementation, debugging, most coding, research — default model
+  - Complex reasoning, financial analysis, architecture, theoretical models, anything requiring judgment — strongest available model
 
 ### Context health
 - **Proactive saves**: In long sessions, save critical state to WORK_LOG.md incrementally — don't wait for `/end`. Decisions, findings, and intermediate results should be written to disk as they happen, so nothing is lost if auto-compaction occurs.
@@ -102,6 +112,10 @@
 - No fabricated data in production — 100% accuracy
 - Propose parallel work when independent tasks can run simultaneously
 - Never overlap files/tables/workflows between parallel sessions
+
+## Plugins
+- **Frontend Design** (`frontend-design@claude-plugins-official`) is installed by default. It generates distinctive, production-grade frontend interfaces with bold typography, unique color palettes, and creative layouts. No action needed — it's active automatically.
+- **Code Review Agents** (`code-review@claude-plugins-official`) is recommended for PR-based workflows. Install with: `/plugin install code-review@claude-plugins-official`. It runs multiple specialized review agents in parallel (comment analysis, test coverage, silent failure detection, type design, code quality, simplification) with confidence-based scoring.
 
 ## Decision Tracking
 - When making non-trivial architectural or design decisions, save them to `docs/decisions/` in the relevant project repo

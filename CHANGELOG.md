@@ -2,6 +2,22 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.0] — 2026-03-30
+
+### Plugins
+- **Frontend Design** — installed by default for all users. Generates distinctive, production-grade frontend interfaces with bold typography, unique color palettes, and creative layouts. No opt-in needed.
+- **Code Review Agents** — recommended plugin for PR-based workflows. Automated multi-agent code review with confidence-based scoring. Install with `/plugin install code-review@claude-plugins-official`.
+
+### Model Routing
+- **Task-complexity model selection** — Claude now chooses which model to use based on task complexity, not role. Defaults to the stronger model; only drops to lighter models for genuinely mechanical work. Replaces the rigid "Opus for lead, Sonnet for teammates" rule.
+
+### New MCP Server
+- **Context7** — added to recommended MCP servers. Pulls version-specific, up-to-date library documentation directly into Claude's context. Solves stale-docs problems when working with external libraries.
+
+### Infrastructure
+- **`install.sh` installs plugins** — the installer now automatically installs the Frontend Design plugin during setup.
+- **`settings.json` includes `enabledPlugins`** — Frontend Design is pre-enabled in the default settings template.
+
 ## [1.2.1] — 2026-03-15
 
 ### Improvements
