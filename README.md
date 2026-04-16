@@ -196,6 +196,20 @@ The Frontend Design plugin is installed automatically by `install.sh`. If you in
 |--------|-------------|---------|
 | **Code Review Agents** | Automated PR code review using multiple specialized agents in parallel. Analyzes comments, test coverage, silent failures, type design, code quality, and simplification with confidence-based scoring. Great if your workflow involves PRs (which Playbook encourages). | `/plugin install code-review@claude-plugins-official` |
 
+### Design References
+
+When building UIs — dashboards, internal tools, customer-facing pages — the Frontend Design plugin gives Claude the *skill* to produce quality interfaces. **[Awesome Design MD](https://github.com/VoltAgent/awesome-design-md)** gives it the *reference material* to match a specific brand's look and feel.
+
+It's a collection of 60+ DESIGN.md files capturing real design systems (Apple, Stripe, Linear, Notion, Airbnb, Shopify, and more) — every color, font, spacing value, and component style, in a format Claude can read directly. To add one to your project:
+
+```
+npx getdesign@latest add stripe
+```
+
+This drops a DESIGN.md file into your project. Then just tell Claude "build this to look like Stripe" and it has every design token it needs. Combine with the Frontend Design plugin for best results.
+
+**When to use this:** Any time you're building a UI and want it to look polished and familiar rather than generic. "Make my dashboard look like Linear" or "style this like Apple" becomes a one-liner that actually works.
+
 ## Troubleshooting
 
 **Sessions are slow or timing out?** It might be your connection, not Claude. Install the [Speedtest CLI](https://www.speedtest.net/apps/cli) to rule out network issues:
