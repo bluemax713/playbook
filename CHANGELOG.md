@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.1] — 2026-04-15
+
+### Improvements
+- **`/plan` stress test phase** — Plans now include an automatic Phase 3 that pressure-tests the plan before presenting it for approval. Validates assumptions against actual code/docs, war-games risks with mitigations, and scans for build roadblocks. Scales depth to plan complexity — lightweight for simple changes, thorough for multi-system features. No more manually asking Claude to "validate your assumptions."
+
 ## [1.3.0] — 2026-03-30
 
 ### Plugins
