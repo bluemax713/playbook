@@ -1,10 +1,17 @@
 # Playbook Work Log
 
-## Last updated: 2026-03-30
+## Last updated: 2026-04-15
 
-## Overall State: v1.3.0 live on npm + GitHub, plugin marketplace submitted, demo project live
+## Overall State: v1.3.1 live on npm + GitHub, plugin marketplace submitted, demo project live
 
-## Recent Changes (2026-03-30, session 10)
+## Recent Changes (2026-04-15, session 11)
+
+1. **`/plan` stress test phase** — added Phase 3 to `commands/plan.md`. Automatically pressure-tests plans before presenting for approval: assumption audit, risk war-game, build roadblock scan. Scales depth to plan complexity. Replaces Max's manual "validate your assumptions" prompts.
+2. **Version bump to v1.3.1** — VERSION, CHANGELOG updated. Committed and pushed to main.
+3. **Synced to personal config** — `~/.claude/commands/plan.md` updated, `~/.claude/.playbook-version` set to 1.3.1.
+4. **Feedback memory saved** — always bump VERSION + CHANGELOG + .playbook-version in the same pass as any Playbook change (not as a follow-up).
+
+## Previous Session: 2026-03-30, session 10
 
 1. **Frontend Design plugin — default** — added as default plugin for all Playbook users. `settings.json` has `enabledPlugins` entry, `install.sh` runs `claude plugin install` automatically, documented in CLAUDE.md, README.md, GUIDE.md.
 2. **Code Review Agents plugin — recommended** — added to README.md Plugins section as opt-in. Documented install command.
