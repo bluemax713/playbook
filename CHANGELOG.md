@@ -2,6 +2,16 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.2] — 2026-04-15
+
+### New
+- **Inbox folder** — Every project now supports an `inbox/` drop zone for files you want Claude to read. Added to `.gitignore` by default — nothing in it gets committed.
+- **Awesome Design MD** — Added to README and Guide as a recommended design reference. 60+ brand design systems (Apple, Stripe, Linear, Notion, etc.) in DESIGN.md format Claude reads directly. Pairs with the Frontend Design plugin. Install with `npx getdesign@latest add <brand>`.
+
+### Guide
+- **"Let Claude organize your research"** — New ops tip: dump raw material into inbox/, tell Claude what you need, let it synthesize. You don't have to pre-organize anything.
+- **"Match your UI to a brand you admire"** — New ops tip: use Awesome Design MD to make any interface look like a real product.
+
 ## [1.3.1] — 2026-04-15
 
 ### Improvements
