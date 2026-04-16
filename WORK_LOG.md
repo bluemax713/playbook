@@ -2,9 +2,21 @@
 
 ## Last updated: 2026-04-15
 
-## Overall State: v1.3.1 live on npm + GitHub, plugin marketplace submitted, demo project live
+## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live
 
-## Recent Changes (2026-04-15, session 11)
+## Recent Changes (2026-04-15, session 12)
+
+1. **Inbox folder added** — created `inbox/` directory with `.gitkeep`, added `inbox/` to `.gitignore`. Aligns with all other repos.
+2. **Reviewed 19 inbox screenshots** — three sources: Awesome Design MD (@forgoodcode), Second Brain / Karpathy wiki pattern (@thevibefounder), community Claude Code skills (@okaashish). Evaluated each for Playbook fit.
+3. **Awesome Design MD — added to README + GUIDE** — new "Design References" subsection under Plugins in README.md. New "Match your UI to a brand you admire" tip in GUIDE.md. 60+ brand design systems (Apple, Stripe, Linear, etc.) via `npx getdesign@latest add <brand>`. Pairs with Frontend Design plugin.
+4. **Ops research tip — added to GUIDE** — "Let Claude organize your research" tip under Tips for Ops People. Frames the dump-and-synthesize pattern using inbox/.
+5. **Second Brain pattern — evaluated, skipped as feature** — doesn't need a command or folder structure. The pattern (dump raw material, let AI organize) is already embodied by inbox/ + auto-memory. Max confirmed: no wiki command, but the principle is part of the operating philosophy and is now reflected in the guide tips.
+6. **Community skills — skipped** — Refactoring UI, UX Heuristics, Hooked UX, iOS HIG Design from @okaashish. Unvetted third-party skills; will revisit when Anthropic marketplace launches.
+7. **Auto-memory saved** — reference for Awesome Design MD, surfaces when Max does UI/UX work in any project.
+8. **Version bump to v1.3.2** — VERSION, CHANGELOG, ~/.claude/.playbook-version updated. Committed and pushed.
+9. **Inbox cleaned** — 19 screenshots deleted after extracting all useful info into README, GUIDE, and auto-memory.
+
+## Previous Session: 2026-04-15, session 11
 
 1. **`/plan` stress test phase** — added Phase 3 to `commands/plan.md`. Automatically pressure-tests plans before presenting for approval: assumption audit, risk war-game, build roadblock scan. Scales depth to plan complexity. Replaces Max's manual "validate your assumptions" prompts.
 2. **Version bump to v1.3.1** — VERSION, CHANGELOG updated. Committed and pushed to main.
