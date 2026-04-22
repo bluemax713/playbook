@@ -1,10 +1,44 @@
 # Playbook Work Log
 
-## Last updated: 2026-04-15
+## Last updated: 2026-04-21
 
-## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live
+## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live. No Playbook code changes this session — work was tech-stack hygiene + cross-project integration with consulting repo.
 
-## Recent Changes (2026-04-15, session 12)
+## Recent Changes (2026-04-21, session 13)
+
+This session was a tech-stack audit/cleanup + cross-project plumbing. Zero changes to tracked Playbook files (no version bump). All writes landed in Max's personal config (`~/.claude/`), the consulting repo (parallel session active), and a new personal reference library (`~/Documents/Reference/`).
+
+1. **Tech stack audit/cleanup** (`~/.claude/tech_stack.md`):
+   - Added missing entries: `frontend-design` plugin, `code-review` plugin, `Context7` MCP, `feature-dev` plugin (newly installed), `agent-sdk-dev` plugin (newly installed), GitHub MCP, ClickUp MCP (official, OAuth — already installed in a prior session)
+   - Moved cockpit-only entries to Deprecated (dated 2026-04-21): React 19 + Vite, Hono, Tailwind v4, shadcn/ui patterns, Bun. Cockpit is in its own repo and tracks them there.
+
+2. **Cockpit paid-services audit** — ran in parallel session via Max. Verdict: zero cockpit-exclusive paid subscriptions, nothing to cancel. Stored API tokens (ClickUp `pk_150234564_...`, n8n JWT) in `~/.cockpit/config.json` flagged as rotation candidates since the project is mothballed — separate hygiene item, not done this session.
+
+3. **Plugin installs** — `feature-dev` and `agent-sdk-dev` (both official Anthropic), no setup required. Researched and ranked 13 marketplace plugins; rejected the rest as off-fit for non-technical-founder audience.
+
+4. **MCP installs / verification**:
+   - **GitHub MCP** installed (`@modelcontextprotocol/server-github`). Connected.
+   - **ClickUp MCP** discovered as already installed via official HTTP+OAuth endpoint (`mcp.clickup.com/mcp`) — better than the third-party `@chykalophia` package originally researched.
+   - Both tools become callable next session (Claude Code only registers MCP tools at session start).
+
+5. **GitHub PAT rotation**:
+   - First token leaked into chat transcript (Max pasted it; my prompt invited it). Old token revoked in GitHub settings.
+   - New token installed via file-based pattern: `read -s` to prompt + write to `~/.gh-pat-tmp` (chmod 600), then `claude mcp add ... -e "GITHUB_PERSONAL_ACCESS_TOKEN=$(cat ~/.gh-pat-tmp)" ...`, then `rm ~/.gh-pat-tmp`. Token never appeared in transcript.
+   - **Lesson learned (saved to feedback memory):** for credential installs, default to file-based passing; don't ask Max to paste tokens directly into chat.
+
+6. **Inbox review + research** (18 files dropped this session):
+   - 9 Wize AI Instagram screenshots = a structured 7-subagent codebase cleanup prompt with explicit "what NOT to do" guardrails. Developer-targeted, NOT a fit for Playbook (audience is non-technical founders). Saved as a reusable prompt asset to `~/Documents/Reference/prompt-library/cleanup-7-subagent-pattern.md` for Max's personal use on cockpit/magnum/palm_beach/rosie-import.
+   - 8 educational explainer images (Chat-vs-Agent, OBSERVE/THINK/ACT loop, AGENTS.md before/after, MCPs-as-translator before/after, Skills before/after) saved to `~/Documents/Reference/agentic-explainers/` with a README explaining each + IP discipline (don't redistribute, recreate before publishing).
+   - 1 RetentionX ad documented in consulting candidates file.
+
+7. **Stack-catalog tee-up workflow** — answered Max's "how do we tee up evaluations for the consulting catalog" question:
+   - Created `~/Documents/GitHub/consulting/inbox/stack-catalog-candidates.md` (NOT in `stack-catalog/` — parallel session is writing there). Seeded with 5 candidates: Claude Cowork, MiroFish AI, LangChain/LangSmith, RetentionX, Wize AI 7-subagent prompt pattern. Suggested 3 new categories: Decision-rehearsal/market simulation, Agent observability/eval (enterprise), Process/prompt patterns.
+   - Added global rule to `~/.claude/CLAUDE.md` under "Tech Stack Awareness": every future session in any project automatically appends evaluations to the consulting candidates file.
+   - Personal config rule, not a Playbook public rule (references Max's specific path).
+
+8. **Auto-memory** — added `reference-personal-library.md` pointer in `MEMORY.md` so future sessions surface `~/Documents/Reference/` when relevant (concept explainers, prompt patterns).
+
+9. **Inbox cleaned** — 18 files deleted at end. All useful information extracted to consulting candidates file, personal reference library, and tech_stack updates.
 
 1. **Inbox folder added** — created `inbox/` directory with `.gitkeep`, added `inbox/` to `.gitignore`. Aligns with all other repos.
 2. **Reviewed 19 inbox screenshots** — three sources: Awesome Design MD (@forgoodcode), Second Brain / Karpathy wiki pattern (@thevibefounder), community Claude Code skills (@okaashish). Evaluated each for Playbook fit.
