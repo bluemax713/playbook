@@ -1,10 +1,50 @@
 # Playbook Work Log
 
-## Last updated: 2026-04-21
+## Last updated: 2026-04-22
 
-## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live. No Playbook code changes this session — work was tech-stack hygiene + cross-project integration with consulting repo.
+## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live. No Playbook code changes this session — work was a GWS daily-digest skills evaluation that pivoted into building a custom `/brief` command in Max's global config + cross-session plumbing with the consulting catalog.
 
-## Recent Changes (2026-04-21, session 13)
+## Recent Changes (2026-04-22, session 14 — GWS digest evaluation)
+
+Session goal: install and test three mcpmarket "daily brief" Google Workspace skills (Daily Briefing, Weekly Digest, The Day AI Daily Planner); pick one, seed its style profile, document for personal stack + consulting. Zero changes to tracked Playbook files (no version bump). All writes landed in `~/.claude/`, the consulting repo `inbox/`, and a scratch dir for test artifacts.
+
+1. **Investigated all three skills before installing** (hard rule: don't install blind):
+   - "The Day AI Daily Planner" (durandom/skills) — ARCHIVED upstream on 2026-02-18 (`BREAKING: Remove the-day skill from active set`). Skipped per hard rules.
+   - "Google Workspace Weekly Digest" (pleaseai/claude-code-plugins) — 6-line SKILL.md wrapper that calls `gws workflow +weekly-digest`. The helper ships natively in the gws CLI Max already has.
+   - "Daily Briefing for Google Workspace" (mcpmarket listing) — `gws-workflow-daily-briefing` identifier does not exist in any source repo or registry. Closest match is `persona-exec-assistant` (~10-line SKILL.md orchestrating native gws helpers). Advertised "style profile" and "stakeholder weighting" are marketing copy, absent from code.
+
+2. **Audible to Max** — scope as written produced a predetermined outcome (hollow wrappers vs. a CLI Max already has). Max approved Path C: honestly document the three for consulting catalog AND build the real thing (custom `/brief` command) for personal use.
+
+3. **Consulting deliverables** (to `~/Documents/GitHub/consulting/inbox/`):
+   - `stack-catalog-candidates.md` — appended new "Daily-digest / morning-brief evaluations (Playbook session, 2026-04-22)" block with 4 one-liners: gws CLI workflow helpers (ADOPTED as real engine), Daily Briefing (NOT ADOPTED, marketing claims don't exist in code), Weekly Digest (NOT ADOPTED, trivial wrapper), The Day (NOT ADOPTED, archived).
+   - `aggregator-verification-rule.md` — NEW file, 3-line summary of the mcpmarket.com finding for folding into `stack-catalog/cross-cutting/research-rules.md`. Rule: before recommending any aggregator-listed skill/tool, resolve to upstream source, confirm the identifier exists, read SKILL.md to verify advertised features, check for archival.
+
+4. **Personal config — `/brief` command built end-to-end:**
+   - `~/.claude/commands/brief.md` — new slash command. Pulls calendar + unread email + chat + tasks via gws in parallel, ranks with P0/P1/P2/Noise tiers using `~/.claude/stakeholders.md`, extracts literal actions (not fuzzy "think about it" ones), drafts replies in Max's voice using `~/.claude/style-profile.md`. Pure markdown output to `~/.claude/briefs/YYYY-MM-DD-brief.md`. The feature set mcpmarket listings advertised but didn't implement.
+   - `~/.claude/style-profile.md` — populated from 6 real sent emails via gws. Captured cues: short replies (1–3 sentences), no pleasantries on internal threads, em-dashes for asides, `Thanks,\nMax` close, single-ask discipline, Superhuman auto-signature.
+   - `~/.claude/stakeholders.md` — T1 (advisor@assoulin.com, Eric, Joseph, Gusto, JPMorgan, Hilldun), T2 (@rosieassoulin.com catch-all, Stripe, Shopify, ApparelMagic), T3 (industry newsletters), Noise (no-reply, notifications, Google Groups digests, BoF marketing).
+   - `~/.claude/briefs/` — output dir, gitignored.
+   - `~/.claude/.gitignore` — protects briefs/, style-profile.md, stakeholders.md, .playbook/tmp/.
+
+5. **Live test run (today, 2026-04-22)** — blocked initially on gws OAuth (`invalid_rapt`), unblocked after Max ran `gws auth login`. Then:
+   - Native `gws workflow +standup-report` (JSON + table) saved to scratch.
+   - Native `gws workflow +weekly-digest` (JSON + table) saved — 12 meetings this week, 201 unread.
+   - Pulled 15 unread emails via `mcp__gws__gmail` + 6 sent for style extraction.
+   - `/brief` produced real 2026-04-22 output: 4 P0s surfaced (Gusto wire due 11am PDT, Gusto contractor payments blocked, JPMorgan secure message, Tania LA buyer lookbook request). Native helpers surfaced 0 of these by name — they returned counts.
+   - All artifacts in `~/.claude/.playbook/tmp/gws-skill-test/2026-04-22/`.
+
+6. **Deployment recommendation** — two-phase rollout documented at `~/.claude/briefs/deployment-plan.md`:
+   - **Week 1 (now → 2026-04-29):** manual `/brief` in Claude Code each morning. Tunes stakeholders + style profile against real drafts.
+   - **Week 2+ (2026-04-29):** port logic to Joseph/openclaw. openclaw already runs 24/7 with GWS OAuth via Composio; push brief to Max's phone before he opens the laptop. Claude Code `/brief` stays available for afternoon reruns.
+   - Kill criteria: drafts consistently wrong voice → keep /brief, disable drafts; ranking buries P0s → rewrite heuristics, don't migrate; Max ignores by day 5 → format is wrong, redesign.
+
+7. **tech_stack.md updates:**
+   - New "Daily Operations" section: gws CLI (googleworkspace/cli) + /brief command (with build context noted: "built 2026-04-22 after evaluating three mcpmarket listings").
+   - Deprecated section: three mcpmarket listings added with one-line reasons + dates.
+
+8. **Memory updates:** None this session — findings are either codified in tech_stack.md (durable facts) or in the consulting inbox (to be folded into stack-catalog cross-cutting rules). No new auto-memory entries needed.
+
+## Previous Session: 2026-04-21, session 13 (tech-stack hygiene + cross-project plumbing)
 
 This session was a tech-stack audit/cleanup + cross-project plumbing. Zero changes to tracked Playbook files (no version bump). All writes landed in Max's personal config (`~/.claude/`), the consulting repo (parallel session active), and a new personal reference library (`~/Documents/Reference/`).
 
@@ -144,6 +184,9 @@ This session was a tech-stack audit/cleanup + cross-project plumbing. Zero chang
 - **37 early cloners** from March 7 have old version without auto-update — no action needed
 - **CHANGELOG discipline** — see auto-memory `playbook-maintenance.md` for rules on when to bump version
 - **Cockpit** — separate project at `bluemax713/cockpit`. Not a playbook task.
+- **/brief week-1 tuning (2026-04-22 → 2026-04-29)** — run `/brief` each morning, tune `~/.claude/stakeholders.md` and `~/.claude/style-profile.md` against real drafts. Kill criteria documented in `~/.claude/briefs/deployment-plan.md`. Not a Playbook repo task but worth surfacing here so /start prompts the next session.
+- **/brief → Joseph migration (2026-04-29+)** — after tuning, open a Claude Code session in the openclaw project and port /brief logic into Joseph's morning workflow. Directive in deployment-plan.md. Do NOT tell Joseph directly in chat — changes won't stick.
+- **gws OAuth expiry** — token refresh failed mid-session today (`invalid_rapt`). Re-auth via `gws auth login`. Expect this to recur every few weeks; factor into any automation that runs /brief unattended.
 
 ## Previous Sessions
 
