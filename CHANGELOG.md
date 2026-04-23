@@ -2,6 +2,17 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.3] — 2026-04-23
+
+### Model Routing (breaking behavior change)
+- **Sonnet 4.6 is now the default model.** Previous policy said "default to the stronger model" — this caused Claude to pick Opus for most tasks, producing significant unnecessary API spend. Sonnet 4.6 handles the vast majority of real-world work (config, scripts, debugging, research, documentation) at ~1/5 the cost.
+- **Opus 4.6 is the explicit escalation target** (not Opus 4.7, which carries a 1M context premium). Claude must tell you when it escalates and why — you can push back if it's overkill.
+- **Haiku 4.5 added for mechanical subagent work** — grep, simple file reads, lookups, transforms.
+- **`[1m]` context window variants are banned as defaults.** The 1M window doubles input costs — opt in only for sessions that genuinely need giant context.
+- **Cost awareness rule added**: Claude must surface scope before diving into tasks requiring many tool calls, multiple subagents, or a long session.
+
+To complete the switch: add `"model": "claude-sonnet-4-6"` to your `~/.claude/settings.json` (or run `/model sonnet` in any session).
+
 ## [1.3.2] — 2026-04-15
 
 ### New

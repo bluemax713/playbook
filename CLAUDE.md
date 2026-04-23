@@ -67,14 +67,13 @@
 - Start conservative (10-20 iterations), increase if needed
 
 ### Model Selection
-- Claude decides which model to use for every task. Never prompt the user to confirm model choice.
-- **Default to the stronger model.** Err on the side of more capability, not cost savings.
-- Only use a lighter model when the task is genuinely mechanical and there is zero risk of quality loss.
-- Model choice is based on **task complexity**, not on role. A subagent doing financial analysis needs the strongest model just as much as the main thread. A subagent doing a simple grep doesn't.
-- **General tiers (guidance, not rigid rules):**
-  - Genuinely mechanical/routine work (formatting, boilerplate, simple lookups, file transforms) — lighter model is fine
-  - Standard implementation, debugging, most coding, research — default model
-  - Complex reasoning, financial analysis, architecture, theoretical models, anything requiring judgment — strongest available model
+- **Default to Sonnet 4.6** (`claude-sonnet-4-6`) for all work. It handles config edits, scripts, agent setup, debugging, research, and documentation at ~1/5 the cost of Opus.
+- **Escalate to Opus 4.6** (`claude-opus-4-6`) only when the task clearly demands it: complex architectural decisions, multi-step reasoning across large contexts, financial modeling, or when Sonnet has produced incorrect/insufficient output. Never escalate to Opus 4.7 — 4.6 is the correct escalation target.
+- **Use Haiku 4.5** (`claude-haiku-4-5`) for genuinely mechanical subagent work: grep, simple file reads, straightforward lookups, file transforms.
+- **Never pin aliases or `[1m]` variants.** Always use explicit model IDs. The 1M context window doubles input costs — only opt in for sessions that genuinely need giant context.
+- Model choice is per-task, not per-role. A subagent doing financial analysis escalates to Opus 4.6; a subagent doing a simple grep stays on Haiku.
+- When escalating to Opus, tell the user first in one line ("Escalating to Opus 4.6 because X") so they can push back if it's overkill.
+- **Cost awareness:** If a task will require many tool calls, multiple subagents, or a long session, surface the scope before diving in.
 
 ### Context health
 - **Proactive saves**: In long sessions, save critical state to WORK_LOG.md incrementally — don't wait for `/end`. Decisions, findings, and intermediate results should be written to disk as they happen, so nothing is lost if auto-compaction occurs.
