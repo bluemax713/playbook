@@ -1,5 +1,32 @@
 # Playbook Work Log
 
+## Last updated: 2026-04-23
+
+## Overall State: v1.3.4 live on GitHub. Model selection policy overhauled — Sonnet 4.6 default, Opus 4.6 explicit escalation only, Haiku routing table added.
+
+## Session: 2026-04-23 — Model cost audit + policy overhaul (v1.3.3 → v1.3.4)
+
+### Problem
+Max's Claude Code sessions were defaulting to Opus 4.7 1M context, costing $40-60/day. Root cause: CLAUDE.md Model Selection section said "default to the stronger model, err on the side of more capability, not cost savings."
+
+### What was done
+1. **Rewrote Model Selection in `CLAUDE.md`** — flipped polarity: Sonnet 4.6 is now the default, Opus 4.6 is explicit escalation only (with required one-line heads-up to Max), Haiku 4.5 for mechanical subagent work.
+2. **Added concrete Haiku routing table** (v1.3.4) — Haiku for Explore subagents and simple Perplexity lookups; Sonnet for Agent team members, research synthesis, and all implementation work. Prevents "parallel = Haiku" misassumption.
+3. **Bumped version to v1.3.4**, updated CHANGELOG, pushed to `bluemax713/playbook` main.
+4. **Pinned `claude-sonnet-4-6` in `~/.claude/settings.json`** (Max's personal config — not part of the playbook repo).
+5. **Updated personal `~/.claude/CLAUDE.md`** with matching policy (same text as playbook, Max-specific pronouns).
+
+### Key decisions
+- Opus 4.6 is the escalation target, never 4.7 — no 1M context premium, same capability class.
+- Haiku is "transport layer only" — when Claude relays results, not when it reasons.
+- Agent team members always use Sonnet minimum — they do real implementation work.
+- settings.json update is manual for playbook users (CHANGELOG explains how); update script doesn't touch personal config.
+
+### Next
+- No pending Playbook code work. Haiku-for-agents work is in the openclaw session.
+
+---
+
 ## Last updated: 2026-04-22
 
 ## Overall State: v1.3.2 live on npm + GitHub, plugin marketplace submitted, demo project live. No Playbook code changes this session — work was a GWS daily-digest skills evaluation that pivoted into building a custom `/brief` command in Max's global config + cross-session plumbing with the consulting catalog.
