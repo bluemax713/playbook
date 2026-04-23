@@ -69,7 +69,9 @@
 ### Model Selection
 - **Default to Sonnet 4.6** (`claude-sonnet-4-6`) for all work. It handles config edits, scripts, agent setup, debugging, research, and documentation at ~1/5 the cost of Opus.
 - **Escalate to Opus 4.6** (`claude-opus-4-6`) only when the task clearly demands it: complex architectural decisions, multi-step reasoning across large contexts, financial modeling, or when Sonnet has produced incorrect/insufficient output. Never escalate to Opus 4.7 — 4.6 is the correct escalation target.
-- **Use Haiku 4.5** (`claude-haiku-4-5`) for genuinely mechanical subagent work: grep, simple file reads, straightforward lookups, file transforms.
+- **Use Haiku 4.5** (`claude-haiku-4-5`) when Claude is the transport layer, not the reasoning layer. Concrete routing:
+  - Haiku: Explore subagents (grep, file discovery, pattern matching), simple Perplexity lookups (find a URL, confirm a version), file transforms, boilerplate from a clear template
+  - Sonnet: everything else — including all Agent team members (they do real implementation), Perplexity research requiring synthesis or comparison, debugging, config, architecture
 - **Never pin aliases or `[1m]` variants.** Always use explicit model IDs. The 1M context window doubles input costs — only opt in for sessions that genuinely need giant context.
 - Model choice is per-task, not per-role. A subagent doing financial analysis escalates to Opus 4.6; a subagent doing a simple grep stays on Haiku.
 - When escalating to Opus, tell the user first in one line ("Escalating to Opus 4.6 because X") so they can push back if it's overkill.

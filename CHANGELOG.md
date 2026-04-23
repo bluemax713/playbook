@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.4] — 2026-04-23
+
+### Model Routing
+- **Concrete Haiku routing table** — replaces vague "mechanical work" guidance with explicit rules: Haiku for Explore subagents, simple Perplexity lookups, file transforms; Sonnet for Agent team members, research synthesis, and everything else. Prevents the incorrect assumption that "parallel = Haiku."
+
 ## [1.3.3] — 2026-04-23
 
 ### Model Routing (breaking behavior change)
