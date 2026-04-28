@@ -2,6 +2,13 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.3.5] — 2026-04-28
+
+### Planning
+- **Branch trace in `/plan`** — For high-stakes decisions (architecture choices, irreversible actions, multi-system impact), Phase 1 now traces each option 2-3 moves forward to a labeled terminal state. You compare where each path *lands*, not just how it starts. Gated on decision stakes — fires only when the cost of picking wrong is high. Max 3 branches, 3 moves deep.
+- **Phase reorder: harden before you write** — Phase 2 (stress test) now runs *before* Phase 3 (implementation steps). Assumption audit and risk war-game validate the chosen direction first; steps are written once, correctly, with all risks already surfaced. Eliminates the rework loop of writing steps then discovering a wrong assumption.
+- **Build blockers moved into per-step notation** — Build roadblock scan is now embedded in each implementation step rather than a separate Phase 3 section. Closer to the code that needs it.
+
 ## [1.3.4] — 2026-04-23
 
 ### Model Routing
