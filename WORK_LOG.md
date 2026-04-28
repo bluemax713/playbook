@@ -1,8 +1,24 @@
 # Playbook Work Log
 
-## Last updated: 2026-04-23
+## Last updated: 2026-04-28
 
-## Overall State: v1.3.4 live on GitHub. Model selection policy overhauled — Sonnet 4.6 default, Opus 4.6 explicit escalation only, Haiku routing table added.
+## Overall State: v1.3.5 live on npm + GitHub. /plan command overhauled — branch trace for high-stakes decisions, phase reorder (harden before writing steps), build blockers embedded per-step.
+
+## Session: 2026-04-28 — /plan structural overhaul (v1.3.4 → v1.3.5)
+
+### What was done
+1. **`commands/plan.md` rewritten** — three structural changes:
+   - **Branch trace (Phase 1)** — for high-stakes decisions, traces each option 2-3 moves forward to a labeled terminal state (`favorable / acceptable / problematic`). Gated: only fires when cost-of-being-wrong is high. Max 3 branches, 3 moves deep. Compares endpoints, not opening positions.
+   - **Phase 2/3 swapped** — assumption audit + risk war-game now run *before* writing implementation steps. Eliminates the rework loop of writing steps that turn out to be wrong.
+   - **Build blockers folded into Phase 3 per-step notation** — removed as a separate section, now embedded next to each implementation step.
+2. **Synced to `~/.claude/commands/plan.md`** — global installed copy updated in same pass.
+3. **`package.json` version corrected** — was stuck at 1.2.1 (missed in prior bumps); updated to 1.3.5.
+4. **Version bump to v1.3.5** — VERSION, CHANGELOG, `~/.claude/.playbook-version` all updated.
+5. **`playbook-ai@1.3.5` published to npm** — verified live (`npm view playbook-ai version` → 1.3.5).
+6. **Committed and pushed** — commits `9f2f1ac` (plan + version) and `a0d9c50` (package.json sync).
+
+### Next
+- No pending Playbook code work.
 
 ## Session: 2026-04-23 — Model cost audit + policy overhaul (v1.3.3 → v1.3.4)
 
