@@ -2,6 +2,12 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.4.0] — 2026-05-01
+
+### Strategy
+- **New `/chess` command** — adversarial strategy analysis with full opponent modeling and multi-move branch tracing. Designed for negotiations, competitive decisions, legal disputes, and any high-stakes scenario with a real counterparty. Runs a structured intake in the primary session (Sonnet), then generates a self-contained handoff prompt for a parallel Opus 4.6 session that does the reasoning. The chess session delivers a structured debrief artifact and a return prompt to bring findings back into the primary session. Closes with a clean "Chess session complete. You can close this window." — no /end needed in the parallel session.
+- **`/plan` lightened** — branch trace removed. It now lives in `/chess` where adversarial forward-tracing belongs. `/plan` retains its three-phase structure (assess → harden → steps) without the overhead of tracing implementation options forward multiple moves. For decisions involving a counterparty, reach for `/chess`; for implementation decisions, `/plan` is leaner and faster.
+
 ## [1.3.5] — 2026-04-28
 
 ### Planning
