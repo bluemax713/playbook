@@ -1,8 +1,28 @@
 # Playbook Work Log
 
-## Last updated: 2026-04-28
+## Last updated: 2026-05-01
 
-## Overall State: v1.3.5 live on npm + GitHub. /plan command overhauled — branch trace for high-stakes decisions, phase reorder (harden before writing steps), build blockers embedded per-step.
+## Overall State: v1.4.0 committed to GitHub (not yet published to npm). New /chess command for adversarial strategy analysis. /plan lightened — branch trace removed, now lives in /chess.
+
+## Session: 2026-05-01 — /chess command + /plan lightening (v1.3.5 → v1.4.0)
+
+### What was done
+1. **New `commands/chess.md`** — full adversarial strategy command:
+   - Pre-flight check: routes /plan vs /chess before intake begins
+   - Structured intake in primary session (Sonnet) — adversaries, motivations, BATNAs, information asymmetry, your position
+   - Generates a self-contained Opus 4.6 handoff prompt (embedded chess reasoning framework, no circular command invocation)
+   - Parallel session runs autonomously: inhabit adversaries → branch trace 3-4 moves deep → stress assumptions → identify leverage → recommended line + contingencies
+   - Writes debrief artifact to `docs/chess/YYYY-MM-DD-[topic].md`
+   - Closes with "Chess session complete. You can close this window." — no /end in parallel session
+   - Return prompt for primary session references the artifact path
+2. **`commands/plan.md` lightened** — branch trace removed. /plan is now assess → harden → steps with no forward-tracing overhead.
+3. **Synced both** to `~/.claude/commands/` in same pass.
+4. **Version bumped to v1.4.0** — VERSION, CHANGELOG, package.json, `~/.claude/.playbook-version` all updated.
+5. **Committed** — `cb8ed07`.
+
+### Next
+- npm publish for v1.4.0 (not done this session — Max to approve when ready)
+- `inbox/plan-command-reference.md` references branch trace in /plan — should be updated or moved to docs/ to reflect /chess as the home for that technique
 
 ## Session: 2026-04-28 — /plan structural overhaul (v1.3.4 → v1.3.5)
 
