@@ -1,54 +1,56 @@
 # `/chess` Command — Reference Guide for Agents
 
-> **Purpose of this doc:** Hand this to any AI agent (NanoClaw or otherwise) that works alongside Max Assoulin so it understands what `/chess` is, when to invoke it, how the intake and handoff work, and what the chess reasoning framework expects. This is not a user-facing spec — it's operational intelligence for agents.
+> **Purpose of this doc:** Hand this to any AI agent (NanoClaw or otherwise) that works alongside Max Assoulin so it understands what `/chess` is, when to invoke it, how the intake and reasoning frameworks work, and what each mode produces. This is not a user-facing spec — it's operational intelligence for agents.
 
 ---
 
 ## What `/chess` Is
 
-`/chess` is a Claude Code slash command for **adversarial strategy analysis**. It is built for decisions where the outcome depends on what another party does in response to your moves — negotiations, competitive positioning, legal disputes, high-stakes financial decisions with a counterparty.
+`/chess` is a Claude Code slash command for **multi-move depth analysis**. It has two modes:
 
-It is explicitly **not** a general planning tool. For implementation decisions without a real adversary, use `/plan`.
+- **Human Mode** — for decisions where the outcome depends on what another party does in response to your moves. Runs as a parallel Opus 4.6 session. Produces a debrief with a recommended line and contingencies.
+- **System Mode** — for technical plans where there's no human adversary but the system/environment will respond to every move. Runs inline. Produces a numbered attack on assumptions with verdicts and a concise list of required changes.
 
-The core contract: **model the opponent rationally, trace the move tree honestly, and deliver a specific recommended line** — not a list of considerations, not hedged optionality, a concrete opening move with contingencies.
+It is explicitly **not** a general planning tool. For pure tradeoffs decisions with no adversary and no system to stress-test, use `/plan`.
 
 ---
 
 ## When to Use `/chess`
 
-Invoke `/chess` when all three are true:
-
+**Human Mode** — invoke when all three are true:
 1. **Real adversary present** — a person or party with competing interests and their own move set
 2. **Outcome is move-dependent** — what they do in response to your move materially changes the result
 3. **Stakes are material** — money, a key relationship, legal exposure, or a make-or-break decision
 
-**Examples of `/chess` territory:**
-- Negotiating a vendor contract where the other side has leverage
-- Responding to a board member pushing for a direction you disagree with
-- A competitive bid where you know who the other bidders are
-- A legal dispute where the other party's next move shapes your options
-- A fundraising conversation where the investor's motivation isn't fully visible
+**Examples:** Negotiating a vendor contract, responding to a board member, a competitive bid, a legal dispute, a fundraising conversation where the investor's motivation isn't visible.
 
-**Do not invoke `/chess` for:**
-- Architecture tradeoffs, tool selection, implementation decisions → use `/plan`
-- Decisions where you're the only actor and the "opponent" is just uncertainty → `/plan` with a risk war-game
-- Situations where you don't know enough about the adversary to model them — flag this to Max and gather intel first
+**System Mode** — invoke when:
+- There's a technical plan, implementation, or fix being challenged
+- The question is: what could break, and how does the system respond to each move?
+- There's no human whose intent needs to be modeled
+
+**Examples:** Building a watchdog script, deploying infrastructure changes, migrating a database, rolling out a system change with dependencies that could fail in non-obvious ways.
+
+**Route to `/plan` instead when:** No adversary, no system to stress-test — just a tradeoffs or implementation decision.
 
 ---
 
-## Pre-flight: Does `/chess` Make Sense Here?
+## Pre-flight: Route the Situation
 
-Before intake begins, assess the situation. Tell Max directly:
+Three routes. Assess before doing anything else. Tell Max directly:
 
-- **"Yes, /chess is the right call"** — if there's a clear adversary, move-dependent outcome, and material stakes
-- **"/plan is the right tool here"** — if it's an implementation or tradeoffs decision with no real counterparty
+- **"Human Mode — /chess is the right call"** — clear adversary, move-dependent outcome, material stakes
+- **"System Mode — let me stress-test this"** — technical plan, no human adversary, system response is the unknown
+- **"/plan is the right tool here"** — pure tradeoffs decision, no adversary, no system to attack
 - **"Borderline — here's why"** — if ambiguous, name what makes it so and ask Max to confirm
 
-This check runs on Sonnet and takes seconds. Do not skip it — invoking `/chess` on a non-adversarial problem wastes significant token budget.
+This check runs on Sonnet and takes seconds. Do not skip it.
 
 ---
 
-## Intake: Building the Chess Brief
+## Human Mode
+
+### Intake: Building the Chess Brief
 
 Intake runs in the **primary session on Sonnet**. Ask questions conversationally — not as a numbered list. Group related questions naturally. Use follow-ups where an answer is thin. The goal is a complete picture before the chess engine runs, so the parallel session can work without stopping.
 
@@ -198,11 +200,50 @@ The chess debrief is an input to a decision, not the decision itself. Max decide
 
 ---
 
+---
+
+## System Mode
+
+### Intake
+
+If the system, plan, and constraints are already established in the conversation, skip directly to the stress-test. Only ask for information that's genuinely missing — don't re-interview Max if you already have the answers.
+
+If context is thin, ask conversationally: what's being built/fixed/changed, what the current system looks like, what's already decided and constraining the plan, and what counts as an acceptable vs. unacceptable failure.
+
+### Stress-Test Framework
+
+Run **inline on Sonnet** by default. Escalate to **Opus 4.6 inline** (no parallel session) when the system is complex enough that a shallow pass would miss real risks — multiple interacting services, deep dependency chains, complex state machines.
+
+**Step 1 — Map the assumptions.** List every implicit "this works if..." in the plan — environment, dependencies, timing, state, permissions, failure behavior.
+
+**Step 2 — Attack each vector.** For each assumption: state the risk, reason through the system's actual behavior (not the happy path), and give a verdict:
+- ✅ — assumption holds
+- ⚠️ → [specific mitigation] — risk is real but manageable; state the required change
+- ❌ — plan-breaker; must resolve before building
+
+Don't pad. Depth only where there's actual risk.
+
+**Step 3 — Surface what changed.** Only the ⚠️ and ❌ items that require action. Brief and specific.
+
+**Step 4 — Ready to build?** State whether the plan is sound as-is or needs N changes first. Offer to incorporate them and proceed.
+
+### Session and Logging Rules for System Mode
+
+| Question | Answer |
+|---|---|
+| Does System Mode run a parallel session? | No — inline only |
+| Model default | Sonnet 4.6 inline |
+| Escalation | Opus 4.6 inline (no parallel) for complex systems |
+| Does it write a debrief artifact? | No — changes are incorporated directly into the plan |
+| Does it write to WORK_LOG? | No — primary session handles that |
+
+---
+
 ## Common Failure Modes
 
 | Failure | Why It's Bad | What to Do Instead |
 |---|---|---|
-| Invoking `/chess` on a non-adversarial decision | Wastes significant token budget on Opus reasoning | Pre-flight check routes to `/plan` instead |
+| Invoking Human Mode on a technical problem with no adversary | Wastes Opus token budget modeling intent that doesn't exist | Pre-flight routes to System Mode or `/plan` |
 | Skipping the pre-flight check | Max may not realize `/plan` was the right tool | Always assess before intake |
 | Incomplete adversary profile in intake | Chess engine models a phantom, not the real opponent | Gather intel before proceeding; flag gaps to Max |
 | Generating the handoff before confirming intake | Errors compound in the parallel session — can't course-correct mid-run | Read back the brief, get confirmation |
@@ -216,4 +257,4 @@ The chess debrief is an input to a decision, not the decision itself. Max decide
 
 ## Summary: The One-Line Version
 
-> `/chess` = pre-flight to confirm an adversary exists → intake to build the brief → Opus 4.6 parallel session traces the move tree and models each opponent rationally → debrief artifact with a specific recommended line → return prompt brings it back to the primary session to act on.
+> `/chess` = pre-flight routes to Human Mode or System Mode → **Human Mode:** Opus 4.6 parallel session traces the move tree and models each opponent rationally → debrief artifact with a specific recommended line → return prompt brings it back to primary session → **System Mode:** inline Sonnet attacks every assumption in the plan → verdicts + required changes → ready to build.

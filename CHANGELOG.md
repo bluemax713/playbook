@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.4.1] — 2026-05-03
+
+### Strategy
+- **`/chess` System Mode** — `/chess` now has two modes. Human Mode is unchanged (parallel Opus 4.6 session, move-tree analysis, adversary modeling). New System Mode handles the case where there's no human adversary but a technical plan needs rigorous stress-testing. System Mode runs inline on Sonnet, enumerates every assumption in the plan, attacks each one, and produces verdicts (✅ / ⚠️ / ❌) plus a minimal list of required changes. Escalates to Opus 4.6 inline (no parallel session) for genuinely complex systems. Pre-flight now routes to three paths: Human Mode, System Mode, or `/plan`.
+
 ## [1.4.0] — 2026-05-01
 
 ### Strategy

@@ -1,8 +1,28 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-01
+## Last updated: 2026-05-03
 
-## Overall State: v1.4.0 live on npm + GitHub. New /chess command for adversarial strategy analysis with Opus 4.6 parallel session pattern. /plan lightened — branch trace removed. Reference docs for both commands persisted in docs/.
+## Overall State: v1.4.1 live locally (not yet published to npm). /chess upgraded to dual-mode: Human Mode (unchanged) + new System Mode for technical stress-testing with no human adversary.
+
+## Session: 2026-05-03 — /chess System Mode (v1.4.0 → v1.4.1)
+
+### What was done
+1. **`commands/chess.md` — System Mode added**
+   - Pre-flight updated to 3-way router: Human Mode / System Mode / /plan
+   - System Mode section: intake skips if context already established in conversation; stress-test framework runs inline Sonnet by default, escalates to Opus 4.6 inline (no parallel session) for complex systems; Step 1–4 (map assumptions → attack vectors with ✅/⚠️/❌ verdicts → surface changes → ready to build?)
+   - Human Mode section renamed but otherwise identical — zero behavior change
+2. **Synced to `~/.claude/commands/chess.md`** in same pass
+3. **`docs/chess-command-reference.md` updated** — dual-mode description, updated "What /chess Is", routing table, new System Mode section with session/logging rules, updated failure modes table and summary line
+4. **Version bumped to v1.4.1** — VERSION, CHANGELOG, package.json, `~/.claude/.playbook-version` all updated
+
+### Design decisions
+- System Mode runs inline (no parallel session) — the parallel session pattern is the Human Mode signature; system stress-testing is sequential, not adversarial modeling of intent
+- Opus escalation available inline for complex systems, not via parallel session
+- Intake skips if context already in conversation — avoids re-interviewing mid-conversation
+
+### Next
+- Publish v1.4.1 to npm when ready
+- First real System Mode run will validate the new framework
 
 ## Session: 2026-05-01 — /chess command + /plan lightening (v1.3.5 → v1.4.0)
 
