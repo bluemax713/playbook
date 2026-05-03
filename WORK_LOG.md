@@ -21,8 +21,13 @@
 - Intake skips if context already in conversation — avoids re-interviewing mid-conversation
 
 ### Next
-- Publish v1.4.1 to npm when ready
-- First real System Mode run will validate the new framework
+- First real System Mode run will validate the new framework in practice
+
+### Closeout
+- v1.4.1 published to npm ✅ (verified `npm view playbook-ai version` → 1.4.1)
+- Committed `3236741`, pushed to origin
+- `~/.claude/CLAUDE.md` updated — Inbox section added (was missing from personal config)
+- Memory updated: npm publish sequence saved, current state updated to v1.4.1
 
 ## Session: 2026-05-01 — /chess command + /plan lightening (v1.3.5 → v1.4.0)
 
