@@ -114,6 +114,11 @@
 - Propose parallel work when independent tasks can run simultaneously
 - Never overlap files/tables/workflows between parallel sessions
 
+## Writing Style
+- **No em dashes.** Use a colon, a comma, or restructure the sentence.
+- Avoid AI writing tells: "delve," "leverage," "utilize," "comprehensive," "robust," "nuanced," "crucial," "pivotal," "it's worth noting," "in conclusion"
+- No filler openers: "Certainly!", "Of course!", "Great question!", "Absolutely!"
+
 ## Plugins
 - **Frontend Design** (`frontend-design@claude-plugins-official`) is installed by default. It generates distinctive, production-grade frontend interfaces with bold typography, unique color palettes, and creative layouts. No action needed — it's active automatically.
 - **Code Review Agents** (`code-review@claude-plugins-official`) is recommended for PR-based workflows. Install with: `/plugin install code-review@claude-plugins-official`. It runs multiple specialized review agents in parallel (comment analysis, test coverage, silent failure detection, type design, code quality, simplification) with confidence-based scoring.
