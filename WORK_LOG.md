@@ -1,8 +1,25 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-03
+## Last updated: 2026-05-04
 
-## Overall State: v1.4.1 live locally (not yet published to npm). /chess upgraded to dual-mode: Human Mode (unchanged) + new System Mode for technical stress-testing with no human adversary.
+## Overall State: v1.4.1 published to npm. Writing style standards added to both CLAUDE.md files (no em dashes, no AI writing tells).
+
+## Session: 2026-05-04 — Writing style standards
+
+### What was done
+1. **`CLAUDE.md` (playbook) — Writing Style section added**
+   - No em dashes; no AI tells (delve, leverage, utilize, comprehensive, etc.); no filler openers
+   - Committed `fd46518`
+2. **`~/.claude/CLAUDE.md` — same Writing Style section added** (not in git, personal config)
+3. **Memory saved** — `feedback-writing-style.md` + MEMORY.md pointer added
+
+### Next
+- No pending Playbook code work.
+- First real System Mode /chess run will validate the framework in practice.
+
+### Closeout
+- 1 commit pushed to origin
+- No npm publish needed (no behavior change, version unchanged)
 
 ## Session: 2026-05-03 — /chess System Mode (v1.4.0 → v1.4.1)
 
