@@ -80,6 +80,49 @@ else
   echo "  Installed settings.json"
 fi
 
+# Install hooks script
+mkdir -p "$CLAUDE_DIR/hooks"
+cp "$PLAYBOOK_DIR/hooks/precompact-save.sh" "$CLAUDE_DIR/hooks/precompact-save.sh"
+chmod +x "$CLAUDE_DIR/hooks/precompact-save.sh"
+echo "  Installed hook: precompact-save"
+
+# Merge PreCompact hook into existing settings.json (additive — won't overwrite existing hooks)
+python3 - << 'EOF'
+import json, os, sys
+
+settings_path = os.path.expanduser("~/.claude/settings.json")
+if not os.path.exists(settings_path):
+    sys.exit(0)
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+hook_command = "bash ~/.claude/hooks/precompact-save.sh"
+
+# Check if already wired up
+existing = settings.get("hooks", {}).get("PreCompact", [])
+for group in existing:
+    for h in group.get("hooks", []):
+        if h.get("command") == hook_command:
+            print("  PreCompact hook already configured — skipping")
+            sys.exit(0)
+
+# Add it
+if "hooks" not in settings:
+    settings["hooks"] = {}
+if "PreCompact" not in settings["hooks"]:
+    settings["hooks"]["PreCompact"] = []
+settings["hooks"]["PreCompact"].append({
+    "hooks": [{"type": "command", "command": hook_command}]
+})
+
+with open(settings_path, "w") as f:
+    json.dump(settings, f, indent=2)
+    f.write("\n")
+
+print("  Wired PreCompact hook into settings.json")
+EOF
+
 # Copy tech_stack.md template (won't overwrite if exists — user populates this)
 if [ -f "$CLAUDE_DIR/tech_stack.md" ]; then
   echo "  tech_stack.md already exists — skipping"

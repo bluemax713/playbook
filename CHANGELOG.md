@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.4.2] — 2026-05-17
+
+### Reliability
+- **PreCompact hook** — automatically appends a timestamped marker to `WORK_LOG.md` whenever Claude Code hits the context limit and auto-compaction fires. No more silent mid-session state loss. The marker flags that state above the line may be incomplete and prompts starting a new session. Installed via `hooks/precompact-save.sh`; wired into `settings.json` at install time (additive merge for users who already have a settings.json).
+
 ## [1.4.1] — 2026-05-03
 
 ### Strategy
