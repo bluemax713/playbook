@@ -1,8 +1,30 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-04
+## Last updated: 2026-05-17
 
-## Overall State: v1.4.1 published to npm. Writing style standards added to both CLAUDE.md files (no em dashes, no AI writing tells).
+## Overall State: v1.4.2 pushed to GitHub (npm publish deferred). PreCompact hook added — auto-saves WORK_LOG.md before context compaction fires.
+
+## Session: 2026-05-17 — PreCompact hook (v1.4.1 → v1.4.2)
+
+### What was done
+1. **Diagnosed context health gap** — Playbook CLAUDE.md promised Claude would warn before context fills, but Claude has no signal to read its own context meter. Behavior was aspirational, not enforceable.
+2. **Researched Claude Code hooks via Perplexity** — confirmed `PreCompact` and `PostCompact` hooks exist (as of May 2026 docs). PreCompact fires at ~78% context used but cannot block compaction. No native "warn at X%" hook exists.
+3. **Built `hooks/precompact-save.sh`** — shell script that reads `cwd` from the JSON Claude Code passes on stdin, checks if `WORK_LOG.md` exists there, and appends a timestamped AUTO-COMPACT marker if so. Silent on non-Playbook projects.
+4. **Wired hook into `~/.claude/settings.json`** (Max's personal config, active immediately) — `PreCompact` event, command type, calls `bash ~/.claude/hooks/precompact-save.sh`.
+5. **Updated Playbook repo** — `hooks/precompact-save.sh` added, `hooks/hooks.json` updated, `settings.json` template updated with hooks block, `install.sh` updated to create `~/.claude/hooks/`, copy the script, and do an additive Python-based merge of the hooks block for users who already have a settings.json.
+6. **Version bumped to v1.4.2** — VERSION, CHANGELOG.md, package.json, `~/.claude/.playbook-version` all updated in same pass.
+7. **Committed and pushed** — `4d93e12` to origin/main.
+
+### Known limitation
+PreCompact saves state but cannot trigger a graceful `/end`. By the time it fires, Claude has no response window. The full fix (Stop hook + statusline context % monitoring) would give proactive warnings before the compaction threshold — deferred to a future session.
+
+### Next
+- npm publish when next meaningful change ships alongside this one
+- Option 3 (Stop hook + statusline monitoring for proactive context warnings) is the real long-term fix if Max wants it
+
+### Closeout
+- 1 commit pushed to origin (`4d93e12`)
+- npm publish skipped — behavior change, but deferred intentionally
 
 ## Session: 2026-05-04 — Writing style standards
 
