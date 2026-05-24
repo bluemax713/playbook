@@ -1,8 +1,37 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-17
+## Last updated: 2026-05-24
 
-## Overall State: v1.4.2 pushed to GitHub (npm publish deferred). PreCompact hook added — auto-saves WORK_LOG.md before context compaction fires.
+## Overall State: v1.4.2 pushed to GitHub (npm publish deferred). PreCompact hook live. WORK_LOG compression logic updated — oldest 10 entries compressed instead of deleted when over 100.
+
+## Session: 2026-05-24 — WORK_LOG compression logic
+
+### What was done
+1. **`commands/end.md` — step 3 rewritten**: replaced delete-oldest logic with compress-oldest-10 logic. When session count exceeds 100, the 10 oldest entries (raw sessions or prior compressed blocks) are summarized to 2-3 bullets each and folded into a single `## Compressed: [date range]` block. History is preserved, nothing is deleted. Fires ~once every 9-10 sessions after the threshold.
+2. **Synced to `~/.claude/commands/end.md`** in the same pass.
+3. **npm publish and version bump deferred** — batching with next meaningful feature.
+
+### Next
+- npm publish when next meaningful Playbook change ships alongside v1.4.2
+- Option 3 (Stop hook + statusline monitoring for proactive context warnings) remains deferred
+
+## Session: 2026-05-23 — Security advisory (TeamPCP supply chain attack)
+
+### What was done
+1. **Researched TeamPCP attack via Perplexity** — confirmed: LiteLLM `1.82.7`/`1.82.8`, 42 `@tanstack/*` packages (May 11 UTC), 323 `@antv/*` packages, and Nx Console (`nrwl.angular-console`) v18.95.0 were the primary compromised artifacts.
+2. **Scanned all local repos** (playbook, cockpit, clenta, shopify-analytics-mcp, rosie-import, wildflower, magnum) — zero flagged packages in any dependency file or lockfile.
+3. **Confirmed litellm not installed** in default Python environment; no `litellm_init.pth` backdoor file found.
+4. **Checked magnum GitHub Actions** — no OIDC trusted publisher usage, not exposed to that CI vector.
+5. **Max confirmed VS Code extensions** — only Pylance, Python, Python Debugger, Python Environments. No Nx Console. All vectors closed.
+6. **PAT rotation clarified** — advisor-max-agent token is in Joseph's GitHub, not Max's. Max asked Joseph to rotate it.
+7. **Wrote sibling warning message** and copied to clipboard.
+
+### Result
+Max's code, repos, and local environment are clean. No remediation required beyond PAT rotation (delegated to Joseph).
+
+### Next
+- npm publish when next meaningful Playbook change ships alongside v1.4.2
+- Option 3 (Stop hook + statusline monitoring for proactive context warnings) remains deferred
 
 ## Session: 2026-05-17 — PreCompact hook (v1.4.1 → v1.4.2)
 

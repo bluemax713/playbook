@@ -12,11 +12,13 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - Update "Known Issues / Next Steps" — remove anything completed, add anything new discovered, reprioritize if needed. Be explicit about what's next and what's blocked
    - If any task is partially done, document exactly where it was left off and what remains
 
-3. **Trim WORK_LOG.md if needed.** Count the number of dated session entries (lines matching `## YYYY-MM-DD` or `### YYYY-MM-DD`). If there are more than 100 sessions:
+3. **Compress WORK_LOG.md if needed.** Count the number of entries — dated session headers (`## YYYY-MM-DD` or `### YYYY-MM-DD`) plus any existing `## Compressed:` blocks. If the total exceeds 100:
+   - Read the 10 oldest entries (whether raw sessions or prior compressed blocks)
+   - Summarize each to 2-3 bullets: what was done, what changed, what was decided
+   - Replace those 10 entries with a single block at the bottom: `## Compressed: [earliest date] – [latest date]` followed by the bullet summaries
    - Keep the Overall State / header section intact
-   - Keep the 100 most recent session entries
-   - Remove everything older — those sessions have served their purpose and the important bits should already be captured in Overall State and auto-memory
-   - Do NOT archive to a separate file — just delete. Git history has the full log if ever needed.
+   - Result: you drop from 101+ entries to ~92, with history preserved in compressed form
+   - This fires roughly once every 9-10 sessions — not every session after the limit
 
 4. **Update PM tool** (if MCP is connected). Mark completed tasks as done. Update in-progress tasks with status notes. Create new tasks for anything discovered during the session that needs tracking.
 
