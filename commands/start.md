@@ -1,5 +1,3 @@
-Read CLAUDE.md to understand the project rules and conventions.
-
 Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
 - Read the **first 30 lines** (Overall State, current status headers)
 - Read the **most recent session section** only (the first dated session entry)
@@ -17,7 +15,8 @@ Before anything else, silently check if a newer version of Playbook is available
 ### Pre-flight (silent — no output to user)
 
 1. Check if `~/.claude/.playbook-version` exists. If not, skip the update check entirely.
-2. Read the installed version from `~/.claude/.playbook-version`.
+2. **Daily throttle:** Check if `~/.claude/.playbook-last-update-check` exists and contains today's date (format: `YYYY-MM-DD`). If it does, skip the entire update check and go straight to the normal briefing. If not (file missing or date is old), proceed and write today's date to that file after the check completes — whether or not an update was found.
+3. Read the installed version from `~/.claude/.playbook-version`.
 3. Try to fetch the latest version:
    - **If git is available and `~/.claude/.playbook/` is a git repo:** Run `git -C ~/.claude/.playbook fetch origin main --quiet` then read `VERSION` from the fetched main branch using `git -C ~/.claude/.playbook show origin/main:VERSION`.
    - **If git is not available or fails:** Use `curl -sf https://raw.githubusercontent.com/bluemax713/playbook/main/VERSION` to get the latest version.

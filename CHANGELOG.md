@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.4.3] — 2026-05-25
+
+### Performance
+- **`/start` context reduction** — removed redundant `CLAUDE.md` read (already injected automatically into every session via system context). Added daily throttle on the Playbook update check: after the first check of the day, subsequent `/start` calls skip the git fetch + curl + CHANGELOG read entirely. Timestamp stored in `~/.claude/.playbook-last-update-check`.
+
 ## [1.4.2] — 2026-05-17
 
 ### Reliability

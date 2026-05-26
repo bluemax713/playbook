@@ -1,8 +1,19 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-24
+## Last updated: 2026-05-25
 
-## Overall State: v1.4.2 pushed to GitHub (npm publish deferred). PreCompact hook live. WORK_LOG compression logic updated — oldest 10 entries compressed instead of deleted when over 100.
+## Overall State: v1.4.3 published to npm. PreCompact hook live. /start optimized (CLAUDE.md read removed, update check throttled daily).
+
+## Session: 2026-05-25 — /start context reduction + npm publish
+
+### What was done
+1. **`commands/start.md`**: removed redundant CLAUDE.md read (already in system context automatically). Added daily throttle on update check — timestamp written to `~/.claude/.playbook-last-update-check`, skips git fetch + curl on subsequent /start calls same day.
+2. **Synced to `~/.claude/commands/start.md`** immediately.
+3. **Bumped to v1.4.3** — VERSION, CHANGELOG, `.playbook-version` all updated.
+4. **Published to npm** (`playbook-ai@1.4.3`) — ships both v1.4.2 (PreCompact hook) and v1.4.3 (/start optimization).
+
+### Next
+- Option 3 (Stop hook + statusline monitoring for proactive context warnings) remains deferred
 
 ## Session: 2026-05-24 — WORK_LOG compression logic
 
