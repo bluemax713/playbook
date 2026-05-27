@@ -1,8 +1,24 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-25
+## Last updated: 2026-05-26
 
-## Overall State: v1.4.3 published to npm. PreCompact hook live. /start optimized (CLAUDE.md read removed, update check throttled daily).
+## Overall State: v1.4.3 published to npm. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+
+## Session: 2026-05-26 — Sentry MCP wired into Claude Code
+
+### What was done
+1. **Researched Sentry MCP setup** — official server is `@sentry/mcp-server` at `https://mcp.sentry.dev/mcp`, uses HTTP transport with browser-based OAuth (no static API token needed in config).
+2. **Added to `~/.claude.json` at user scope** via: `claude mcp add --transport http --scope user sentry https://mcp.sentry.dev/mcp`. Available across all Claude Code projects on this machine.
+3. **Auth pending**: server shows "Needs authentication" — one-time browser OAuth completes on first `/mcp` invocation in any Claude Code session.
+4. **Saved memory** to `projects/-Users-maxassoulin-Documents-GitHub-playbook/memory/sentry-mcp.md` — setup command, auth flow, capabilities, Clenta usage notes.
+5. **Updated `MEMORY.md`** — added "MCP Servers (User Scope)" section with Sentry entry.
+
+### No Playbook repo changes
+This session was pure machine config — no commands, scripts, or versioned files changed. No commit needed.
+
+### Next
+- Complete Sentry OAuth: open any Claude Code session, type `/mcp`, authenticate in browser
+- Option 3 (Stop hook + statusline monitoring for proactive context warnings) remains deferred
 
 ## Session: 2026-05-25 — /start context reduction + npm publish
 
