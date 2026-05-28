@@ -1,10 +1,10 @@
-Scenario planning via three futures. Rewinds each path month by month to today, synthesizes the decisions that mattered most, and delivers a one-screen action guide with a clear first move. Runs intake in the main session, heavy reasoning in a fresh Opus 4.6 parallel session.
+Scenario planning via three futures. Rewinds each path month by month to today, synthesizes the decisions that mattered most, and delivers a one-screen action guide with a clear first move.
 
-**This command is self-contained.** Do not require `/start` to have been run. Do not depend on any prior session state. Read your own context.
+**Self-contained.** Does not require `/start`. Reads its own context.
 
 ---
 
-## Pre-flight (Sonnet, main session)
+## Pre-flight (Sonnet, inline)
 
 Silently read the following before doing anything else:
 - `WORK_LOG.md` in the current project
@@ -12,268 +12,244 @@ Silently read the following before doing anything else:
 - Recent git log (last 20 commits) if available
 - Any open/in-progress PM tasks if a PM MCP is connected
 
-Do not summarize this to the user. Use it to ground the scenarios in the actual project — real constraints, real state, real recent decisions. Generic scenarios are useless.
+Do not summarize this to the user. Use it to ground the scenarios in the actual project.
 
-**Check for prior runs.** Look for files in `docs/futures/` in the current project.
+**Check for prior runs.** Look for files in `docs/futures/`.
 
-- If prior run(s) exist: note the most recent one and ask the user: *"I see a /future from [date] — do you want to start fresh, or run an update? An update reads what's changed since then and revises the scenarios with actual data."* If they choose update, note it — the handoff prompt will include the prior output for comparison.
-- If no prior runs: proceed directly to intake.
+- If prior run(s) exist: note the most recent file and say: *"I see a /future from [date] — start fresh, or run an update? An update reads what's changed and revises the scenarios with actual data."*
+- If no prior runs: proceed to intake.
 
 ---
 
-## Intake (Sonnet, main session)
+## Intake (Sonnet, inline)
 
-Ask these questions conversationally — not as a numbered list. One at a time. Use follow-ups where an answer is thin.
+Ask conversationally — not as a numbered list. One question at a time. Follow up where answers are thin.
 
 **The north star**
-What does massive success look like in concrete terms at the end of the timeframe? Not "we grew a lot" — what's the specific outcome you'd be genuinely proud of? Name it as if it already happened.
+What does massive success look like in concrete terms? Not "we grew a lot" — what's the specific outcome you'd be genuinely proud of? Name it as if it already happened.
 
 **The fear**
-What's the specific failure that keeps you up at night? The scenario you'd be embarrassed to explain to someone who believed in you. Be direct.
+What's the specific failure that keeps you up at night? The one you'd be embarrassed to explain to someone who believed in you.
 
 **The constraints**
-What are the hard limits right now? Runway, team size, a deadline that isn't moveable, a dependency you're waiting on. What are you working around?
+What are the hard limits right now? Runway, team size, a deadline that can't move, a dependency you're waiting on.
 
 **Timeframe**
 Based on project context and what the user described, propose a timeframe:
 - 3–6 months: specific launch, campaign, or sprint with a hard end date
 - 12 months: default for most products and ventures
-- 18–24 months: platforms, infrastructure, or ventures still finding product-market fit
+- 18–24 months: platforms, infrastructure, or early-stage ventures
 
 Say: *"Based on what you've described, I'd suggest a [N]-month horizon — does that feel right?"* Confirm before proceeding.
 
 ---
 
-## Assumption check (Sonnet, main session)
+## Assumption check (Sonnet, inline)
 
-Before generating the handoff, do a brief assumption check. This is not a full `/plan` — keep it short.
+Brief — not a full /plan. Restate the user's success scenario in one sentence, then surface 2-3 assumptions it rests on. Ask which feel solid and which feel shaky.
 
-Restate the user's success scenario in one sentence. Then surface the 2–3 assumptions it rests on — the things that need to be true for that outcome to be achievable. Ask the user directly which ones feel solid and which feel shaky.
+*"Your success scenario — [restate it] — rests on a few things being true: [A], [B], [C]. Which of these feel solid, and which feel like open questions? Anything shaky will shape what The Unraveling looks like."*
 
-Example framing: *"Your success scenario — [restate it] — rests on a few things being true: [A], [B], [C]. Which of these feel solid, and which feel like open questions? Anything shaky here will shape what The Unraveling looks like."*
-
-Listen to the response. Shaky assumptions become the seeds of The Unraveling. Note them — they go into the handoff prompt.
+Note the shaky ones. They go into the brief.
 
 ---
 
-## Generate the handoff prompt
+## Retrospective step (Sonnet subagent — only if prior run exists)
 
-Compile everything from pre-flight, intake, and the assumption check into a self-contained futures brief. Fill in all [BRACKETS] with real values — current date, actual repo path (use the current working directory), a short project slug derived from the context.
+If the user chose the update path: before writing the main brief, spawn a lightweight Sonnet subagent to do the comparison work.
 
-Create the `docs/futures/` directory in the current project if it doesn't already exist.
+Subagent receives:
+- The prior /future output (read from `docs/futures/[most-recent-file].md` — the ## Output section only)
+- The user's answer to: *"What's the most significant thing that's changed since then — in the project, market, or your constraints?"*
 
-Present the completed handoff prompt to the user in a clearly labeled block:
-
-> **Open a new terminal window and paste this entire block:**
-
----
-
-### Handoff prompt (embed verbatim — this is what runs in the parallel session)
+Subagent produces: a 200-300 word comparison note — what the prior thesis got right, where reality diverged, what that changes going into the updated scenarios. This note gets included in the main brief so the Opus subagent doesn't need to re-read the full prior file.
 
 ---
 
-You are running a /future scenario planning session. Intake is complete — all context is below. Your job is to write three specific, honest narratives and synthesize them into a one-screen action guide the user can act on immediately. Do not ask questions. Do not invoke any slash commands. Run straight through.
+## Generate the brief and spawn subagent
 
-Run on Opus 4.6 (`claude-opus-4-6`). Do not switch models.
+Compile everything into a futures brief file and spawn an Opus 4.6 subagent. Follow the `/handoff` pattern.
 
----
+**1. Write the brief**
 
-**PROJECT CONTEXT**
-[Paste key context from WORK_LOG, CLAUDE.md, and recent git activity — current state, recent decisions, known constraints. 3–5 bullet points. Enough for grounding, not a wall of text.]
-
-**NORTH STAR**
-[What the user described as massive success — specific, concrete, past tense]
-
-**THE FEAR**
-[The specific failure they named]
-
-**HARD CONSTRAINTS**
-[Runway, team size, deadlines, dependencies]
-
-**TIMEFRAME**
-[N months — confirmed with user]
-
-**SHAKY ASSUMPTIONS**
-[The assumptions from the assumption check that the user flagged as uncertain — these seed The Unraveling]
-
-**PRIOR /FUTURE** *(include only if retrospective mode)*
-[Paste the full prior /future primary output here. Note the date it was run.]
-[Add one line: "The user says the following has changed since then: [what they described]"]
+Create `docs/futures/` if it doesn't exist. Write `docs/futures/YYYY-MM-DD-[slug].md` using the template below. Fill in all [BRACKETS] with real values.
 
 ---
 
-**FRAMEWORK**
+```
+# Future Brief — [YYYY-MM-DD] — [slug]
+[Fresh run / Retrospective update from [prior date]]
 
-Surface your reasoning in chat as you go — the user may be watching in real time.
+## Run instructions
+Run on Opus 4.6 (claude-opus-4-6). Do not switch models. Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
 
----
+## Project context
+[3-5 bullet points from WORK_LOG + CLAUDE.md: current state, recent decisions, known constraints. Enough to ground the scenarios — not a wall of text.]
 
-**Step 1 — Three narratives**
+## Intake
+- North star: [specific success outcome, past tense]
+- Fear: [specific failure]
+- Constraints: [runway, team, deadlines, dependencies]
+- Timeframe: [N months]
+- Shaky assumptions: [the ones the user flagged as uncertain]
 
-Write all three. Past tense throughout. The voice: explaining what happened to someone who loves you and won't let you bullshit them. Honest, specific, no spin. Start each narrative at the end of the timeframe and rewind month by month to today. Name decisions, not themes. Name the moments where the path forked.
+[If retrospective:]
+## What's changed since [prior date]
+[The 200-300 word comparison note from the Sonnet retrospective step]
+
+## Futures framework
+
+**Three narratives**
+
+Write all three in past tense. Voice: explaining what happened to someone who loves you and won't let you bullshit them. Start each at the end of the timeframe and rewind month by month to today. Name decisions, not themes. Name the fork points.
 
 **The Win**
-
-Massive success landed. What happened? What decisions and actions were instrumental? What did you do in month 2 that set up month 8? What did you resist that would have derailed you? What external factors helped — and what did you do to be positioned to benefit from them?
+Massive success. What decisions and actions were instrumental? What did you do in month 2 that set up month 8? What did you resist that would have derailed you?
 
 Cover:
-- The decisions that compounded (small early, large later)
+- The decisions that compounded early and paid off late
 - The things you didn't do that turned out to matter
-- The moment it could have gone either way, and what made it go right
+- The moment it could have gone either way — and what made it go right
+- External factors that helped, and what you did to be positioned for them
 
 **The Unraveling**
-
-Massive failure. What happened? What specific decisions, delays, and patterns led there? What looked reasonable at the time but wasn't? What was done instead of what mattered? When did you first know something was wrong, and what did you do (or not do) about it?
-
-Anchor this in the shaky assumptions from intake — show how they played out.
+Massive failure. Anchor this in the shaky assumptions from intake — show how they played out.
 
 Cover:
-- What was tempting but harmful (the anti-patterns that looked like good ideas)
+- What was tempting but harmful (looked like a good idea at the time)
 - What was delayed past the point of recovery
 - The earliest warning sign — before it became obvious
 - What you'd tell yourself in month 2 if you could
 
 **The Headwind**
-
-You did almost everything right. The universe didn't cooperate. This scenario teaches a different lesson — not what you did wrong, but what you needed to be resilient against.
-
-What external forces hit that you couldn't have fully predicted? A market shift, a competitor move, a platform change, a regulatory event, a macro condition, a key relationship that fell through.
+You did almost everything right. The universe didn't cooperate. This scenario teaches what you need to be resilient against, not just what to do differently.
 
 Cover:
-- What you were exposed to that you didn't need to be
-- What resilience you had or hadn't built
-- The difference between "bad luck" and "we were fragile in a way we could have fixed"
-- What the real ceiling was, even with strong execution
+- What external forces hit that you couldn't have fully predicted
+- What exposure you had that you didn't need
+- What resilience you had — and what you wish you'd built
+- The real ceiling on what was achievable, even with strong execution
 
-*If this is a retrospective run:* For each narrative, note where the prior projections diverged from what actually happened. What did the prior /future get right? What did it miss? This grounds the updated scenarios in real data, not pure speculation.
-
----
-
-**Step 2 — Synthesis**
-
-Do this reasoning internally. Only the output appears.
-
-**Quadrant analysis**
-
-Classify every significant decision and action across the three scenarios:
-
-- ✅ **Double-confirmed critical** — appears in The Win AND its absence drives The Unraveling. Highest-confidence levers.
-- ⚠️ **Swing-state** — present in both Win and Unraveling, but executed differently. These are the hard calls with imperfect information. Flag each one — don't flatten them into simple advice.
-- ❌ **Failure driver** — appears in The Unraveling, absent from The Win. The anti-patterns.
-- **Resilience gap** — surfaces from The Headwind. Within your control, but requires deliberate preparation.
-
-**Leading indicators**
-
-For each ❌ failure driver and ⚠️ swing-state decision: what was the *earliest signal* it was going wrong? Not month 8 — month 2. Extract from the narratives. These are the monitoring signals, not asked of the user.
-
-**Irreversibility**
-
-Tag each ✅ and ⚠️ item:
-- *(irreversible)* — hiring, pricing model, core tech choices, pivots, strategic commitments. Deserves more upfront thought.
-- *(iterable)* — can be course-corrected without major cost.
-
-**Chess flag**
-
-For each ⚠️ swing-state decision: does it involve a real counterparty with competing interests — a negotiation, a key hire where the candidate has leverage, a partnership where the other party wants different things? If yes, mark it: *[/chess candidate]*
-
-**Order by when**
-
-Sort all output items by when the decision needs to be made. Timing drives action. Importance doesn't.
+[If retrospective:] For each narrative, note where the prior projections diverged from what actually happened. What did the prior /future get right? What did it miss?
 
 ---
 
-**Step 3 — Primary output**
+**Synthesis**
 
-Write the one-screen output. This is what goes back to the main session. Keep it tight — everything that matters, nothing that doesn't.
+Do this reasoning internally. Only the output appears in the final results.
+
+**Quadrant analysis** — classify every significant decision/action across the three scenarios:
+- ✅ Double-confirmed critical — appears in The Win AND its absence drives The Unraveling. Highest-confidence levers.
+- ⚠️ Swing-state — present in both Win and Unraveling but executed differently. Hard calls, not obvious moves. Flag each — don't flatten them.
+- ❌ Failure driver — appears in The Unraveling, absent from The Win. Anti-patterns.
+- Resilience gap — surfaces from The Headwind. Within your control but requires deliberate preparation.
+
+**Leading indicators** — for each ❌ and ⚠️ item: what was the earliest signal it was going wrong? Not month 8 — month 2. Extract from the narratives, not asked of the user.
+
+**Irreversibility** — tag each ✅ and ⚠️ item:
+- *(irreversible)* — hiring, pricing model, core tech choices, pivots, strategic commitments
+- *(iterable)* — can be course-corrected without major cost
+
+**Order by when** — sort output items by when the decision needs to be made. Timing drives action.
+
+**Chess candidates** — for each ⚠️ swing-state decision: does it involve a real counterparty with genuinely competing interests? If yes, note it internally. These get surfaced in the /chess bridge section of the output.
 
 ---
+
+**Primary output**
+
+Write the one-screen summary. Tight — everything that matters, nothing that doesn't.
 
 **The thesis**
+One paragraph. The single most important variable separating The Win from The Unraveling. Name the one fork in the road.
 
-One paragraph. The single most important variable — the fork in the road that, more than anything else, separates The Win from The Unraveling. Don't list three things. Name the one.
+[If retrospective:] One sentence first: whether the prior thesis still holds or has shifted.
 
-*If retrospective:* Open with one sentence on whether the prior thesis still holds or has shifted based on what's happened.
-
----
-
-**3 load-bearing decisions** *(✅ double-confirmed, ordered by when)*
+**3 load-bearing decisions** (✅ double-confirmed, ordered by when)
 
 For each:
 - **The decision** — stated plainly
-- **When it needs to be made** — a specific window, not "eventually"
-- **Early warning sign** — the earliest signal it's going wrong
+- **When** — specific window, not "eventually"
+- **Early warning sign** — earliest signal it's going wrong
 - Mark *(irreversible)* where it applies
-- Mark *[/chess candidate]* where it applies
 
-Three max. If more surfaced, they go in the appendix.
+Three max.
 
----
-
-**3 things not to do** *(❌ failure drivers)*
+**3 things not to do** (❌ failure drivers)
 
 For each:
 - **The anti-pattern** — what it is
-- **Why it's tempting** — if it weren't tempting, you wouldn't need the warning
-- **The signal you're sliding into it** — earliest sign, before it's entrenched
+- **Why it's tempting** — if it weren't, you wouldn't need the warning
+- **The signal you're sliding into it** — earliest sign
 
-Three max. The most dangerous — the ones that looked like good ideas.
-
----
+Three max.
 
 **Your move this week**
-
-One or two specific actions, this week. The entry point into the critical path. Everything else waits until these are done.
-
----
-
-*Full narratives, complete quadrant, and everything else the exercise surfaced are in the appendix. Ask to see it.*
+One or two specific actions, this week. Entry point into the critical path.
 
 ---
 
-**Step 4 — Save and return**
-
-1. Write the full output to: `[REPO_PATH]/docs/futures/[YYYY-MM-DD]-[project-slug].md`
-   - Create the directory if it doesn't exist
-   - Structure: all three narratives → full quadrant synthesis → primary output
-   - Include the date run at the top
-
-2. Display the **primary output only** (thesis → 3 decisions → 3 anti-patterns → your move) in chat so the user can read it.
-
-3. Display this block at the end — formatted exactly as shown:
+*Full narratives, complete quadrant, and everything else surfaced are in the appendix. Ask to see it.*
 
 ---
-**Return prompt — paste this into your original session:**
 
-> /future session complete. The full output is saved at `[REPO_PATH]/docs/futures/[YYYY-MM-DD]-[project-slug].md`. Here is the one-screen summary — bring it into our working context so we can discuss next steps and act on it:
+## Output
+
+*(appended by subagent)*
+```
+
+---
+
+**2. Show intake summary and get approval**
+
+Display a short summary in chat: north star in one sentence, fear, constraints, timeframe, shaky assumptions. Do NOT show the full framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
+
+If the user wants to review or edit: *"The full brief is at [path] if you want to adjust anything first."*
+
+**3. Cost warning**
+
+*"This runs on Opus 4.6 — noticeably more expensive than a standard session. Proceed?"*
+
+**4. Spawn the subagent**
+
+Spawn an Agent (`model: 'opus'`): *"Read [absolute path to brief file] in full, then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
+
+**5. Surface results**
+
+When the subagent returns, present the one-screen primary output (thesis → 3 decisions → 3 anti-patterns → your move this week) in the main session for discussion.
+
+---
+
+## /chess bridge (after results return)
+
+After presenting the primary output, evaluate the chess candidates the subagent identified. For each ⚠️ swing-state decision that involves a real counterparty:
+
+Apply a strict filter before surfacing. BOTH must be true:
+1. **Real adversarial tension** — a counterparty whose interests genuinely compete with yours, not just a vendor you're selecting or a partner whose goals are aligned
+2. **Material and hard to reverse** — significant money, a strategic dependency, or a relationship where getting it wrong costs you something you can't easily get back
+
+If both aren't true, don't mention /chess. Most /future runs surface zero chess candidates. One is meaningful.
+
+**When a candidate clears the filter**, present it as:
+
+> **[Decision name]**
+> [One sentence: what the decision is and who the counterparty is.]
+> [One sentence: what their competing interest is and why that creates genuine tension.]
+> [One sentence: what's at stake — the material downside or opportunity cost if this goes wrong.]
+> **Recommendation: [Run /chess / Skip /chess]** — [one-line rationale]
 >
-> [Paste the primary output verbatim here — thesis through "your move this week"]
----
+> *Run /chess on this?*
 
-4. Close with a clearly formatted terminal closer — display exactly this as the final output:
+The recommendation to run should be conservative. If the stakes are meaningful and the outcome is genuinely uncertain, recommend run. If the adversarial component is minor, the counterparty's interests are broadly aligned, or the decision is iterable — recommend skip.
 
-```
-Future session complete. You can close this window.
-(Do not run /end — the primary session handles closeout.)
-```
+If no candidates clear the filter, say nothing about /chess.
 
 ---
 
-End of handoff prompt.
+## Follow-up
 
----
-
-After presenting the handoff prompt to the user, say:
-
-> *"Open a new terminal, paste the block above, and watch it run. When it's done, use the return prompt to bring the output back here so we can discuss it and act on it."*
-
----
-
-## After the return (main session)
-
-When the user pastes the return prompt back, the one-screen output is now live in the main session as working context. Discuss it directly — load-bearing decisions, anti-patterns, the thesis, anything they want to dig into.
-
-If any decisions are marked *[/chess candidate]*, surface this: *"Decision [X] has a counterparty component — /chess would let us model how that plays out before you commit."*
-
-Offer the 30-day follow-up once, as a single line:
+After the /chess bridge (or if no chess candidates), offer once:
 - If ClickUp MCP is connected: *"Want me to create a ClickUp task to review the load-bearing decisions 30 days from now?"*
 - Otherwise: *"Want me to add a 30-day review reminder to WORK_LOG.md?"*
+
+One line. Don't push it.

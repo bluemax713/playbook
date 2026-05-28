@@ -2,6 +2,18 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.5.2] — 2026-05-28
+
+### Architecture
+- **Subagent model replaces manual handoffs** — `/chess`, `/future`, and `/plan` no longer generate copy-paste prompt blocks for new terminals. All three now spawn Agent subagents directly, with the appropriate model (Opus 4.6 for `/chess` Human Mode and `/future` narratives; Sonnet for `/plan` and `/chess` System Mode). Fresh context window, results return automatically to the main session. No terminal switching, no copy-pasting.
+- **Brief file pattern** — all commands write a structured `.md` brief before spawning. The subagent reads the file (intake data + execution framework); the user reviews a short intake summary in chat (~150-250 words), not the full brief. Output is appended to the same file — brief and results live together as one artifact. Full brief available at `docs/chess/`, `docs/futures/`, or `docs/plans/` for review or editing before running.
+- **`/handoff` rewritten** — now defines the canonical subagent pattern: write brief → show summary → cost warning (Opus only) → spawn Agent → receive results → continue in main session. Used as the reference by `/chess`, `/future`, and `/plan`.
+
+### Commands
+- **`/plan`** — Phase 1 stays inline (conversational direction-setting). Phases 2+3 (hardening + implementation steps) now spawn a Sonnet subagent for complex plans, keeping the main session lean. Simple plans continue inline. Self-contained — no `/start` required.
+- **`/chess`** — Self-contained. Intake summary shown in chat for approval; cost warning before Opus spawn. Chess brief written to `docs/chess/YYYY-MM-DD-[slug].md`; full debrief appended to same file. System Mode: inline Sonnet for simple systems, Sonnet subagent for complex, Opus subagent only when system complexity genuinely warrants it.
+- **`/future`** — `/chess` bridge updated: each swing-state adversarial decision gets a 3-sentence context block (what it is, why it's adversarial, what's at stake) plus an explicit recommendation (run / skip) and a direct *"Run /chess on this?"* confirmation. High threshold for recommending run — both material AND genuinely adversarial. Conservative by default: most runs surface zero chess candidates.
+
 ## [1.5.1] — 2026-05-28
 
 ### Strategy

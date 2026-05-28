@@ -1,4 +1,6 @@
-Adversarial strategy analysis and technical stress-testing. Two modes: Human Mode (opponent-modeled, branch-traced) for situations with a real adversary; System Mode (assumption-attack, failure-traced) for technical plans with no human counterparty. Intake runs in the primary session (Sonnet). Human Mode generates a parallel Opus 4.6 handoff; System Mode runs inline.
+Adversarial strategy analysis and technical stress-testing. Two modes: Human Mode (opponent-modeled, branch-traced) for situations with a real adversary; System Mode (assumption-attack, failure-traced) for technical plans with no human counterparty.
+
+**Self-contained.** Does not require `/start`. Reads its own context.
 
 ---
 
@@ -14,15 +16,13 @@ Three routes. Assess before doing anything else.
 
 **Borderline:** Name what makes it ambiguous. Ask the user to confirm before proceeding.
 
-The pre-flight runs on Sonnet. Do not begin intake until the route is confirmed.
-
 ---
 
 ## Human Mode
 
-### Intake: Build the chess brief
+### Intake
 
-Run in the primary session on Sonnet. Ask these questions conversationally — not as a numbered list. Group related questions naturally. Use follow-ups where the answer is thin. The goal is a complete picture before the chess engine runs.
+Run in the main session on Sonnet. Ask conversationally — not as a numbered list. Group related questions naturally. Use follow-ups where the answer is thin.
 
 **The situation**
 - What is the decision, negotiation, or situation you're navigating?
@@ -49,55 +49,61 @@ Run in the primary session on Sonnet. Ask these questions conversationally — n
 - What moves are you currently considering?
 - What counts as a win? An acceptable outcome? A loss?
 
-Once intake is complete, read the summary back to the user and confirm it's accurate before generating the handoff prompt.
+---
+
+### Generate the brief and spawn subagent
+
+Once intake is complete, compile everything into a chess brief file and spawn an Opus 4.6 subagent. Follow the `/handoff` pattern.
+
+**1. Write the brief**
+
+Create `docs/chess/` if it doesn't exist. Write `docs/chess/YYYY-MM-DD-[slug].md` using the template below. Fill in all [BRACKETS] with real values.
 
 ---
 
-### Generate the handoff prompt
+```
+# Chess Brief — [YYYY-MM-DD] — [slug]
+*Human Mode*
 
-Compile everything from intake into a self-contained chess brief. Fill in all [BRACKETS] with real values — current date, actual repo path (use the current working directory), and a short topic slug derived from the situation (e.g., `hilldun-negotiation`, `board-vote`, `vendor-renewal`).
+## Run instructions
+Run on Opus 4.6 (claude-opus-4-6). Do not switch models. Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
 
-Create the `docs/chess/` directory in the current project if it doesn't already exist.
+## Situation
+[Situation summary]
 
-Present the completed handoff prompt to the user in a clearly labeled block:
-
-> **Open a new terminal window and paste this entire block:**
-
----
-
-#### Handoff prompt (embed verbatim — this is what runs in the parallel session)
-
----
-
-You are running a chess-style adversarial analysis. Intake is complete — all context is below. Your job is to think several moves ahead, model each adversary's rational behavior, and produce a debrief the user can act on. Do not ask questions. Do not invoke any slash commands. Run straight through.
-
-Run on Opus 4.6 (`claude-opus-4-6`). Do not switch models.
-
----
-
-**SITUATION**
-[Paste situation summary]
-
-**OBJECTIVE**
+## Objective
 [What the user is trying to achieve]
 
-**TIME HORIZON**
+## Time horizon
 [One-time / ongoing / deadline: YYYY-MM-DD]
 
-**YOUR POSITION**
-[Standing (stronger/equal/weaker), BATNA, non-negotiables, information held back, what adversary likely assumes]
+## Your position
+Standing: [stronger / equal / weaker]
+BATNA: [best alternative if this doesn't go their way]
+Non-negotiables: [what they won't concede]
+Information held back: [what they're not disclosing]
+What adversary likely assumes: [their read of the user's position]
 
-**ADVERSARIES**
-[For each: name/role, primary goal, secondary interests, motivations, aggression level, BATNA, constraints, what they know about the user]
+## Adversaries
+[For each adversary:]
+**[Name / Role]**
+- Primary goal: [what they want most]
+- Secondary interests: [other things they care about]
+- Motivations: [financial / ego / power / relationship / legal / other]
+- Aggression level: [passive / moderate / aggressive]
+- BATNA: [their best alternative]
+- Constraints: [budget limits, authority limits, approvals needed, external pressures]
+- What they know: [their read of the user's position]
 
-**THE BOARD**
-[Current state, moves already made or said, moves under consideration, definition of win / acceptable / loss]
+## The board
+Current state: [what's happening right now]
+Moves already made: [what's been said or done that constrains the situation]
+Moves under consideration: [what the user is thinking about doing]
+Win: [definition]
+Acceptable: [definition]
+Loss: [definition]
 
----
-
-**CHESS REASONING FRAMEWORK**
-
-Surface your reasoning in chat as you go — the user is watching in real time.
+## Chess reasoning framework
 
 **Step 1 — Inhabit each adversary**
 
@@ -110,7 +116,6 @@ Stay strictly within rational human motivation. Model what a reasonable person i
 For each move the user is considering, trace the likely sequence of responses 3–4 moves deep, or until the path reaches a clearly labeled terminal state. Prune branches that are implausible given the adversary's model — don't trace everything, trace what matters.
 
 Format each branch as:
-
 ```
 Your move → Adversary response → Your counter → Their counter → Terminal: [favorable / acceptable / problematic]
                                → Risk branch: if [X] instead  → Terminal: [recovery cost]
@@ -126,56 +131,53 @@ Where in the move tree can you shift a terminal state? What moves create future 
 
 **Step 5 — Recommended line**
 
-State the recommended opening move clearly. Explain why it scores better than the alternatives across the terminal states. Include the top 2 contingency responses for the most likely adversary deviation from the expected path.
+State the recommended opening move clearly. Explain why it scores better than the alternatives across the terminal states. Include the top 2 contingency responses for the most likely adversary deviation.
 
 Be specific: *"Open with X. If they respond with Y, do Z. If they respond with W instead, do V."*
 
----
-
-**OUTPUT**
-
-When the analysis is complete:
-
-1. Write the full debrief to: `[REPO_PATH]/docs/chess/[YYYY-MM-DD]-[topic-slug].md`
-   - Create the directory if it doesn't exist
-   - Structure: Situation → Adversary models → Move tree → Recommended line → Contingencies → Assumption flags
-
-2. Display the full debrief in chat so the user can read through it.
-
-3. Display this block at the end — formatted exactly as shown:
+## Output format
+Structure the output as:
+1. Adversary models — internal model for each adversary
+2. Move tree — branches traced per Step 2
+3. Recommended line — the opening move and top 2 contingencies
+4. Assumption flags — where the analysis is most fragile
 
 ---
-**Return prompt — paste this into your original session:**
 
-> Chess debrief complete. Read the analysis at `[REPO_PATH]/docs/chess/[YYYY-MM-DD]-[topic-slug].md` and pull the recommended line and top contingencies into our working context so we can decide next steps.
----
+## Output
 
-4. Close with a clearly formatted terminal closer — display exactly this as the final output:
-
-```
-Chess session complete. You can close this window.
-(Do not run /end — the primary session handles closeout.)
+*(appended by subagent)*
 ```
 
 ---
 
-End of handoff prompt.
+**2. Show intake summary and get approval**
 
----
+Display a short summary in chat: situation in one sentence, objective, adversaries named, key position details (standing, BATNA, non-negotiables). Do NOT show the full framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
 
-After presenting the handoff prompt to the user, say:
+If the user wants to review or edit before running: *"The full brief is at [path] if you want to adjust anything first."*
 
-> *"Open a new terminal, paste the block above, and watch the chess engine work. When it's done, use the return prompt to bring the debrief back into this session."*
+**3. Cost warning**
+
+*"This runs on Opus 4.6 — noticeably more expensive than a standard session. Proceed?"*
+
+**4. Spawn the subagent**
+
+Spawn an Agent (`model: 'opus'`): *"Read [absolute path to brief file] in full, then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
+
+**5. Surface results**
+
+When the subagent returns, present the recommended line and top contingencies in the main session. The full debrief is in the brief file at `docs/chess/[filename]`.
 
 ---
 
 ## System Mode
 
-### Intake: Build the stress-test brief
+### Intake
 
 If the system, plan, and constraints are already established in the conversation, skip directly to the stress-test. Only ask for information that's genuinely missing.
 
-If context is thin, ask conversationally — not as a numbered list. Use follow-ups where the answer is thin. The goal is a complete picture before the stress-test runs.
+If context is thin, ask conversationally:
 
 **The system**
 - What are you trying to build, fix, or change?
@@ -187,13 +189,15 @@ If context is thin, ask conversationally — not as a numbered list. Use follow-
 - What outcome are you trying to guarantee?
 - What's an acceptable failure mode vs. an unacceptable one?
 
-Once you have sufficient context, proceed directly — no need to read it back unless something is ambiguous.
-
 ---
 
-### System stress-test framework
+### System stress-test
 
-Default: run inline on Sonnet. Escalate to Opus 4.6 inline (no parallel session) when the system is complex enough that a shallow pass would miss real risks — multiple interacting services, deep dependency chains, complex state machines. Surface your reasoning in chat as you go.
+**Simple systems** (single service, clear dependencies, limited blast radius): run inline on Sonnet. No subagent needed.
+
+**Complex systems** (multiple interacting services, deep dependency chains, complex state machines): follow the `/handoff` pattern. Write a brief to `docs/chess/YYYY-MM-DD-[slug]-system.md` with the system description, plan, and the framework below. Spawn a Sonnet subagent (`model: 'sonnet'`). Escalate the subagent to Opus 4.6 (`model: 'opus'`) only when the system complexity genuinely warrants it.
+
+Surface reasoning in chat as you go.
 
 **Step 1 — Map the assumptions**
 

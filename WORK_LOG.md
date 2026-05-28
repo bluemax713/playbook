@@ -2,7 +2,24 @@
 
 ## Last updated: 2026-05-28
 
-## Overall State: v1.5.1 — /future upgraded to handoff model + retrospective mode. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+## Overall State: v1.5.2 — subagent model replaces manual handoffs across /chess, /future, /plan, /handoff. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+
+## Session: 2026-05-28 — v1.5.2 subagent architecture
+
+### What was done
+1. **Rewrote `commands/handoff.md`** — defines the canonical subagent pattern: write brief to .md file → show intake summary in chat (150-250 words, not full brief) → cost warning for Opus → spawn Agent subagent → output appended to same file → results in main session. Replaces the old copy-paste terminal approach entirely.
+2. **Rewrote `commands/chess.md`** — self-contained. Intake stays in main session (Sonnet). Chess brief written to `docs/chess/YYYY-MM-DD-[slug].md` (intake data + full chess framework). Short summary shown in chat for approval. Cost warning before spawning Opus 4.6 subagent. Full debrief appended to brief file. System Mode: inline Sonnet for simple, Sonnet subagent for complex, Opus subagent only when warranted.
+3. **Rewrote `commands/future.md`** — subagent model replaces handoff. Added model routing (Haiku/Sonnet for pre-flight + intake + brief; Sonnet subagent for retrospective comparison; Opus 4.6 subagent for narratives + synthesis). /chess bridge upgraded: 3-sentence context block + recommendation (run/skip) + "Run /chess on this?" confirmation. High threshold: both material AND genuinely adversarial before /chess is even mentioned.
+4. **Updated `commands/plan.md`** — self-contained. Phase 1 stays inline. Phases 2+3 spawn Sonnet subagent for complex plans; simple plans stay inline.
+5. **Synced all four to `~/.claude/commands/`** immediately.
+6. **Bumped to v1.5.2** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+7. **Published to npm** (playbook-ai@1.5.2).
+
+### Key design decisions
+- Brief file = intake data + execution framework. Subagent reads file, not inline context — keeps main session lean.
+- User reviews intake summary (their words reflected back, ~200 words), not the full framework. The framework is fixed; their inputs are what need approval.
+- /chess bridge: zero candidates is normal. One is meaningful. Recommendation is explicit, not hedged. Filter: BOTH material AND adversarial required.
+- Haiku for pre-flight file reads; Sonnet for retrospective comparison; Opus only for narrative generation + chess analysis where quality is non-negotiable.
 
 ## Session: 2026-05-28 — /future v1.5.1 upgrade
 
