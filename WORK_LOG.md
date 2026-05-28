@@ -1,8 +1,28 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-26
+## Last updated: 2026-05-27
 
-## Overall State: v1.4.3 published to npm. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+## Overall State: v1.5.0 — /future command added. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+
+## Session: 2026-05-27 — /future command
+
+### What was done
+1. **Designed `/future` command** — extended conversation to flesh out the concept before building: three-scenario structure (The Win, The Unraveling, The Headwind), quadrant synthesis approach, leading indicators extracted from narratives (not asked of user), one-screen output constraint, tiered decision taxonomy.
+2. **Built `commands/future.md`** — full command: silent pre-read, conversational intake (north star, fear, constraints, timeframe), three narratives in past tense, internal synthesis (quadrant analysis + leading indicators + irreversibility tagging), one-screen primary output (thesis + 3 load-bearing decisions + 3 anti-patterns + move this week), appendix on request, 30-day follow-up hook.
+3. **Synced to `~/.claude/commands/future.md`** immediately.
+4. **Bumped to v1.5.0** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+
+### Key design decisions
+- Three scenarios, not two: The Headwind (did everything right, world didn't cooperate) surfaces resilience gaps that success/failure scenarios miss
+- Leading indicators derived FROM narratives by Claude, not asked of user — bypasses confirmation bias
+- Output ordered by *when* decisions need to be made, not importance — timing drives action
+- One-screen primary output; full narratives in appendix — avoids the "so thorough you do nothing" failure mode
+- Narrator voice: "telling someone who loves you and won't let you bullshit them" — honest + specific, no case-study spin
+- Decision saved to `docs/decisions/` not warranted here — design rationale lives in WORK_LOG
+
+### Next
+- Publish to npm when ready (npm login && cd ~/Documents/GitHub/playbook && npm publish --access public)
+- Consider a `/future` reference doc in `docs/` similar to chess-command-reference.md if the command proves complex in practice
 
 ## Session: 2026-05-26 — Sentry MCP wired into Claude Code
 

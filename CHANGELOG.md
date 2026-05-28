@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.5.0] — 2026-05-27
+
+### Strategy
+- **New `/future` command** — scenario planning via three futures (The Win, The Unraveling, The Headwind). Reads project context silently, runs a short intake, then writes three past-tense narratives rewound month by month to today. Synthesizes them via quadrant analysis to surface double-confirmed critical actions, swing-state decisions, and failure drivers. Output is one screen: a thesis, 3 load-bearing decisions (ordered by when they must be made), 3 anti-patterns to avoid (with why they're tempting and the early signal you're sliding in), and your move this week. Full narratives available in appendix on request. Ends with an optional 30-day ClickUp or WORK_LOG check-in. The third scenario (The Headwind) is the one most people skip — it surfaces external forces you need to be resilient against, not just what you did right or wrong.
+
 ## [1.4.3] — 2026-05-25
 
 ### Performance
