@@ -2,6 +2,16 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.5.1] — 2026-05-28
+
+### Strategy
+- **`/future` upgraded to handoff model** — now runs the same way as `/chess`: intake and assumption check in the main session (Sonnet), three narratives and synthesis in a fresh Opus 4.6 parallel session. Keeps main session clean; returns the one-screen primary output via return prompt so the user can discuss it immediately. Self-contained — does not require `/start` to have been run first.
+- **Retrospective mode** — on startup, `/future` checks `docs/futures/` for prior runs. If found, offers to run an update that reads what's changed since the prior session and revises the scenarios with actual data. Turns a one-time exercise into a navigation system.
+- **Assumption check** — brief pre-scenario check (borrowed from `/plan`): surfaces the 2–3 assumptions baked into the user's success scenario and asks which feel shaky. Shaky assumptions seed The Unraveling, making it specific rather than generic.
+- **Synthesis verdicts** — quadrant output now uses ✅ / ⚠️ / ❌ format (borrowed from `/chess` System Mode) for scannability.
+- **`/chess` bridge** — swing-state decisions with a real counterparty are flagged `[/chess candidate]` in the output. Creates a natural hand-off between strategic planning and adversarial analysis.
+- **Saves to `docs/futures/`** — full output (all three narratives + synthesis + primary output) persisted as a dated file. Primary output returned verbatim to main session for discussion.
+
 ## [1.5.0] — 2026-05-27
 
 ### Strategy

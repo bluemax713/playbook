@@ -1,8 +1,29 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-27
+## Last updated: 2026-05-28
 
-## Overall State: v1.5.0 — /future command added. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+## Overall State: v1.5.1 — /future upgraded to handoff model + retrospective mode. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+
+## Session: 2026-05-28 — /future v1.5.1 upgrade
+
+### What was done
+1. **Rewrote `commands/future.md`** — full redesign based on design review:
+   - Self-contained: reads its own context, no /start dependency (same as /chess)
+   - Model routing: Sonnet for intake + assumption check, Opus 4.6 for narratives + synthesis via handoff
+   - Handoff pattern: intake in main session, parallel Opus session does the heavy lifting, return prompt pastes one-screen output back to main session for discussion
+   - Assumption check phase: brief pre-scenario check surfaces shaky assumptions (borrowed from /plan); they seed The Unraveling
+   - Synthesis verdicts: ✅ / ⚠️ / ❌ format (borrowed from /chess System Mode)
+   - /chess bridge: swing-state decisions with counterparties flagged as [/chess candidate]
+   - Retrospective mode: checks docs/futures/ for prior runs; offers update that reads what's changed
+   - Saves full output to docs/futures/YYYY-MM-DD-[project-slug].md
+2. **Synced to `~/.claude/commands/future.md`** immediately.
+3. **Bumped to v1.5.1** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+4. **Published to npm** (playbook-ai@1.5.1).
+
+### Key design decisions
+- Handoff pattern chosen over inline because: narratives + synthesis produce 3000-5000 tokens of context; fresh Opus context produces better scenarios; keeps main session clean for discussion after return
+- Unlike /chess, /future's parallel session does NOT close — the return prompt brings one-screen output verbatim to main session so discussion continues there
+- Retrospective mode is the highest-value unlock: running /future every 3 months and comparing projections to reality turns it from a planning tool into a navigation system
 
 ## Session: 2026-05-27 — /future command
 

@@ -1,8 +1,10 @@
-Scenario planning via three futures. Rewinds each path month by month to today, synthesizes the decisions that mattered most, and delivers a one-screen action guide with a clear first move.
+Scenario planning via three futures. Rewinds each path month by month to today, synthesizes the decisions that mattered most, and delivers a one-screen action guide with a clear first move. Runs intake in the main session, heavy reasoning in a fresh Opus 4.6 parallel session.
+
+**This command is self-contained.** Do not require `/start` to have been run. Do not depend on any prior session state. Read your own context.
 
 ---
 
-## Pre-flight: Read context
+## Pre-flight (Sonnet, main session)
 
 Silently read the following before doing anything else:
 - `WORK_LOG.md` in the current project
@@ -10,114 +12,179 @@ Silently read the following before doing anything else:
 - Recent git log (last 20 commits) if available
 - Any open/in-progress PM tasks if a PM MCP is connected
 
-Do not summarize this to the user. Use it to ground the scenarios in the actual project — real constraints, real state, real recent decisions. Generic startup scenarios are useless.
+Do not summarize this to the user. Use it to ground the scenarios in the actual project — real constraints, real state, real recent decisions. Generic scenarios are useless.
+
+**Check for prior runs.** Look for files in `docs/futures/` in the current project.
+
+- If prior run(s) exist: note the most recent one and ask the user: *"I see a /future from [date] — do you want to start fresh, or run an update? An update reads what's changed since then and revises the scenarios with actual data."* If they choose update, note it — the handoff prompt will include the prior output for comparison.
+- If no prior runs: proceed directly to intake.
 
 ---
 
-## Intake
+## Intake (Sonnet, main session)
 
-Ask these questions conversationally — not as a numbered list. One at a time, naturally. Use follow-ups where an answer is thin. The goal is enough material to write scenarios that are specific, not vague.
+Ask these questions conversationally — not as a numbered list. One at a time. Use follow-ups where an answer is thin.
 
-**Question 1 — The north star**
-What does massive success look like in concrete terms? Not "we grew a lot" — what's the specific outcome, 12 months from now, that you'd genuinely be proud of? Name it as if it already happened.
+**The north star**
+What does massive success look like in concrete terms at the end of the timeframe? Not "we grew a lot" — what's the specific outcome you'd be genuinely proud of? Name it as if it already happened.
 
-**Question 2 — The fear**
+**The fear**
 What's the specific failure that keeps you up at night? The scenario you'd be embarrassed to explain to someone who believed in you. Be direct.
 
-**Question 3 — The constraints**
+**The constraints**
 What are the hard limits right now? Runway, team size, a deadline that isn't moveable, a dependency you're waiting on. What are you working around?
 
 **Timeframe**
-Based on the project context and what the user just described, propose a timeframe. Default is 12 months, but:
-- Shorter (3–6 months) for a specific launch, campaign, or sprint with a hard end date
-- Longer (18–24 months) for platforms, infrastructure, or ventures still finding product-market fit
-- Say: *"Based on what you've described, I'd suggest a [N]-month horizon — does that feel right, or should we adjust?"*
+Based on project context and what the user described, propose a timeframe:
+- 3–6 months: specific launch, campaign, or sprint with a hard end date
+- 12 months: default for most products and ventures
+- 18–24 months: platforms, infrastructure, or ventures still finding product-market fit
 
-Confirm the timeframe before proceeding.
-
----
-
-## Three scenarios
-
-Write all three. Past tense throughout. The narrative voice is: you're explaining what happened to someone who loves you and won't let you bullshit them — honest, specific, no spin. This isn't a case study or a consultant's report. It's a candid debrief.
-
-For each scenario, start at the end of the timeframe and rewind month by month to today. Name specific decisions, not themes. Name the moments where the path forked. Name what was done and what wasn't.
+Say: *"Based on what you've described, I'd suggest a [N]-month horizon — does that feel right?"* Confirm before proceeding.
 
 ---
 
-### Scenario A: The Win
+## Assumption check (Sonnet, main session)
 
-Massive success landed. Rewind from the end state to today.
+Before generating the handoff, do a brief assumption check. This is not a full `/plan` — keep it short.
 
-What happened? Not just what worked — what *decisions* and *actions* were instrumental? What did you do in month 2 that set up month 8? What did you resist that would have derailed you? What was the moment where it could have gone either way, and what made it go right?
+Restate the user's success scenario in one sentence. Then surface the 2–3 assumptions it rests on — the things that need to be true for that outcome to be achievable. Ask the user directly which ones feel solid and which feel shaky.
 
-Be specific about:
+Example framing: *"Your success scenario — [restate it] — rests on a few things being true: [A], [B], [C]. Which of these feel solid, and which feel like open questions? Anything shaky here will shape what The Unraveling looks like."*
+
+Listen to the response. Shaky assumptions become the seeds of The Unraveling. Note them — they go into the handoff prompt.
+
+---
+
+## Generate the handoff prompt
+
+Compile everything from pre-flight, intake, and the assumption check into a self-contained futures brief. Fill in all [BRACKETS] with real values — current date, actual repo path (use the current working directory), a short project slug derived from the context.
+
+Create the `docs/futures/` directory in the current project if it doesn't already exist.
+
+Present the completed handoff prompt to the user in a clearly labeled block:
+
+> **Open a new terminal window and paste this entire block:**
+
+---
+
+### Handoff prompt (embed verbatim — this is what runs in the parallel session)
+
+---
+
+You are running a /future scenario planning session. Intake is complete — all context is below. Your job is to write three specific, honest narratives and synthesize them into a one-screen action guide the user can act on immediately. Do not ask questions. Do not invoke any slash commands. Run straight through.
+
+Run on Opus 4.6 (`claude-opus-4-6`). Do not switch models.
+
+---
+
+**PROJECT CONTEXT**
+[Paste key context from WORK_LOG, CLAUDE.md, and recent git activity — current state, recent decisions, known constraints. 3–5 bullet points. Enough for grounding, not a wall of text.]
+
+**NORTH STAR**
+[What the user described as massive success — specific, concrete, past tense]
+
+**THE FEAR**
+[The specific failure they named]
+
+**HARD CONSTRAINTS**
+[Runway, team size, deadlines, dependencies]
+
+**TIMEFRAME**
+[N months — confirmed with user]
+
+**SHAKY ASSUMPTIONS**
+[The assumptions from the assumption check that the user flagged as uncertain — these seed The Unraveling]
+
+**PRIOR /FUTURE** *(include only if retrospective mode)*
+[Paste the full prior /future primary output here. Note the date it was run.]
+[Add one line: "The user says the following has changed since then: [what they described]"]
+
+---
+
+**FRAMEWORK**
+
+Surface your reasoning in chat as you go — the user may be watching in real time.
+
+---
+
+**Step 1 — Three narratives**
+
+Write all three. Past tense throughout. The voice: explaining what happened to someone who loves you and won't let you bullshit them. Honest, specific, no spin. Start each narrative at the end of the timeframe and rewind month by month to today. Name decisions, not themes. Name the moments where the path forked.
+
+**The Win**
+
+Massive success landed. What happened? What decisions and actions were instrumental? What did you do in month 2 that set up month 8? What did you resist that would have derailed you? What external factors helped — and what did you do to be positioned to benefit from them?
+
+Cover:
 - The decisions that compounded (small early, large later)
-- The things you *didn't* do that turned out to matter
-- The external factors that helped — and what you did to be positioned to benefit from them
+- The things you didn't do that turned out to matter
+- The moment it could have gone either way, and what made it go right
 
----
+**The Unraveling**
 
-### Scenario B: The Unraveling
+Massive failure. What happened? What specific decisions, delays, and patterns led there? What looked reasonable at the time but wasn't? What was done instead of what mattered? When did you first know something was wrong, and what did you do (or not do) about it?
 
-Massive failure. Rewind from the end state to today.
+Anchor this in the shaky assumptions from intake — show how they played out.
 
-What happened? Not just "we ran out of money" or "we lost momentum" — what specific decisions, delays, and patterns led there? What looked reasonable at the time but wasn't? What was done instead of what actually mattered? When did you first know something was wrong, and what did you do (or not do) about it?
-
-Be specific about:
+Cover:
 - What was tempting but harmful (the anti-patterns that looked like good ideas)
 - What was delayed past the point of recovery
-- What the earliest warning sign was — before it became obvious
+- The earliest warning sign — before it became obvious
 - What you'd tell yourself in month 2 if you could
 
----
+**The Headwind**
 
-### Scenario C: The Headwind
+You did almost everything right. The universe didn't cooperate. This scenario teaches a different lesson — not what you did wrong, but what you needed to be resilient against.
 
-You did almost everything right. The universe didn't cooperate. Rewind from the end state to today.
+What external forces hit that you couldn't have fully predicted? A market shift, a competitor move, a platform change, a regulatory event, a macro condition, a key relationship that fell through.
 
-This is the scenario most people don't think about because it's uncomfortable — you can't control it, and it feels like an excuse. But naming it clearly is the difference between being blindsided and being resilient.
-
-What external forces hit that you couldn't have fully predicted? A market shift, a competitor move, a platform change, a regulatory event, a macro condition, a key relationship that fell through. What was the real ceiling on what could be achieved even with strong execution?
-
-Be specific about:
+Cover:
 - What you were exposed to that you didn't need to be
-- What resilience you had built — and what you wish you'd built
+- What resilience you had or hadn't built
 - The difference between "bad luck" and "we were fragile in a way we could have fixed"
-- What "doing everything right" actually looked like in this world
+- What the real ceiling was, even with strong execution
+
+*If this is a retrospective run:* For each narrative, note where the prior projections diverged from what actually happened. What did the prior /future get right? What did it miss? This grounds the updated scenarios in real data, not pure speculation.
 
 ---
 
-## Synthesis
+**Step 2 — Synthesis**
 
-Do this internally before writing the final output. Do not show the synthesis process to the user — only the output.
+Do this reasoning internally. Only the output appears.
 
 **Quadrant analysis**
-Classify decisions and actions across the three scenarios:
 
-- **Double-confirmed critical** — appears in The Win AND its absence appears in The Unraveling. These are the highest-confidence levers.
-- **Swing-state decisions** — present in The Win but also present (differently executed) in The Unraveling. These are hard calls, not obvious moves. Flag them explicitly.
-- **Failure drivers** — appear in The Unraveling and are absent from The Win. The anti-patterns.
-- **Resilience gaps** — surface from The Headwind. Things within your control that would have changed your exposure to external forces.
+Classify every significant decision and action across the three scenarios:
+
+- ✅ **Double-confirmed critical** — appears in The Win AND its absence drives The Unraveling. Highest-confidence levers.
+- ⚠️ **Swing-state** — present in both Win and Unraveling, but executed differently. These are the hard calls with imperfect information. Flag each one — don't flatten them into simple advice.
+- ❌ **Failure driver** — appears in The Unraveling, absent from The Win. The anti-patterns.
+- **Resilience gap** — surfaces from The Headwind. Within your control, but requires deliberate preparation.
 
 **Leading indicators**
-For each critical decision or turning point in The Unraveling: what was the *earliest signal* that this was coming? Not month 8 when it was obvious — month 2, when there was still time. Extract these from the narrative, don't ask the user. They're already embedded in the story.
 
-**Irreversibility flag**
-Tag each load-bearing decision as:
-- **Hard to reverse** — hiring, pricing model, core tech choices, pivots, strategic commitments
-- **Iterable** — things you can course-correct on without major cost
+For each ❌ failure driver and ⚠️ swing-state decision: what was the *earliest signal* it was going wrong? Not month 8 — month 2. Extract from the narratives. These are the monitoring signals, not asked of the user.
 
-Hard-to-reverse decisions deserve more upfront thought and appear earlier in the output.
+**Irreversibility**
 
-**Order by when, not importance**
-Sort all output items by *when* the decision needs to be made, not by abstract importance. Timing drives action; importance doesn't.
+Tag each ✅ and ⚠️ item:
+- *(irreversible)* — hiring, pricing model, core tech choices, pivots, strategic commitments. Deserves more upfront thought.
+- *(iterable)* — can be course-corrected without major cost.
+
+**Chess flag**
+
+For each ⚠️ swing-state decision: does it involve a real counterparty with competing interests — a negotiation, a key hire where the candidate has leverage, a partnership where the other party wants different things? If yes, mark it: *[/chess candidate]*
+
+**Order by when**
+
+Sort all output items by when the decision needs to be made. Timing drives action. Importance doesn't.
 
 ---
 
-## Output
+**Step 3 — Primary output**
 
-Present the primary output in full. Then offer the appendix.
+Write the one-screen output. This is what goes back to the main session. Keep it tight — everything that matters, nothing that doesn't.
 
 ---
 
@@ -125,57 +192,88 @@ Present the primary output in full. Then offer the appendix.
 
 One paragraph. The single most important variable — the fork in the road that, more than anything else, separates The Win from The Unraveling. Don't list three things. Name the one.
 
----
-
-**3 load-bearing decisions**
-
-The decisions that cascade if you get them wrong or delay them. For each:
-- **The decision** — what it is, stated plainly
-- **When it needs to be made** — a specific window ("before month 3," "within the next 6 weeks"), not "eventually"
-- **Early warning sign** — the earliest signal that this is going wrong, before it's obvious
-- Mark hard-to-reverse decisions with *(irreversible)*
-
-Ordered by when, not importance. Three max. If more surfaced, put the rest in the appendix.
+*If retrospective:* Open with one sentence on whether the prior thesis still holds or has shifted based on what's happened.
 
 ---
 
-**3 things not to do**
+**3 load-bearing decisions** *(✅ double-confirmed, ordered by when)*
 
-From The Unraveling. For each:
+For each:
+- **The decision** — stated plainly
+- **When it needs to be made** — a specific window, not "eventually"
+- **Early warning sign** — the earliest signal it's going wrong
+- Mark *(irreversible)* where it applies
+- Mark *[/chess candidate]* where it applies
+
+Three max. If more surfaced, they go in the appendix.
+
+---
+
+**3 things not to do** *(❌ failure drivers)*
+
+For each:
 - **The anti-pattern** — what it is
 - **Why it's tempting** — if it weren't tempting, you wouldn't need the warning
-- **The signal you're sliding into it** — the earliest sign, before it becomes entrenched
+- **The signal you're sliding into it** — earliest sign, before it's entrenched
 
-Three max. The most dangerous ones — the ones that looked like good ideas.
+Three max. The most dangerous — the ones that looked like good ideas.
 
 ---
 
 **Your move this week**
 
-One or two specific actions, this week. Not "eventually" — this week. These are the entry point into the critical path. Everything else can wait until these are done.
+One or two specific actions, this week. The entry point into the critical path. Everything else waits until these are done.
 
 ---
 
-*Full narratives, complete quadrant synthesis, and everything else the exercise surfaced are in the appendix. Type "show appendix" to read.*
+*Full narratives, complete quadrant, and everything else the exercise surfaced are in the appendix. Ask to see it.*
 
 ---
 
-**Follow-up**
+**Step 4 — Save and return**
 
-After presenting the output, offer one of the following (based on what tools are connected):
+1. Write the full output to: `[REPO_PATH]/docs/futures/[YYYY-MM-DD]-[project-slug].md`
+   - Create the directory if it doesn't exist
+   - Structure: all three narratives → full quadrant synthesis → primary output
+   - Include the date run at the top
+
+2. Display the **primary output only** (thesis → 3 decisions → 3 anti-patterns → your move) in chat so the user can read it.
+
+3. Display this block at the end — formatted exactly as shown:
+
+---
+**Return prompt — paste this into your original session:**
+
+> /future session complete. The full output is saved at `[REPO_PATH]/docs/futures/[YYYY-MM-DD]-[project-slug].md`. Here is the one-screen summary — bring it into our working context so we can discuss next steps and act on it:
+>
+> [Paste the primary output verbatim here — thesis through "your move this week"]
+---
+
+4. Close with a clearly formatted terminal closer — display exactly this as the final output:
+
+```
+Future session complete. You can close this window.
+(Do not run /end — the primary session handles closeout.)
+```
+
+---
+
+End of handoff prompt.
+
+---
+
+After presenting the handoff prompt to the user, say:
+
+> *"Open a new terminal, paste the block above, and watch it run. When it's done, use the return prompt to bring the output back here so we can discuss it and act on it."*
+
+---
+
+## After the return (main session)
+
+When the user pastes the return prompt back, the one-screen output is now live in the main session as working context. Discuss it directly — load-bearing decisions, anti-patterns, the thesis, anything they want to dig into.
+
+If any decisions are marked *[/chess candidate]*, surface this: *"Decision [X] has a counterparty component — /chess would let us model how that plays out before you commit."*
+
+Offer the 30-day follow-up once, as a single line:
 - If ClickUp MCP is connected: *"Want me to create a ClickUp task to review the load-bearing decisions 30 days from now?"*
-- Otherwise: *"Want me to add a reminder to WORK_LOG.md to revisit these decisions in 30 days?"*
-
-This is a one-line offer. Don't push it.
-
----
-
-## Appendix (on request)
-
-If the user types "show appendix" or asks to see more:
-
-1. **Full narratives** — all three scenarios in full
-2. **Quadrant synthesis** — the full classification of every decision/action that surfaced
-3. **Everything else** — items that didn't make the top 3 in either output section, labeled "worth knowing, not the priority right now"
-
-Present the appendix cleanly, clearly separated from the primary output.
+- Otherwise: *"Want me to add a 30-day review reminder to WORK_LOG.md?"*
