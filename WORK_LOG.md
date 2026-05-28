@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-05-28
 
-## Overall State: v1.5.2 — subagent model replaces manual handoffs across /chess, /future, /plan, /handoff. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+## Overall State: v1.5.2 published to npm (pending — see action items). Subagent model replaces manual handoffs across /chess, /future, /plan, /handoff. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
 
 ## Session: 2026-05-28 — v1.5.2 subagent architecture
 
