@@ -1,8 +1,21 @@
 # Playbook Work Log
 
-## Last updated: 2026-05-28
+## Last updated: 2026-05-29
 
-## Overall State: v1.5.2 published to npm (pending — see action items). Subagent model replaces manual handoffs across /chess, /future, /plan, /handoff. PreCompact hook live. /start optimized. Sentry MCP wired at user scope (pending first-session OAuth).
+## Overall State: v1.5.3 published to npm. All commands now have explicit model routing documentation. Subagent model live across /chess, /future, /plan, /handoff. PreCompact hook live. Sentry MCP wired at user scope (pending first-session OAuth).
+
+## Session: 2026-05-29 — v1.5.3 model routing documentation
+
+### What was done
+1. **Model routing audit** — reviewed all 9 commands for Haiku/Sonnet/Opus routing opportunities. Finding: every existing subagent call does genuine reasoning work (architecture planning, adversarial modeling, comparison analysis) — no Haiku candidates in current subagent calls. Haiku wins are already captured by CLAUDE.md guidance on Explore subagents.
+2. **Added model routing to 4 undocumented commands** — `/debug`, `/end`, `/quick`, `/new-project` now all say "Runs inline on Sonnet. No subagents." at the top. Matches the style /future and /chess already used. Prevents future drift when commands are extended.
+3. **Synced to `~/.claude/commands/`** immediately after edits.
+4. **Bumped to v1.5.3** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+5. **Published to npm** (playbook-ai@1.5.3) — Max ran manually.
+
+### Key decisions
+- No Haiku routing added to existing subagent calls: all do reasoning work where Sonnet quality matters. The `/future` retrospective subagent (read prior file + write 200-word comparison) was the closest candidate but feeds the Opus run directly, so Sonnet is the right call.
+- `/start` pre-flight not restructured for Haiku: saves ~$0.03/session, adds subagent overhead and complexity. Not worth it.
 
 ## Session: 2026-05-28 — v1.5.2 subagent architecture
 
