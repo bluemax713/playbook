@@ -1,4 +1,4 @@
-Set up a new project for Claude Code — clone or create a repo, wire all local config, and get ready for `/start`.
+Set up a new project for Claude Code — clone or create a repo, wire all local config, and get ready for `/start`. Runs inline on Sonnet. No subagents.
 
 ## Gather Info
 

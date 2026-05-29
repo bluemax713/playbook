@@ -1,4 +1,4 @@
-Follow this systematic debugging process:
+Follow this systematic debugging process. Runs inline on Sonnet. No subagents.
 
 0. **Check connectivity (only if the session is slow)** — If responses are taking unusually long, run `speedtest` (if installed) to check for high latency, packet loss, or low bandwidth. If the connection is poor (>500ms latency, >5% packet loss, or <1 Mbps upload), flag it and suggest deferring to a better connection before debugging code.
 1. **Reproduce** — Confirm the bug exists. Get the exact error, query, or behavior. Don't guess.

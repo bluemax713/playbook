@@ -1,4 +1,4 @@
-Session closeout. Do everything needed so the user can walk away without taking notes or remembering anything. The next `/start` must pick up seamlessly.
+Session closeout. Do everything needed so the user can walk away without taking notes or remembering anything. The next `/start` must pick up seamlessly. Runs inline on Sonnet. No subagents.
 
 ## Steps
 

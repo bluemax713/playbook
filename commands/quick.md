@@ -1,4 +1,4 @@
-Quick mode — for bug fixes, small changes, and one-off tasks that don't need full session ceremony.
+Quick mode — for bug fixes, small changes, and one-off tasks that don't need full session ceremony. Runs inline on Sonnet. No subagents.
 
 Skip the full /start briefing. Instead:
 1. Read CLAUDE.md (for rules) and the last WORK_LOG.md entry (for context) — don't present a briefing.

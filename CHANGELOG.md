@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.5.3] — 2026-05-29
+
+### Commands
+- **Model routing documented** — `/debug`, `/end`, `/quick`, and `/new-project` now explicitly state they run inline on Sonnet with no subagents. Prevents future drift when commands are extended.
+
 ## [1.5.2] — 2026-05-28
 
 ### Architecture
