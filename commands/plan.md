@@ -4,13 +4,24 @@ Before making any changes, assess the task and create a structured plan.
 
 ---
 
+## Routing check
+
+Before starting, confirm this is the right command:
+- **Real adversary with competing interests?** → `/chess` (Human Mode)
+- **System or plan you need to stress-test before building?** → `/chess` (System Mode)
+- **Multiple possible futures you're navigating?** → `/future`
+- **Task to execute or decision to plan?** → You're in the right place.
+
+---
+
 ## Phase 1: Assess Complexity (Sonnet, inline)
 
 Read all relevant files first. Then determine:
 - **Is this straightforward?** (One obvious approach, clear requirements) → proceed directly to Phase 2 inline.
 - **Are there meaningful tradeoffs?** (Multiple approaches, architectural choices, unclear requirements) → Brainstorm first:
   - Present 2-3 approaches with pros/cons in short, scannable sections
-  - Flag which approach you'd recommend and why
+  - Run the council inline on Sonnet: pick 4 contextually relevant advisors — real people whose thinking applies to this type of decision. Name them, one sentence each on why they're relevant. Have each weigh in on the approaches in 2-3 sentences. Let them disagree. Synthesize what the council surfaces before making your recommendation.
+  - Flag which approach you'd recommend and why (incorporating council input)
   - Wait for approval of a direction before proceeding
   - Save the decision to `docs/decisions/YYYY-MM-DD-<topic>.md` if it's non-trivial
 
@@ -63,4 +74,7 @@ Direction is hardened. Write the execution plan once, correctly.
 3. **Dependencies** — What must happen in order vs. can be parallelized.
 
 Present the hardened plan and WAIT for approval before making any changes.
+
+**For complex plans (subagent path):** When the user approves and execution begins, write the implementation steps as a markdown checkbox list under `## Active Plan: [task name]` in WORK_LOG.md. Tick off each step as it completes — this persists progress across turns and context compression.
+
 Keep it concise — bullet points, not essays.

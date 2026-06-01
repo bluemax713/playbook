@@ -14,11 +14,27 @@ Three routes. Assess before doing anything else.
 
 **Route 3 — /plan:** No adversary, no system to stress-test. This is a pure tradeoffs decision or planning question. → Tell the user: *"/plan is the right tool here — this is a tradeoffs decision, not a strategic scenario."* Offer to invoke /plan instead.
 
+**Route 4 — /future:** No adversary, no system to stress-test. The question spans a longer horizon — which futures are possible, which decisions matter most across scenarios you can't fully control. → Tell the user: *"/future is the right tool here — this is scenario planning, not adversarial analysis."* Offer to invoke /future instead.
+
 **Borderline:** Name what makes it ambiguous. Ask the user to confirm before proceeding.
 
 ---
 
 ## Human Mode
+
+### Council pre-flight (Sonnet, inline)
+
+Before intake, frame the strategic posture with the council.
+
+Pick 4 contextually relevant advisors — real people whose documented thinking and experience apply directly to this type of situation. Name them, one sentence each on why they're on this panel.
+
+Have each give their honest read on the strategic posture in 3-4 sentences — not their general philosophy, but their take on *this type of situation*. Let them disagree where they would.
+
+Synthesize in 2-3 sentences: what the council collectively surfaces that should shape how to approach intake and the move tree.
+
+Present the council output in chat, then proceed to intake.
+
+---
 
 ### Intake
 

@@ -12,6 +12,8 @@ Most Claude Code configs are built for developers. This one is built for operato
 | `commands/start.md` | `/start` — session kickoff with project briefing |
 | `commands/end.md` | `/end` — session closeout with handoff documentation |
 | `commands/plan.md` | `/plan` — brainstorm + plan in one command (auto-detects complexity) |
+| `commands/chess.md` | `/chess` — adversarial strategy (Human Mode: opponent-modeled; System Mode: failure-traced) |
+| `commands/future.md` | `/future` — scenario planning via three futures, surfaces the decisions that matter most |
 | `commands/debug.md` | `/debug` — 4-step systematic debugging |
 | `commands/quick.md` | `/quick` — lightweight mode for small fixes |
 | `commands/new-project.md` | `/new-project` — full project setup with guided interview |
@@ -119,10 +121,17 @@ Every session follows a consistent pattern:
 
 ### Commands
 - **`/plan`** — Before complex work. Claude assesses whether brainstorming is needed (multiple approaches? tradeoffs?) and either explores options first or jumps straight to an implementation plan. Always waits for your approval.
+- **`/chess`** — For decisions with a real adversary (negotiation, partnerships, competitive moves) or a system you need to break before it breaks you. Human Mode traces move branches against an opponent; System Mode attacks a technical plan for failure points. Always thorough — never a quick check.
+- **`/future`** — Scenario planning via three futures (The Win, The Unraveling, The Headwind). Rewinds each path to today, surfaces the 3 decisions that matter most, and gives you one specific action this week.
 - **`/debug`** — When something is broken. Follows: reproduce, isolate root cause, fix, verify. No guessing.
 - **`/quick`** — For small fixes that don't need the full session ceremony.
 - **`/new-project`** — Sets up a new project from scratch. Claude interviews you — what's the project about, do you have an existing repo or need a new one, do you want to connect a PM tool? Then it creates the repo, wires your terminal shortcut, and generates a comprehensive CLAUDE.md (the rules file) based on what it learned about your project and how you want to work. One command, everything ready.
 - **`/handoff`** — Claude uses this (not you) when a task should run in a separate terminal with fresh context.
+
+**Each strategic command has a primary enemy:**
+- `/plan` fights **bad execution** — wrong approach, missed dependencies, unverified assumptions
+- `/chess` fights **an opponent** — a counterparty, or a system that will fail in ways you haven't anticipated
+- `/future` fights **uncertainty** — which decisions matter across scenarios you can't control
 
 ### Context management
 Claude proactively manages session quality:

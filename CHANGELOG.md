@@ -2,6 +2,16 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.0] — 2026-05-31
+
+### Strategy
+- **The council** — `/plan`, `/chess`, and `/future` now convene a contextual council of real-world advisors before committing to a direction. Claude picks 4 relevant figures based on the specific topic — negotiation experts for a deal, product thinkers for a build decision, operators for a scaling question. Each gives their honest take; they disagree where they would. `/chess` runs it before intake (frames the strategic posture going into the move tree). `/plan` runs it when there are meaningful tradeoffs between approaches (before recommending a direction). `/future` runs it after the Opus subagent returns (council reacts to the 3 load-bearing decisions).
+- **Command routing** — all three strategic commands now open with a routing check so you land in the right one. Each points to the other two. Simple rule: `/plan` fights bad execution, `/chess` fights an opponent, `/future` fights uncertainty.
+- **Progress tracking** — complex `/plan` runs (multi-file, subagent path) now write the implementation steps as a markdown checkbox list to WORK_LOG.md when execution begins. Steps tick off as they complete — progress survives context compression.
+
+### Docs
+- **README** — `/chess` and `/future` now appear in the What's Included table and the Commands section. Added the primary enemy framing: each strategic command has a distinct enemy it's designed to defeat.
+
 ## [1.5.3] — 2026-05-29
 
 ### Commands

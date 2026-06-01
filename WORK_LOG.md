@@ -1,5 +1,26 @@
 # Playbook Work Log
 
+## Last updated: 2026-05-31
+
+## Session: 2026-05-31 — v1.6.0 council integration + routing + todo list
+
+### What was done
+1. **Council integration** — added contextual council (4 real-world advisors, chosen per topic) to all three strategic commands:
+   - `/chess` Human Mode: council pre-flight runs before intake, frames strategic posture going into the move tree (inline Sonnet)
+   - `/plan` Phase 1: council runs when there are meaningful tradeoffs between approaches, before recommending a direction (inline Sonnet)
+   - `/future`: council reaction runs after Opus subagent returns, each advisor reacts to the 3 load-bearing decisions (inline Sonnet)
+2. **Routing checks** — added routing pre-flight to `/plan` and `/future`; added Route 4 (/future) to `/chess`. All three commands now cross-reference each other with a simple decision tree.
+3. **Todo list checkpoint** — complex `/plan` runs (subagent path) now write implementation steps as markdown checkboxes to WORK_LOG.md when execution begins; steps tick off as they complete.
+4. **README** — added `/chess` and `/future` to What's Included table and Commands section; added "primary enemy" framing (plan=bad execution, chess=opponent, future=uncertainty).
+5. **Synced to `~/.claude/commands/`** (plan.md, chess.md, future.md).
+6. **Bumped to v1.6.0** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+
+### Key design decisions
+- Council members are contextually chosen per topic — not a fixed panel. Claude picks whoever's thinking is most relevant to the specific situation.
+- Council runs inline on Sonnet in all three commands — no subagent overhead needed for the advisory layer.
+- Routing checks are self-contained (no external docs required) — each command names its primary enemy and points to the others.
+- Todo list only on complex plans (subagent path) — simple inline plans don't need it; the steps are visible in the same response.
+
 ## Last updated: 2026-05-29
 
 ## Overall State: v1.5.3 published to npm. All commands now have explicit model routing documentation. Subagent model live across /chess, /future, /plan, /handoff. PreCompact hook live. Sentry MCP wired at user scope (pending first-session OAuth).

@@ -4,6 +4,16 @@ Scenario planning via three futures. Rewinds each path month by month to today, 
 
 ---
 
+## Routing check
+
+Before starting, confirm this is the right command:
+- **Real adversary with competing interests?** → `/chess` (Human Mode)
+- **System or plan to stress-test?** → `/chess` (System Mode)
+- **Specific task to execute with steps?** → `/plan`
+- **Uncertain future with multiple possible outcomes?** → You're in the right place.
+
+---
+
 ## Pre-flight (Sonnet, inline)
 
 Silently read the following before doing anything else:
@@ -217,6 +227,18 @@ Spawn an Agent (`model: 'opus'`): *"Read [absolute path to brief file] in full, 
 **5. Surface results**
 
 When the subagent returns, present the one-screen primary output (thesis → 3 decisions → 3 anti-patterns → your move this week) in the main session for discussion.
+
+---
+
+## Council reaction (Sonnet, inline)
+
+After presenting the primary output, run the council.
+
+Pick 4 contextually relevant advisors for this domain and project type — real people whose thinking applies to the specific situation. Name them, one sentence each on why they're on this panel.
+
+Have each react to the 3 load-bearing decisions in 2-3 sentences. Let them disagree where they would.
+
+Present the council reactions in chat. No synthesis needed — the reactions are the output. Then proceed to the /chess bridge evaluation below.
 
 ---
 
