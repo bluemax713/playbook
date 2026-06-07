@@ -2,6 +2,16 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.2] — 2026-06-07
+
+### Config
+- **Worktree isolation rule** — added to Agent Team rules in CLAUDE.md: when teammates write to different files in parallel, use `isolation: "worktree"` on each agent call. Each agent gets its own branch, file conflicts are impossible, and worktrees clean up automatically if unchanged.
+
+## [1.6.1] — 2026-06-07
+
+### Commands
+- **`/future` agency filter** — the primary output now distinguishes between what's already in motion and what needs a new action. During intake, the constraints beat explicitly asks what's actively underway (critical, must not slip) and what's blocked on a third party. Both land in a new `## What's already in motion` section of the brief. Before writing the primary output, Opus cross-references every output item against this list: third-party waits become "Watching:" notes (not actions); critical in-progress work gets a one-line "Keep going on:" acknowledgment so it isn't forgotten; "Your move this week" is reserved for things the user hasn't started yet and can act on now.
+
 ## [1.6.0] — 2026-05-31
 
 ### Strategy

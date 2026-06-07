@@ -42,7 +42,7 @@ What does massive success look like in concrete terms? Not "we grew a lot" — w
 What's the specific failure that keeps you up at night? The one you'd be embarrassed to explain to someone who believed in you.
 
 **The constraints**
-What are the hard limits right now? Runway, team size, a deadline that can't move, a dependency you're waiting on.
+What are the hard limits right now? Runway, team size, a deadline that can't move. Then: what's actively underway that's critical and must not slip? And what are you waiting on someone else to deliver before you can move?
 
 **Timeframe**
 Based on project context and what the user described, propose a timeframe:
@@ -100,8 +100,15 @@ Run on Opus 4.6 (claude-opus-4-6). Do not switch models. Do not ask questions. D
 - North star: [specific success outcome, past tense]
 - Fear: [specific failure]
 - Constraints: [runway, team, deadlines, dependencies]
+- Critical and active: [what's underway and must not slip — extracted from WORK_LOG + intake]
+- Waiting on third party: [what's blocked on an external dependency — extracted from WORK_LOG + intake]
 - Timeframe: [N months]
 - Shaky assumptions: [the ones the user flagged as uncertain]
+
+## What's already in motion
+[Omit entire section if both buckets are empty]
+- [critical, active]: [item] — must not slip
+- [waiting: third party]: [item] — blocked on [who/what], not actionable until they respond
 
 [If retrospective:]
 ## What's changed since [prior date]
@@ -166,6 +173,16 @@ Do this reasoning internally. Only the output appears in the final results.
 
 ---
 
+**Agency filter — run before writing primary output**
+
+Cross-reference every candidate output item against `## What's already in motion` in the brief.
+
+- `[waiting: third party]` items: the user can't act on these differently right now. If the item is on the critical path, note it as "Watching: [item] — blocked on [who/what]" in the primary output. Do not call it as an action.
+- `[critical, active]` items: the user is already on it. Do NOT make these the headline recommendation. Add one line — "Keep going on: [item] — it's on the critical path" — before the primary "Your move" output. Then move on.
+- `[Your move this week]` must surface things NOT already underway and NOT blocked on a third party. The user's highest-value output is what they haven't started or haven't prioritized yet — not confirmation of what they already know.
+
+---
+
 **Primary output**
 
 Write the one-screen summary. Tight — everything that matters, nothing that doesn't.
@@ -195,7 +212,7 @@ For each:
 Three max.
 
 **Your move this week**
-One or two specific actions, this week. Entry point into the critical path.
+If there are `[critical, active]` items: one line acknowledging them ("Keep [X] moving — it's on the critical path"). Then: one or two specific actions that are NOT already underway and NOT blocked on a third party. Entry points the user hasn't taken yet.
 
 ---
 

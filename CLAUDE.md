@@ -59,6 +59,7 @@
 - **Do propose teams for**: cross-layer features, large refactors with parallelizable chunks, debugging with multiple hypotheses
 - Claude won't create a team without your approval
 - Match model to task complexity (see Model Selection below), not to role
+- **When teammates write to different files in parallel**, use `isolation: "worktree"` on each agent call — each agent gets its own branch, conflicts are impossible, and worktrees clean up automatically if unchanged
 
 ### Ralph Loop rules
 - **Only use for**: tasks with binary success criteria (tests pass, linter clean, migration complete)

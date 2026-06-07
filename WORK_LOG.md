@@ -1,5 +1,49 @@
 # Playbook Work Log
 
+## Last updated: 2026-06-07
+
+## Overall State: v1.6.2 committed and pushed. Not yet published to npm — Max runs manually.
+
+## Session: 2026-06-07 — /future agency filter + worktree rule (v1.6.1 → v1.6.2)
+
+### v1.6.2 addition
+- **Worktree isolation rule** added to Agent Team rules in both `CLAUDE.md` (Playbook source) and `~/.claude/CLAUDE.md` (installed global): when teammates write to different files in parallel, use `isolation: "worktree"` on each agent call. Covers all projects including Clenta — no project-specific addition needed since the global rule applies. Clenta's CLAUDE.md already has "create branch before spawning subagents"; worktrees handle that automatically.
+
+## Session: 2026-06-07 — /future agency filter (v1.6.1)
+
+### What was done
+1. **Modified `/future` constraints intake** — the constraints beat now explicitly asks two additional things: what's actively underway and critical (must not slip), and what's blocked waiting on a third party. Both extracted from WORK_LOG + intake answers.
+2. **Added `## What's already in motion` to brief template** — two tagged buckets: `[critical, active]` and `[waiting: third party]`. Omitted entirely if both are empty.
+3. **Added agency filter instruction to synthesis** — Opus cross-references every candidate output item against the motion list before writing the primary output. Third-party waits become "Watching:" notes; critical in-progress work gets a "Keep going on:" acknowledgment; "Your move this week" is reserved for things not yet started and actionable now.
+4. **Updated `Your move this week` output instructions** — explicit two-tier format: "Keep going" acknowledgment first (if applicable), then new actions only.
+5. **Synced to `~/.claude/commands/future.md`**.
+6. **Bumped to v1.6.1** — VERSION, CHANGELOG, package.json, .playbook-version all updated.
+
+### Key design decision
+Critical in-progress items are NOT filtered out — they get a one-line acknowledgment so they don't get forgotten. Only third-party waits and non-critical in-progress items are excluded from "Your move this week." The filter door stays open for course-correction recommendations on in-progress items.
+
+### Not yet published to npm — Max runs manually.
+
+## Last updated: 2026-06-01
+
+## Session: 2026-06-01 — Batch processing evaluation (discussion only)
+
+### What was done
+1. **Researched Anthropic Batch Processing API** — fetched and reviewed full docs. Key facts: 50% cost reduction, async up to 1 hour (usually), no streaming, up to 100k requests or 256MB per batch, supports tool use/vision/extended thinking. Extended output beta (300k tokens) available batch-only.
+2. **Evaluated batch for Playbook commands** — conclusion: structurally incompatible. Claude Code is synchronous/streaming by design; batch is fire-and-forget async. Commands like `/future` are multi-step orchestrated workflows with file writes, subagents, and memory updates — not single API calls. Batch has no scaffolding for any of that.
+3. **Evaluated "run /future while I sleep" via batch** — correct answer is `/schedule`, not batch. `/schedule` runs the full command with all scaffolding; batch would return raw JSON with none of it.
+4. **Evaluated batch for Clenta** — mapped against Clenta's architecture:
+   - Iris conversations: can't batch (real-time required)
+   - Briefings: if on-demand, latency kills UX; if pre-scheduled overnight, works but users never see the wait anyway — minimal net benefit vs. engineering cost
+   - Cron reports (daily/weekly/monthly): technically fits, but volume is too low to matter financially
+   - Conclusion: not worth building now. Revisit when non-real-time API spend hits ~$300-500/month.
+
+### No code changes
+Discussion-only session. No files edited, no commits, no npm publish.
+
+### Key decision captured
+Batch processing is a cost lever for products running high-volume, non-real-time workloads. It is not a "deferred mode" for Claude Code sessions and is not meaningfully relevant to Clenta at current beta scale.
+
 ## Last updated: 2026-05-31
 
 ## Session: 2026-05-31 — v1.6.0 council integration + routing + todo list
