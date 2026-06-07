@@ -2,18 +2,27 @@
 
 ## Last updated: 2026-06-07
 
-## Overall State: v1.6.3 committed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.3 committed and pushed. Not yet published to npm — Max runs manually.
 
-## Session: 2026-06-07 — Karpathy rules + spec gate (v1.6.3)
+## Session: 2026-06-07 — Screenshot research + Karpathy rules + spec gate (v1.6.3)
 
 ### What was done
-1. **Spec gate added to `/plan`** — before assessing approaches, `/plan` now clarifies the task first. 1–3 questions if ambiguous, then a one-sentence spec that anchors the rest of the plan. No new command — baked into the existing flow.
-2. **Clarification check added to `/quick`** — one targeted question if ambiguous, immediate proceed if clear.
-3. **Two new Development Rules in CLAUDE.md** (both playbook source + installed global):
+1. **Processed 57 inbox screenshots** — 8 parallel Haiku subagents extracted content; synthesized into 10 topics. Extracted notes saved to `docs/2026-06-07-screenshot-research.md`. Images deleted from inbox.
+2. **Evaluated screenshots for Playbook relevance** — key finding: Karpathy's four LLM failure rules (multica-ai/andrej-karpathy-skills, 132k stars) and Addy Osmani's agent-skills (27k stars). Fetched both repos to verify actual content.
+3. **Spec gate added to `/plan`** — before assessing approaches, `/plan` now clarifies the task first. 1–3 questions if ambiguous; one-sentence spec anchors the rest of the plan. No new command — baked into existing flow.
+4. **Clarification check added to `/quick`** — one targeted question if ambiguous, immediate proceed if clear.
+5. **Two new Development Rules in CLAUDE.md** (both playbook source + installed global):
    - Ask before assuming: state assumptions explicitly, present multiple interpretations, don't pick silently
    - Surgical changes: touch only what was asked for, don't improve adjacent code/comments/formatting
-4. Both rules derived from Andrej Karpathy's documented LLM failure modes (multica-ai/andrej-karpathy-skills).
-5. Synced plan.md and quick.md to ~/.claude/commands/. Bumped VERSION, CHANGELOG, package.json, .playbook-version to 1.6.3.
+6. Synced plan.md and quick.md to ~/.claude/commands/. Bumped VERSION, CHANGELOG, package.json, .playbook-version to 1.6.3.
+7. **Clenta eval prompt built** — evaluates Nango, Open WebUI (Iris), Browser Use, Crawl4AI, Cal.com, Twenty, Stripe vs Polar, chrome-devtools-mcp. Copied to clipboard for Max to paste into Clenta session.
+8. **Stack catalog candidates updated** — added 7 new entries to consulting inbox: Twenty, Documenso, Stirling-PDF, Coolify, andrej-karpathy-skills, agent-skills (plus Nango/Open WebUI/Browser Use/Crawl4AI/Cal.com/Polar were already added).
+
+### Key decisions
+- Spec step belongs inside `/plan`, not as a separate command — non-technical founders won't remember a two-command sequence.
+- Karpathy rules added globally (CLAUDE.md) so they apply everywhere, not just inside `/plan`.
+- Full Addy Osmani agent-skills suite not installed — the developer-specific commands (/test, /build, /ship) are wrong fit for Playbook's non-technical audience.
+- Nango re-evaluated as relevant to Clenta: different job than Composio (Nango = your users connecting their accounts TO Clenta; Composio = your agents connecting to external services).
 
 ### Not yet published to npm — Max runs manually.
 
