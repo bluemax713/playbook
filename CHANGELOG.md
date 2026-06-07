@@ -2,6 +2,18 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.3] — 2026-06-07
+
+### Commands
+- **Spec gate in `/plan`** — before assessing approaches, `/plan` now clarifies the task first. If the desired outcome, scope, or constraints are unclear, Claude asks 1–3 targeted questions and states a one-sentence spec before proceeding. Derived from Karpathy's "ask, don't assume" principle. The spec anchors the rest of the plan.
+- **Clarification check in `/quick`** — if the task is ambiguous, Claude asks one targeted question before proceeding. No ceremony, no delay when the task is already clear.
+
+### Config
+- **Ask before assuming** — new Development Rule in CLAUDE.md: if a task is ambiguous, ask before implementing. State assumptions explicitly. If multiple interpretations exist, present them — don't pick silently.
+- **Surgical changes** — new Development Rule in CLAUDE.md: touch only what was asked for. Don't improve adjacent code, comments, or formatting. Every changed line should trace directly to the request.
+
+Both rules derived from Andrej Karpathy's documented LLM coding failure modes (multica-ai/andrej-karpathy-skills, 132k+ stars).
+
 ## [1.6.2] — 2026-06-07
 
 ### Config

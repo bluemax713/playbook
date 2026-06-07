@@ -40,6 +40,8 @@
 - **Never push to main** — work on feature branches, PR to main
 - **Never guess at data structures** — read the source first (schema, API docs, existing code)
 - **Complete code only** — full, working blocks, never patches or fragments
+- **Ask before assuming** — if a task is ambiguous, ask before implementing. State your assumptions explicitly. If multiple interpretations exist, present them — don't pick silently.
+- **Surgical changes** — when editing existing code, touch only what was asked for. Don't improve adjacent code, comments, or formatting. Every changed line should trace directly to the request.
 
 ## Parallel Work & Context Management
 

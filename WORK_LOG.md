@@ -2,7 +2,20 @@
 
 ## Last updated: 2026-06-07
 
-## Overall State: v1.6.2 committed and pushed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.3 committed. Not yet published to npm — Max runs manually.
+
+## Session: 2026-06-07 — Karpathy rules + spec gate (v1.6.3)
+
+### What was done
+1. **Spec gate added to `/plan`** — before assessing approaches, `/plan` now clarifies the task first. 1–3 questions if ambiguous, then a one-sentence spec that anchors the rest of the plan. No new command — baked into the existing flow.
+2. **Clarification check added to `/quick`** — one targeted question if ambiguous, immediate proceed if clear.
+3. **Two new Development Rules in CLAUDE.md** (both playbook source + installed global):
+   - Ask before assuming: state assumptions explicitly, present multiple interpretations, don't pick silently
+   - Surgical changes: touch only what was asked for, don't improve adjacent code/comments/formatting
+4. Both rules derived from Andrej Karpathy's documented LLM failure modes (multica-ai/andrej-karpathy-skills).
+5. Synced plan.md and quick.md to ~/.claude/commands/. Bumped VERSION, CHANGELOG, package.json, .playbook-version to 1.6.3.
+
+### Not yet published to npm — Max runs manually.
 
 ## Session: 2026-06-07 — /future agency filter + worktree rule (v1.6.1 → v1.6.2)
 
