@@ -2,21 +2,23 @@
 
 ## Last updated: 2026-06-08
 
-## Overall State: v1.6.4 committed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.4 committed and pushed. Not yet published to npm — Max runs manually.
 
 ---
 
 ## Session: 2026-06-08 — Token Safety rules
 
 ### Done
-- Added `## Token Safety` section to playbook CLAUDE.md and mirrored to ~/.claude/CLAUDE.md
-- Five rules: no ambiguous path exploration, no unconstrained `find`, no build artifacts, pause after 5 tool calls with no output, staged multi-target implementation
-- Bumped VERSION → 1.6.4, CHANGELOG updated, .playbook-version updated
-- Committed (a154fde)
+- Added `## Token Safety` section to playbook CLAUDE.md and mirrored to ~/.claude/CLAUDE.md — five rules: no ambiguous path exploration, no unconstrained `find`, no build artifacts, pause after 5 tool calls with no visible output, staged multi-target implementation
+- Bumped VERSION → 1.6.4, CHANGELOG updated, .playbook-version updated, package.json bumped (was missed initially, fixed before publish)
+- Updated feedback memory: package.json must be bumped alongside VERSION on every release
+- Drafted paste-ready Clenta session brief covering two-layer guardrail design (CLAUDE.local.md behavioral vs. iris-api programmatic)
+- Committed and pushed (a154fde, 93ca39a, c3a3e89)
 
 ### Next
-- npm publish when ready: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
-- NanoClaw CLAUDE.md can reference the global rule or add the VPS-specific framing on top
+- npm publish: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+- NanoClaw CLAUDE.md: VPS-specific framing can stay as-is (it's a concrete restatement of the global rules) or be trimmed to a pointer
+- Clenta session: paste the brief from this session to design client-facing token burn guardrails
 
 ## Session: 2026-06-07 — Screenshot research + Karpathy rules + spec gate (v1.6.3)
 
