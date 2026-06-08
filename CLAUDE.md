@@ -84,6 +84,14 @@
 - **Proactive saves**: In long sessions, save critical state to WORK_LOG.md incrementally — don't wait for `/end`. Decisions, findings, and intermediate results should be written to disk as they happen, so nothing is lost if auto-compaction occurs.
 - **Context health warning**: When context is getting heavy AND substantial work remains, proactively warn you. Save current state to WORK_LOG.md first, then present options: wrap up and `/end`, hand off remaining work via `/handoff`, or start a fresh session. Don't warn if the session is almost done — just finish.
 
+## Token Safety
+
+- **Never resolve an ambiguous path by exploring the filesystem.** If a path is a placeholder or unclear, ask for the exact path before reading or searching.
+- **Never run broad recursive searches** (`find /`, unconstrained `find .`, or similar) without explicit approval.
+- **Never read `node_modules`, lock files (`package-lock.json`, `yarn.lock`), or build output directories** — they are never needed and cost thousands of tokens.
+- **Pause before silent burn**: if a task requires more than 5 tool calls before producing visible output, stop, report what's been found so far, and confirm before continuing.
+- **Never start implementation across multiple targets** ("all agents", "all instances", "all environments") without a staged plan: implement on one, confirm, then expand.
+
 ## Verification
 - **Never declare a task complete without independent verification.** After making a change:
   - Re-run the relevant query, workflow, or test

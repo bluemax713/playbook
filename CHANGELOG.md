@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.4] — 2026-06-08
+
+### Config
+- **Token Safety section** — new top-level rule block in CLAUDE.md covering five failure modes that cause silent token burns: ambiguous path exploration, unconstrained filesystem searches, reading build artifacts, tool call chains with no visible output, and multi-target implementation without staged approval. Derived from a real incident where a 1M-token silent burn produced zero user-visible output. Applies globally to all projects.
+
 ## [1.6.3] — 2026-06-07
 
 ### Commands
