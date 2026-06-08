@@ -1,8 +1,22 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-07
+## Last updated: 2026-06-08
 
-## Overall State: v1.6.3 committed and pushed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.4 committed. Not yet published to npm — Max runs manually.
+
+---
+
+## Session: 2026-06-08 — Token Safety rules
+
+### Done
+- Added `## Token Safety` section to playbook CLAUDE.md and mirrored to ~/.claude/CLAUDE.md
+- Five rules: no ambiguous path exploration, no unconstrained `find`, no build artifacts, pause after 5 tool calls with no output, staged multi-target implementation
+- Bumped VERSION → 1.6.4, CHANGELOG updated, .playbook-version updated
+- Committed (a154fde)
+
+### Next
+- npm publish when ready: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+- NanoClaw CLAUDE.md can reference the global rule or add the VPS-specific framing on top
 
 ## Session: 2026-06-07 — Screenshot research + Karpathy rules + spec gate (v1.6.3)
 
