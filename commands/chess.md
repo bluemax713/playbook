@@ -4,37 +4,19 @@ Adversarial strategy analysis and technical stress-testing. Two modes: Human Mod
 
 ---
 
-## Pre-flight: Route the situation
+## Routing check
 
-Three routes. Assess before doing anything else.
-
-**Route 1 — Human Mode:** There's a real adversary — a person or party with competing interests and their own move set. The outcome depends on what they do in response to your moves. Stakes are material (money, a key relationship, legal exposure, a make-or-break decision). → Confirm to the user and proceed to Human Mode intake.
-
-**Route 2 — System Mode:** No human adversary, but there IS a technical plan, implementation, or system being challenged. The question is: what could break, and how does the system respond to each move? → Confirm to the user and proceed to System Mode intake.
-
-**Route 3 — /plan:** No adversary, no system to stress-test. This is a pure tradeoffs decision or planning question. → Tell the user: *"/plan is the right tool here — this is a tradeoffs decision, not a strategic scenario."* Offer to invoke /plan instead.
-
-**Route 4 — /future:** No adversary, no system to stress-test. The question spans a longer horizon — which futures are possible, which decisions matter most across scenarios you can't fully control. → Tell the user: *"/future is the right tool here — this is scenario planning, not adversarial analysis."* Offer to invoke /future instead.
+Before starting, confirm this is the right command:
+- **Real adversary with competing interests and material stakes?** → Confirm to the user and proceed to Human Mode intake.
+- **Technical plan or system to stress-test, no human counterparty?** → Confirm to the user and proceed to System Mode intake.
+- **Pure tradeoffs decision or task to plan?** → `/plan` is the right tool. Offer to invoke it instead.
+- **Longer horizon, multiple possible futures you can't fully control?** → `/future` is the right tool. Offer to invoke it instead.
 
 **Borderline:** Name what makes it ambiguous. Ask the user to confirm before proceeding.
 
 ---
 
 ## Human Mode
-
-### Council pre-flight (Sonnet, inline)
-
-Before intake, frame the strategic posture with the council.
-
-Pick 4 contextually relevant advisors — real people whose documented thinking and experience apply directly to this type of situation. Name them, one sentence each on why they're on this panel.
-
-Have each give their honest read on the strategic posture in 3-4 sentences — not their general philosophy, but their take on *this type of situation*. Let them disagree where they would.
-
-Synthesize in 2-3 sentences: what the council collectively surfaces that should shape how to approach intake and the move tree.
-
-Present the council output in chat, then proceed to intake.
-
----
 
 ### Intake
 
@@ -67,9 +49,23 @@ Run in the main session on Sonnet. Ask conversationally — not as a numbered li
 
 ---
 
+### Council read (Sonnet, inline)
+
+After intake, frame the strategic posture with the council.
+
+Pick 4 contextually relevant advisors — real people whose documented thinking and experience apply directly to this situation. Name them, one sentence each on why they're on this panel.
+
+Have each give their honest read on the strategic posture in 3-4 sentences — grounded in the specifics captured at intake (the adversaries, the user's standing, the BATNAs), not their general philosophy. Let them disagree where they would.
+
+Synthesize in 2-3 sentences: what the council collectively surfaces that should shape the brief and the move tree.
+
+Present the council output in chat, then proceed to the brief.
+
+---
+
 ### Generate the brief and spawn subagent
 
-Once intake is complete, compile everything into a chess brief file and spawn an Opus 4.6 subagent. Follow the `/handoff` pattern.
+Once intake is complete, compile everything into a chess brief file and spawn an Opus 4.8 subagent. Follow the `/handoff` pattern.
 
 **1. Write the brief**
 
@@ -82,7 +78,7 @@ Create `docs/chess/` if it doesn't exist. Write `docs/chess/YYYY-MM-DD-[slug].md
 *Human Mode*
 
 ## Run instructions
-Run on Opus 4.6 (claude-opus-4-6). Do not switch models. Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
+Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
 
 ## Situation
 [Situation summary]
@@ -167,23 +163,9 @@ Structure the output as:
 
 ---
 
-**2. Show intake summary and get approval**
+**2. Hand off**
 
-Display a short summary in chat: situation in one sentence, objective, adversaries named, key position details (standing, BATNA, non-negotiables). Do NOT show the full framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
-
-If the user wants to review or edit before running: *"The full brief is at [path] if you want to adjust anything first."*
-
-**3. Cost warning**
-
-*"This runs on Opus 4.6 — noticeably more expensive than a standard session. Proceed?"*
-
-**4. Spawn the subagent**
-
-Spawn an Agent (`model: 'opus'`): *"Read [absolute path to brief file] in full, then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
-
-**5. Surface results**
-
-When the subagent returns, present the recommended line and top contingencies in the main session. The full debrief is in the brief file at `docs/chess/[filename]`.
+Follow `/handoff` steps 3–6: show the intake summary in chat (situation in one sentence, objective, adversaries named, standing, BATNA, non-negotiables — not the framework), give the Opus cost warning, spawn the subagent against the brief file, and surface results. When results return, present the recommended line and top contingencies in the main session. The full debrief is in the brief file at `docs/chess/[filename]`.
 
 ---
 
@@ -211,7 +193,7 @@ If context is thin, ask conversationally:
 
 **Simple systems** (single service, clear dependencies, limited blast radius): run inline on Sonnet. No subagent needed.
 
-**Complex systems** (multiple interacting services, deep dependency chains, complex state machines): follow the `/handoff` pattern. Write a brief to `docs/chess/YYYY-MM-DD-[slug]-system.md` with the system description, plan, and the framework below. Spawn a Sonnet subagent (`model: 'sonnet'`). Escalate the subagent to Opus 4.6 (`model: 'opus'`) only when the system complexity genuinely warrants it.
+**Complex systems** (multiple interacting services, deep dependency chains, complex state machines): follow the `/handoff` pattern. Write a brief to `docs/chess/YYYY-MM-DD-[slug]-system.md` with the system description, plan, and the framework below. Spawn a Sonnet subagent (`model: 'sonnet'`). Escalate the subagent to Opus 4.8 (`model: 'opus'`) only when the system complexity genuinely warrants it.
 
 Surface reasoning in chat as you go.
 

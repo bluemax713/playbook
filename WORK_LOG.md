@@ -6,6 +6,47 @@
 
 ---
 
+## Session: 2026-06-11 (2) — Efficiency/efficacy audit + v1.6.6 cleanup release
+
+### Done
+- Full audit via two read-only Sonnet subagents: all 9 commands + installed-command drift; both CLAUDE.md files; settings.json/settings.local.json; ~/.claude.json MCP scoping; tech_stack.md
+- **MCP scoping cleanup in ~/.claude.json** (backup at ~/.claude.json.bak-2026-06-11): removed deprecated n8n-workflows/n8n-knowledge from magnum + palm_beach; removed duplicate project-scope ClickUp from magnum/palm_beach/cockpit; moved metabase + supabase-clenta from user scope to clenta project scope. User scope now: clickup, context7, github, granola, gws, n8n-mcp, perplexity, sentry. Restart open sessions to pick up.
+- **v1.6.6 shipped**: chess council moved after intake; chess/future dedup'd against /handoff steps 3–6; /future pre-flight conditional; subagent replies scoped to one screen; /quick no-secrets commit line; /start merge block trimmed + major-version check + explicit claude-haiku-4-5; Opus escalation target → 4.8 in both CLAUDE.md files; agentTeams docs corrected to CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var
+- Global-only: stack-catalog existence guard added to ~/.claude/CLAUDE.md; Sentry + Metabase scope notes added to tech_stack.md; stale sassonlawpllc.com WebFetch permission removed from settings.local.json
+- Verification subagent: 9/9 checks pass; installed ~/.claude/commands/ copies byte-identical to repo
+- Decisions: repo stays PUBLIC with enforced layers (public template vs private personal layer); Metabase belongs to clenta; Opus 4.8 is the escalation target
+
+### Deliberately skipped
+- end.md WORK_LOG compression stays in /end (moving it to CLAUDE.md costs ~30 tokens every session for a 1-in-100-sessions event)
+- supabase plugin (supabase@claude-plugins-official) left enabled: provides skills, not just MCP; flagged as possible future trim
+- Max reverts settings.json "fable" pin manually after this session
+
+### Next
+- **Bucket 1 (next session)**: CLAUDE.md template restructure — move distributable template to templates/, thin repo-root CLAUDE.md, update install.sh/update.sh paths. Repo stays public.
+- **Bucket 6**: brief.md + stack.md in ~/.claude/commands/ are still unversioned (do NOT commit to public repo — they're personal). Needs a private home (dotfiles repo or similar).
+- npm publish pending for 1.6.4–1.6.6: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+
+### Audit findings (prioritized)
+**High impact**
+1. CLAUDE.md duplication: global + playbook CLAUDE.md are ~88% identical, both load in this repo, ~5.7k tokens/session. Fix: move distributable template out of repo root (e.g. templates/CLAUDE.md, update install/update.sh paths), keep a thin project CLAUDE.md
+2. MCP scoping in ~/.claude.json: Metabase (~100 tools) user-scoped but single-project; deprecated n8n-workflows + n8n-knowledge still live in magnum/palm_beach; ClickUp duplicated (user scope + magnum/palm_beach/cockpit project scopes); Supabase active in 3 places (supabase-clenta user scope, supabase plugin, project scopes); superhuman-mail scoped to home dir
+3. Stale model rules: CLAUDE.md says escalate to Opus 4.6 / "never 4.7" but Opus 4.8 is current; settings.json pins alias "fable" (violates own explicit-ID rule; explicit ID is claude-fable-5); CLAUDE.md says "default Sonnet 4.6" while session actually runs Fable 5. Needs Max decision on new model policy
+4. agentTeams docs wrong in both CLAUDE.md files: real toggle is CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var, not "agentTeams": true. Misleads playbook users
+
+**Medium**
+5. chess.md/future.md duplicate ~250 words of handoff steps each + repeat model IDs in 5 places; routing checks written 3 different ways across chess/future/plan
+6. brief.md + stack.md installed in ~/.claude/commands/ but untracked anywhere: silent loss on reinstall
+7. start.md: CLAUDE.md merge block can shrink 15 lines to 3; version check hardcodes 2.0.0 threshold with no update path
+8. future.md pre-flight does 4 silent reads, conflicts with Token Safety 5-call rule
+9. chess.md council runs BEFORE intake (generic output); /plan runs it after (better)
+
+**Low**
+10. quick.md missing "never commit .env/credentials" line; end.md WORK_LOG compression only fires on /end; brief templates embed redundant "Run on Opus 4.6" lines; spawn prompts lack output-scoping for Opus subagents; consulting stack-catalog path has no existence guard; stale law-firm domain in settings.local.json; Sentry missing from tech_stack.md
+
+### Next
+- Max picks which buckets to execute; suggested order: 2 (MCP scoping, zero playbook changes) then 3+4 (model policy decision) then 1 (template restructure, touches installer) then 5-10
+- npm publish still pending for 1.6.4/1.6.5
+
 ## Session: 2026-06-11 — Haiku-routed PM task pull in /start (v1.6.5)
 
 ### Done

@@ -6,7 +6,7 @@ Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
 
 Check your project management tool for current task priorities — via a Haiku subagent, never inline:
 
-- If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'haiku'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
+- If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'claude-haiku-4-5'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
 - Use the returned summary in the briefing's **PM tasks** section.
 - Why a subagent: PM tool responses are verbose (descriptions, custom fields, metadata) and would bloat the main session's context. The subagent runs on Haiku regardless of what model the main session is on — a slash command can't change the main session's model, but it can route the heavy pull to a cheap one.
 - If no PM MCP is connected, skip this step entirely and rely on WORK_LOG.md.
@@ -22,11 +22,11 @@ Before anything else, silently check if a newer version of Playbook is available
 1. Check if `~/.claude/.playbook-version` exists. If not, skip the update check entirely.
 2. **Daily throttle:** Check if `~/.claude/.playbook-last-update-check` exists and contains today's date (format: `YYYY-MM-DD`). If it does, skip the entire update check and go straight to the normal briefing. If not (file missing or date is old), proceed and write today's date to that file after the check completes — whether or not an update was found.
 3. Read the installed version from `~/.claude/.playbook-version`.
-3. Try to fetch the latest version:
+4. Try to fetch the latest version:
    - **If git is available and `~/.claude/.playbook/` is a git repo:** Run `git -C ~/.claude/.playbook fetch origin main --quiet` then read `VERSION` from the fetched main branch using `git -C ~/.claude/.playbook show origin/main:VERSION`.
    - **If git is not available or fails:** Use `curl -sf https://raw.githubusercontent.com/bluemax713/playbook/main/VERSION` to get the latest version.
    - **If both fail:** Skip the update check entirely. Do not mention it to the user. Continue with the normal briefing.
-4. Compare the installed version with the latest version. If they match, skip to the normal briefing.
+5. Compare the installed version with the latest version. If they match, skip to the normal briefing.
 
 ### If an update is available
 
@@ -44,17 +44,8 @@ Before anything else, silently check if a newer version of Playbook is available
 
 4. **If the user says yes:**
    - Run `bash ~/.claude/.playbook/update.sh` (if git is available in the playbook dir) or fetch updated files via curl and run the update.
-   - After update.sh completes, check if CLAUDE.md has changed between versions:
-     - Via git: `git -C ~/.claude/.playbook diff vA.B.C..origin/main -- CLAUDE.md` (or compare the files directly)
-     - Or: compare `~/.claude/CLAUDE.md` with `~/.claude/.playbook/CLAUDE.md`
-   - If CLAUDE.md has NOT changed upstream: done, continue to briefing.
-   - If CLAUDE.md HAS changed upstream, tell the user what changed (summarize the differences in plain language), then offer two choices:
-     1. **Keep mine** — no changes to your CLAUDE.md
-     2. **Merge** — I'll add the new Playbook changes to your CLAUDE.md while preserving ALL of your customizations. I'll show you the result before saving.
-   - **CRITICAL: Never offer a full replacement option.** Users have personal customizations in their CLAUDE.md (their name, MCP server configs, integrations like ClickUp/Perplexity/n8n, custom rules). A full replacement would destroy all of that. The only safe options are keeping theirs or merging.
-   - If the user picks **Merge**: read both files, produce a merged version that preserves ALL user customizations (name, integrations, MCP configs, custom sections) while incorporating new upstream structural/feature changes. Show the result to the user for approval, and only write it after they confirm.
-
-   After any new settings.json permissions are available in the updated Playbook, check if the user's `~/.claude/settings.json` is missing any permissions from the Playbook version. If so, mention: "The new version includes some additional pre-approved permissions: [list them briefly]. Want me to add these to your settings?" Only add with user approval.
+   - Compare `~/.claude/CLAUDE.md` with `~/.claude/.playbook/CLAUDE.md`. If CLAUDE.md changed upstream, summarize the changes in plain language and offer exactly two choices: **Keep mine** (no changes) or **Merge** (incorporate the upstream changes while preserving ALL user customizations — name, integrations, MCP configs, custom sections — and show the merged result for approval before writing). Never offer a full replacement.
+   - If the updated Playbook's settings.json has permissions the user's `~/.claude/settings.json` lacks, list them briefly and offer to add them. Only add with approval.
 
 5. **If the user says no (skip the update):** Continue with the normal briefing. Do not mention the update again during this session.
 
@@ -65,11 +56,10 @@ Before anything else, silently check if a newer version of Playbook is available
 After the Playbook update check, verify the user's Claude Code version is reasonably current.
 
 1. Run `claude --version` to get the installed version (format: `X.Y.Z (Claude Code)`).
-2. Compare the **minor version** (the Y in X.Y.Z) against a minimum: **2.0.0**.
-3. **Only warn if the user is 2+ minor versions behind the minimum** (e.g., on 1.8.x when minimum is 2.0.0). Patch versions don't matter.
-4. If behind, show a single-line nudge — not a blocker:
+2. Look at the **major version** (the X in X.Y.Z). If it is less than **2**, the install is too old. Minor and patch versions don't matter.
+3. If too old, show a single-line nudge — not a blocker:
    > **Heads up:** Your Claude Code is vX.Y.Z — the Playbook works best on v2.0+. Run `claude update` to get the latest.
-5. If current or close enough, say nothing. No output = no noise.
+4. If current, say nothing. No output = no noise.
 
 This check should be fast (one bash command) and never block the session.
 

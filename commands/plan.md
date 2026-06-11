@@ -57,7 +57,7 @@ Write a brief to `docs/plans/YYYY-MM-DD-[slug].md` containing:
 
 Show the user a short summary of the direction and context captured. Confirm before spawning.
 
-Spawn a Sonnet subagent (`model: 'sonnet'`): *"Read [absolute path] in full, then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
+Spawn a Sonnet subagent (`model: 'sonnet'`): *"Read [absolute path], then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
 
 When the subagent returns, present the hardened plan to the user and wait for approval before making any changes.
 

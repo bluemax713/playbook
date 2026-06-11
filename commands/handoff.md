@@ -42,14 +42,14 @@ Display 150-250 words covering what was captured. This is what the user reviews 
 If the user wants to inspect or edit before running: *"The full brief is at [path] if you want to adjust anything first."*
 
 **Step 4 — Cost warning for Opus**
-If the subagent will run on Opus 4.6, say before spawning: *"This runs on Opus 4.6 — noticeably more expensive than a standard session. Proceed?"*
+If the subagent will run on Opus, say before spawning: *"This runs on Opus — noticeably more expensive than a standard session. Proceed?"*
 
 **Step 5 — Spawn the subagent**
 After the user confirms, spawn an Agent with the appropriate model:
-- Opus 4.6 (`model: 'opus'`): /chess Human Mode, /future narratives + synthesis. **Never Opus 4.7.**
+- Opus 4.8 (`model: 'opus'`): /chess Human Mode, /future narratives + synthesis
 - Sonnet (`model: 'sonnet'`): /plan Phases 2+3, /chess System Mode, generic handoffs
 
-Subagent prompt: *"Read [absolute path to brief file] in full, then execute exactly as instructed in that file. Do not ask questions. Do not invoke slash commands. Append all output under the ## Output section of that same file."*
+Subagent prompt: *"Read [absolute path to brief file], then execute exactly as instructed in that file. Do not ask questions. Do not invoke slash commands. Append all output under the ## Output section of that same file. Your reply back to the main session must be the primary output only (a one-screen summary) — everything else stays in the file."*
 
 **Step 6 — Receive and surface results**
 The subagent appends output to the brief file and returns a summary to the main session. Present the key findings to the user for discussion.

@@ -2,6 +2,20 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.6] — 2026-06-11
+
+### Commands
+- **`/chess` council now runs after intake** — advisors react to the actual situation (adversaries, standing, BATNAs) instead of commenting generically before any facts are gathered.
+- **`/chess` and `/future` deduplicated against `/handoff`** — the approval, cost-warning, spawn, and surface-results steps now live in one place (`/handoff` steps 3–6) instead of being repeated in three files. Model IDs are specified once, in `/handoff`.
+- **`/future` pre-flight is now conditional** — skips re-reading files already in context, skips the git log unless context is thin, skips PM tasks unless intake surfaces deadline pressure. Aligns with the Token Safety rules.
+- **Subagent replies are scoped** — handoff subagents now return only a one-screen primary output to the main session; full analysis stays in the brief file.
+- **`/quick` commit guardrail** — never commit .env, credentials, or temp files.
+- **`/start` trimmed** — the update-merge instructions are 3 lines instead of 15, the Claude Code version check is a simple major-version test, and the PM subagent pins the explicit `claude-haiku-4-5` model ID.
+
+### Config
+- **Opus escalation target is now Opus 4.8** (`claude-opus-4-8`) in CLAUDE.md model selection.
+- **Agent Teams enablement corrected** — the real toggle is `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"` in the `env` block of settings.json, not an `agentTeams` key.
+
 ## [1.6.5] — 2026-06-11
 
 ### Commands

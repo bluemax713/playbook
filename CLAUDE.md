@@ -48,7 +48,7 @@
 ### Hierarchy (use the lightest option that works)
 1. **Keep working in main thread** — default for most tasks
 2. **Subagent (automatic)** — for parallel research, exploration, independent sub-tasks within the same topic. You don't need to do anything.
-3. **Agent Team (automatic or requested)** — for parallel *implementation* across multiple layers (frontend + backend + tests, multi-component features, competing hypotheses). Claude may propose a team, or you can request one. Each teammate is a full Claude instance with its own context. Higher token cost (~7x) — use only when teammates can work independently on distinct scopes. Requires `"agentTeams": true` in settings.json.
+3. **Agent Team (automatic or requested)** — for parallel *implementation* across multiple layers (frontend + backend + tests, multi-component features, competing hypotheses). Claude may propose a team, or you can request one. Each teammate is a full Claude instance with its own context. Higher token cost (~7x) — use only when teammates can work independently on distinct scopes. Requires `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"` in the `env` block of settings.json.
 4. **Ralph Loop (explicit, via plugin)** — for autonomous iteration on well-defined tasks with clear success criteria. Claude works in a continuous loop, seeing its own prior work, until a completion promise is met or max iterations reached. Great for "walk away" tasks: migrations, test coverage, batch refactors. Install: `/plugin install ralph-wiggum@claude-plugins-official`. Invoke: `/ralph-loop "prompt" --max-iterations N --completion-promise "DONE"`. Cancel: `/cancel-ralph`.
 5. **Parallel session via `/handoff` (manual)** — for substantial independent work that needs a fresh context window. You open a new terminal, paste a prompt, and report back. Use only when: the task is too large for a subagent, the main session's context is degraded, or the work needs its own lifecycle. Must have material positive impact — don't over-trigger.
 
@@ -71,13 +71,13 @@
 
 ### Model Selection
 - **Default to Sonnet 4.6** (`claude-sonnet-4-6`) for all work. It handles config edits, scripts, agent setup, debugging, research, and documentation at ~1/5 the cost of Opus.
-- **Escalate to Opus 4.6** (`claude-opus-4-6`) only when the task clearly demands it: complex architectural decisions, multi-step reasoning across large contexts, financial modeling, or when Sonnet has produced incorrect/insufficient output. Never escalate to Opus 4.7 — 4.6 is the correct escalation target.
+- **Escalate to Opus 4.8** (`claude-opus-4-8`) only when the task clearly demands it: complex architectural decisions, multi-step reasoning across large contexts, financial modeling, or when Sonnet has produced incorrect/insufficient output.
 - **Use Haiku 4.5** (`claude-haiku-4-5`) when Claude is the transport layer, not the reasoning layer. Concrete routing:
   - Haiku: Explore subagents (grep, file discovery, pattern matching), simple Perplexity lookups (find a URL, confirm a version), file transforms, boilerplate from a clear template
   - Sonnet: everything else — including all Agent team members (they do real implementation), Perplexity research requiring synthesis or comparison, debugging, config, architecture
 - **Never pin aliases or `[1m]` variants.** Always use explicit model IDs. The 1M context window doubles input costs — only opt in for sessions that genuinely need giant context.
-- Model choice is per-task, not per-role. A subagent doing financial analysis escalates to Opus 4.6; a subagent doing a simple grep stays on Haiku.
-- When escalating to Opus, tell the user first in one line ("Escalating to Opus 4.6 because X") so they can push back if it's overkill.
+- Model choice is per-task, not per-role. A subagent doing financial analysis escalates to Opus 4.8; a subagent doing a simple grep stays on Haiku.
+- When escalating to Opus, tell the user first in one line ("Escalating to Opus 4.8 because X") so they can push back if it's overkill.
 - **Cost awareness:** If a task will require many tool calls, multiple subagents, or a long session, surface the scope before diving in.
 
 ### Context health

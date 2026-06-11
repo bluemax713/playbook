@@ -16,13 +16,12 @@ Before starting, confirm this is the right command:
 
 ## Pre-flight (Sonnet, inline)
 
-Silently read the following before doing anything else:
-- `WORK_LOG.md` in the current project
-- `CLAUDE.md` in the current project
-- Recent git log (last 20 commits) if available
-- Any open/in-progress PM tasks if a PM MCP is connected
+Ground the scenarios in the actual project without silent token burn:
+- If `WORK_LOG.md` and `CLAUDE.md` are already in context (e.g. `/start` ran this session), do not re-read them. Otherwise read them, using the partial-read rules from `/start` for long files.
+- Skip the git log unless project context is still thin after those reads.
+- Skip PM tasks unless intake surfaces schedule or deadline pressure.
 
-Do not summarize this to the user. Use it to ground the scenarios in the actual project.
+Do not summarize this to the user.
 
 **Check for prior runs.** Look for files in `docs/futures/`.
 
@@ -78,7 +77,7 @@ Subagent produces: a 200-300 word comparison note — what the prior thesis got 
 
 ## Generate the brief and spawn subagent
 
-Compile everything into a futures brief file and spawn an Opus 4.6 subagent. Follow the `/handoff` pattern.
+Compile everything into a futures brief file and spawn an Opus 4.8 subagent. Follow the `/handoff` pattern.
 
 **1. Write the brief**
 
@@ -91,7 +90,7 @@ Create `docs/futures/` if it doesn't exist. Write `docs/futures/YYYY-MM-DD-[slug
 [Fresh run / Retrospective update from [prior date]]
 
 ## Run instructions
-Run on Opus 4.6 (claude-opus-4-6). Do not switch models. Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
+Do not ask questions. Do not invoke slash commands. Surface reasoning in chat as you go. Append all output under ## Output in this file.
 
 ## Project context
 [3-5 bullet points from WORK_LOG + CLAUDE.md: current state, recent decisions, known constraints. Enough to ground the scenarios — not a wall of text.]
@@ -227,23 +226,9 @@ If there are `[critical, active]` items: one line acknowledging them ("Keep [X] 
 
 ---
 
-**2. Show intake summary and get approval**
+**2. Hand off**
 
-Display a short summary in chat: north star in one sentence, fear, constraints, timeframe, shaky assumptions. Do NOT show the full framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
-
-If the user wants to review or edit: *"The full brief is at [path] if you want to adjust anything first."*
-
-**3. Cost warning**
-
-*"This runs on Opus 4.6 — noticeably more expensive than a standard session. Proceed?"*
-
-**4. Spawn the subagent**
-
-Spawn an Agent (`model: 'opus'`): *"Read [absolute path to brief file] in full, then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
-
-**5. Surface results**
-
-When the subagent returns, present the one-screen primary output (thesis → 3 decisions → 3 anti-patterns → your move this week) in the main session for discussion.
+Follow `/handoff` steps 3–6: show the intake summary in chat (north star in one sentence, fear, constraints, timeframe, shaky assumptions — not the framework), give the Opus cost warning, spawn the subagent against the brief file, and surface results. When results return, present the one-screen primary output (thesis → 3 decisions → 3 anti-patterns → your move this week) in the main session for discussion.
 
 ---
 
