@@ -61,7 +61,7 @@ fi
 if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
   echo "  CLAUDE.md already exists — skipping (back up yours first if you want to replace it)"
 else
-  cp "$PLAYBOOK_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+  cp "$PLAYBOOK_DIR/templates/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
   echo "  Installed CLAUDE.md"
 fi
 

@@ -28,7 +28,7 @@ fetch_via_git() {
 
 fetch_via_curl() {
   # Download key files individually via GitHub raw content
-  local files=("VERSION" "CHANGELOG.md" "CLAUDE.md" "settings.json" "install.sh" "update.sh")
+  local files=("VERSION" "CHANGELOG.md" "settings.json" "install.sh" "update.sh")
   local cmd_files=("start.md" "end.md" "plan.md" "debug.md" "quick.md" "handoff.md" "new-project.md")
 
   mkdir -p "$PLAYBOOK_DIR/commands"
@@ -41,6 +41,9 @@ fetch_via_curl() {
   for f in "${cmd_files[@]}"; do
     curl -sf "$RAW_BASE/commands/$f" -o "$PLAYBOOK_DIR/commands/$f" || return 1
   done
+
+  # Fetch the CLAUDE.md template (required — /start compares it against the user's copy)
+  curl -sf "$RAW_BASE/templates/CLAUDE.md" -o "$PLAYBOOK_DIR/templates/CLAUDE.md" || return 1
 
   # Fetch templates (non-fatal if missing — they're optional)
   curl -sf "$RAW_BASE/templates/tech_stack.md" -o "$PLAYBOOK_DIR/templates/tech_stack.md" 2>/dev/null

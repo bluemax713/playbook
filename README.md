@@ -8,7 +8,7 @@ Most Claude Code configs are built for developers. This one is built for operato
 
 | File | What it does |
 |------|-------------|
-| `CLAUDE.md` | Core rules: quarterback model, session discipline, verification, context management |
+| `templates/CLAUDE.md` | Core rules: quarterback model, session discipline, verification, context management |
 | `commands/start.md` | `/start` — session kickoff with project briefing |
 | `commands/end.md` | `/end` — session closeout with handoff documentation |
 | `commands/plan.md` | `/plan` — brainstorm + plan in one command (auto-detects complexity) |

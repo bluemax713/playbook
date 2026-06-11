@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.7] — 2026-06-11
+
+### Structure
+- **CLAUDE.md template moved to `templates/CLAUDE.md`** — the repo-root CLAUDE.md is now a thin set of repo development rules. Before this, anyone working in the playbook repo loaded both the global CLAUDE.md and a near-identical project copy every session (~5.7k wasted tokens). Installers (shell and npm), the update fetch list, and the `/start` merge comparison all point at the new path. Installed users see no change: the template still lands at `~/.claude/CLAUDE.md`.
+
 ## [1.6.6] — 2026-06-11
 
 ### Commands

@@ -44,7 +44,7 @@ Before anything else, silently check if a newer version of Playbook is available
 
 4. **If the user says yes:**
    - Run `bash ~/.claude/.playbook/update.sh` (if git is available in the playbook dir) or fetch updated files via curl and run the update.
-   - Compare `~/.claude/CLAUDE.md` with `~/.claude/.playbook/CLAUDE.md`. If CLAUDE.md changed upstream, summarize the changes in plain language and offer exactly two choices: **Keep mine** (no changes) or **Merge** (incorporate the upstream changes while preserving ALL user customizations — name, integrations, MCP configs, custom sections — and show the merged result for approval before writing). Never offer a full replacement.
+   - Compare `~/.claude/CLAUDE.md` with `~/.claude/.playbook/templates/CLAUDE.md`. If CLAUDE.md changed upstream, summarize the changes in plain language and offer exactly two choices: **Keep mine** (no changes) or **Merge** (incorporate the upstream changes while preserving ALL user customizations — name, integrations, MCP configs, custom sections — and show the merged result for approval before writing). Never offer a full replacement.
    - If the updated Playbook's settings.json has permissions the user's `~/.claude/settings.json` lacks, list them briefly and offer to add them. Only add with approval.
 
 5. **If the user says no (skip the update):** Continue with the normal briefing. Do not mention the update again during this session.

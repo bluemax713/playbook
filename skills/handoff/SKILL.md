@@ -4,44 +4,85 @@ description: Generates a self-contained prompt for a parallel Claude Code sessio
 disable-model-invocation: true
 ---
 
-This command is for CLAUDE to invoke, never the user. Generate a parallel session prompt when a task should run in a separate Claude Code terminal with fresh context.
+This command is for Claude to invoke — not the user. It defines the canonical subagent pattern used by /chess, /future, /plan, and any task that benefits from a fresh context window. Replaces the old copy-paste terminal approach entirely.
 
-## When to use this
+---
 
-Only when ALL of these are true:
-- The task is substantial enough to benefit from a fresh context window
-- The task is independent from the main session's current work
-- Continuing in the main session would materially degrade output quality
-- A subagent within this session can't handle it (too large, needs its own lifecycle)
+## The pattern
 
-Do NOT use when:
-- The session is almost done anyway
-- A subagent would suffice
-- The overhead of context-switching outweighs the benefit
+**Step 1 — Intake in main session (Sonnet)**
+Run intake conversationally. Collect everything the subagent needs to execute without asking questions.
 
-## What to generate
+**Step 2 — Write the brief**
+Compile intake data + execution framework into a structured .md file. Use the relevant subdirectory:
+- `/chess` → `docs/chess/YYYY-MM-DD-[slug].md`
+- `/future` → `docs/futures/YYYY-MM-DD-[slug].md`
+- `/plan` → `docs/plans/YYYY-MM-DD-[slug].md`
+- Generic → `docs/handoffs/YYYY-MM-DD-[slug].md`
 
-Create a complete, self-contained prompt block to paste into a new Claude Code terminal. The block must include:
+Create the directory if it doesn't exist.
 
-1. **Context** — Everything the new session needs to know. No assumptions about shared state. Include specific file paths, IDs, table names, and any decisions already made.
-2. **Task** — Clear, specific instructions for what to do.
-3. **Embedded commands** — If the new session should /plan first, say so explicitly in the prompt.
-4. **Output instructions** — Tell the new session to:
-   - Save all artifacts to files (not just terminal output)
-   - Write a brief summary to `HANDOFF_RESULT.md` in the project root: what was done, what files changed, any decisions made
-   - Do NOT run /end — no WORK_LOG update, no PM tool update, no commit. Just do the work and stop.
-   - The user will close the terminal when done.
+**Brief file structure:**
+```
+# [Command] Brief — [YYYY-MM-DD] — [slug]
 
-## Format for the user
+## Run instructions
+Run on [model]. Do not ask questions. Do not invoke slash commands.
+Append all output under ## Output in this file.
 
-Present the prompt in a single code block that can be copy-pasted. Preface it with:
-- One sentence explaining what the parallel session will do
-- "Open a new Claude Code terminal and paste the block below. When it's done, come back here and tell me 'parallel done.'"
+## [Intake data — context, goals, constraints, situation]
 
-## After return
+## Framework
+[Full execution instructions for the subagent]
 
-When the user says the parallel session is done:
-1. Read `HANDOFF_RESULT.md` from the project root
-2. Integrate the results into the main session's work
-3. Delete `HANDOFF_RESULT.md` (cleanup)
-4. Continue with the main session's work
+---
+
+## Output
+
+*(appended by subagent)*
+```
+
+**Step 3 — Show intake summary in chat**
+Display 150-250 words covering what was captured. This is what the user reviews and approves — not the full brief or the framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
+
+If the user wants to inspect or edit before running: *"The full brief is at [path] if you want to adjust anything first."*
+
+**Step 4 — Cost warning for Opus**
+If the subagent will run on Opus, say before spawning: *"This runs on Opus — noticeably more expensive than a standard session. Proceed?"*
+
+**Step 5 — Spawn the subagent**
+After the user confirms, spawn an Agent with the appropriate model:
+- Opus 4.8 (`model: 'opus'`): /chess Human Mode, /future narratives + synthesis
+- Sonnet (`model: 'sonnet'`): /plan Phases 2+3, /chess System Mode, generic handoffs
+
+Subagent prompt: *"Read [absolute path to brief file], then execute exactly as instructed in that file. Do not ask questions. Do not invoke slash commands. Append all output under the ## Output section of that same file. Your reply back to the main session must be the primary output only (a one-screen summary) — everything else stays in the file."*
+
+**Step 6 — Receive and surface results**
+The subagent appends output to the brief file and returns a summary to the main session. Present the key findings to the user for discussion.
+
+**Step 7 — Continue in main session**
+Discussion, follow-up decisions, and next steps happen here. Do not start a new session for the debrief.
+
+---
+
+## When to use subagents vs. inline
+
+Use a subagent when:
+- The task will generate substantial output (3,000+ tokens) that would bloat main session
+- A fresh context window produces meaningfully better output (adversarial analysis, scenario narratives)
+- The task is independent enough to run without back-and-forth
+
+Stay inline when:
+- The task is conversational or needs real-time course-correction
+- The output is short and immediately actionable
+- The overhead of a subagent isn't worth it
+
+---
+
+## Generic handoff (no specific command)
+
+When handing off work not covered by /chess, /future, or /plan:
+1. Summarize task + context into a brief
+2. Save to `docs/handoffs/YYYY-MM-DD-[slug].md`
+3. Follow steps 3-7 above
+4. After return: read the Output section, integrate results into the main session's work
