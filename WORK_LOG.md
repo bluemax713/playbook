@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-06-11
 
-## Overall State: v1.6.5 committed and pushed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.6 committed and pushed. npm publish pending for 1.6.4–1.6.6 — Max runs manually.
 
 ---
 
