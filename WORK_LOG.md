@@ -2,9 +2,33 @@
 
 ## Last updated: 2026-06-11
 
-## Overall State: v1.6.6 committed and pushed. npm publish pending for 1.6.4–1.6.6 — Max runs manually.
+## Overall State: v1.6.7 committed, pushed, and published to npm. Bucket 6 resolved (claude-personal private repo).
 
 ---
+
+## Session: 2026-06-11 (3) — Bucket 1: CLAUDE.md template restructure (v1.6.7)
+
+### Done
+- **Template moved**: `CLAUDE.md` → `templates/CLAUDE.md` (git mv, history preserved)
+- **New thin repo-root CLAUDE.md**: dev rules only (~20 lines) with a guard note telling older /start update flows the template moved. Kills the ~5.7k tokens/session duplication when working in this repo
+- **Path updates in both install paths**: install.sh copy source; update.sh curl list (root CLAUDE.md removed, templates/CLAUDE.md added as required fetch); lib/installer.js (copy from templates/, PLAYBOOK_SOURCE_FILES trimmed, templates/ now mirrored into .playbook/templates/)
+- **start.md merge comparison** → `~/.claude/.playbook/templates/CLAUDE.md`; synced to ~/.claude/commands/
+- package.json files list and README repo table updated
+- **skills/ regenerated** via scripts/build-skills.js — caught stale drift in end/handoff/plan/quick/debug SKILL.md from 1.6.5–1.6.6 (build script hadn't been run those releases)
+- Verified: bash -n both shell scripts, node --check installer.js, npm pack dry-run ships templates/CLAUDE.md, grep clean for stale paths
+- Bumped VERSION, CHANGELOG, package.json, ~/.claude/.playbook-version to 1.6.7. Committed and pushed (da4043b)
+
+### Notes
+- build-skills.js warns: no SKILL_META for chess/future/new-project — pre-existing, those commands generate no skill. Possible future fix
+- Transition risk accepted: users updating from <1.6.7 via curl fallback get the thin root CLAUDE.md in .playbook/; the guard note in that file steers Claude away from a bad merge
+
+### Also this session
+- **npm published**: playbook-ai@1.6.7 live (Max ran publish; npm now current through 1.6.7)
+- **Bucket 6 resolved**: created PRIVATE repo bluemax713/claude-personal (~/Documents/GitHub/claude-personal) holding commands/brief.md, commands/stack.md, global CLAUDE.md, tech_stack.md + install.sh (commands always copy; CLAUDE.md/tech_stack.md only if missing). Sync rule added to global ~/.claude/CLAUDE.md as "Personal Files Versioning" section: edit live file in ~/.claude/ → commit to claude-personal same pass. Verified: repo PRIVATE, pushed, working tree clean
+- Local ~/.claude/.playbook mirror was stuck at v1.2.1 with curl-overwritten files; reset to origin/main (now clean 1.6.7 checkout)
+
+### Next
+- Max reverts settings.json "fable" pin manually (flag if still pinned after late June 2026)
 
 ## Session: 2026-06-11 (2) — Efficiency/efficacy audit + v1.6.6 cleanup release
 
