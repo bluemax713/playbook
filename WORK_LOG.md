@@ -1,10 +1,21 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-08
+## Last updated: 2026-06-11
 
-## Overall State: v1.6.4 committed and pushed. Not yet published to npm — Max runs manually.
+## Overall State: v1.6.5 committed. Not yet published to npm — Max runs manually.
 
 ---
+
+## Session: 2026-06-11 — Haiku-routed PM task pull in /start (v1.6.5)
+
+### Done
+- `/start` PM task check now routes through a Haiku subagent (`model: 'haiku'`) instead of an inline MCP call — keeps verbose PM payloads (ClickUp custom fields, descriptions) out of the main session context, and costs Haiku rates regardless of session model
+- Documented in start.md why: a slash command can't change the main session's model, but it can route the heavy pull to a cheap subagent
+- Audited all 9 commands: no other command had Haiku-suitable work — `/start`'s remaining steps (partial WORK_LOG read, two bash checks) are cheaper inline than via subagent
+- Synced start.md to ~/.claude/commands/. Bumped VERSION, CHANGELOG, package.json, .playbook-version to 1.6.5
+
+### Next
+- npm publish: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
 
 ## Session: 2026-06-08 — Token Safety rules
 

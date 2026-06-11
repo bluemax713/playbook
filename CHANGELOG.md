@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.5] — 2026-06-11
+
+### Commands
+- **Haiku-routed PM task pull in `/start`** — task queries to your PM tool (ClickUp, Linear, etc.) now run through a Haiku subagent instead of inline. Verbose PM payloads stay out of the main session's context, and the pull costs Haiku rates no matter what model your session is running on (Sonnet, Opus, or Fable).
+
 ## [1.6.4] — 2026-06-08
 
 ### Config

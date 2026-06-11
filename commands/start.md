@@ -4,7 +4,12 @@ Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
 - Skip all "Previous Sessions" / older dated entries — that history exists for reference but shouldn't be loaded into context on every start
 - If WORK_LOG.md is under 80 lines total, just read the whole thing
 
-Check your project management tool via MCP (if available) for current task priorities. If not connected, skip this step and rely on WORK_LOG.md.
+Check your project management tool for current task priorities — via a Haiku subagent, never inline:
+
+- If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'haiku'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
+- Use the returned summary in the briefing's **PM tasks** section.
+- Why a subagent: PM tool responses are verbose (descriptions, custom fields, metadata) and would bloat the main session's context. The subagent runs on Haiku regardless of what model the main session is on — a slash command can't change the main session's model, but it can route the heavy pull to a cheap one.
+- If no PM MCP is connected, skip this step entirely and rely on WORK_LOG.md.
 
 Check your auto-memory files for any relevant context from prior sessions.
 
