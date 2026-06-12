@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.8] — 2026-06-12
+
+### Workflow
+- **New "Merge & Review Workflow" section in the CLAUDE.md template** — the user approves product intent, not code; Claude owns technical confidence and states it explicitly at every merge call. Review gates scale to risk: docs need only mechanical checks, code changes require an independent review by a different agent than the author, and high-risk surfaces (migrations, deploy pipelines, auth, payments) additionally require behavioral verification or staged rollout. Every merge call is presented in product terms with a low/medium/high risk rating. Born from a real session where an author agent's self-checks were the only gate on a deploy-pipeline PR — an independent reviewer then found two production-grade bugs in it.
+
 ## [1.6.7] — 2026-06-11
 
 ### Structure

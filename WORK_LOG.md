@@ -1,10 +1,20 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-11
+## Last updated: 2026-06-12
 
-## Overall State: v1.6.7 committed, pushed, and published to npm. Bucket 6 resolved (claude-personal private repo).
+## Overall State: v1.6.8 committed and pushed (NOT yet published to npm — git/curl update path covers installed users). Bucket 6 resolved (claude-personal private repo).
 
 ---
+
+## Session: 2026-06-12 — Merge & Review Workflow (v1.6.8, cross-session drive-by from clenta)
+
+### Done
+- **New template section `## Merge & Review Workflow`** in `templates/CLAUDE.md` (after Development Rules): user approves product intent, Claude owns technical confidence; review gates scaled to risk (docs = mechanical only; code = independent reviewer agent distinct from the author + type/lint gates; high-risk surfaces = reviewer + behavioral verification/staged rollout); merge calls presented in product terms with risk rating.
+- CHANGELOG 1.6.8 entry, VERSION bumped 1.6.7 → 1.6.8.
+- Context: born in clenta Session 189 — Max stated he does not technically review PRs ("you will have to run your own checks/validations"). The same section (Max-personalized wording) was added to the live `~/.claude/CLAUDE.md` and synced to claude-personal (commit da1689d) in the same pass.
+
+### Remaining
+- npm publish for 1.6.8 not run from this session — do it from a proper playbook session if npm distribution matters for this version.
 
 ## Session: 2026-06-11 (3) — Bucket 1: CLAUDE.md template restructure (v1.6.7)
 

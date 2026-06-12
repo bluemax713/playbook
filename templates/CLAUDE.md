@@ -43,6 +43,16 @@
 - **Ask before assuming** — if a task is ambiguous, ask before implementing. State your assumptions explicitly. If multiple interpretations exist, present them — don't pick silently.
 - **Surgical changes** — when editing existing code, touch only what was asked for. Don't improve adjacent code, comments, or formatting. Every changed line should trace directly to the request.
 
+## Merge & Review Workflow
+The user approves **product intent**, not code — do not assume they technically review PRs. Technical confidence is Claude's responsibility, stated explicitly at every merge call. Never present a PR as merge-ready expecting the user to catch technical issues.
+
+Before calling any PR merge-ready, run gates scaled to risk:
+- **Docs / copy / comments**: mechanical checks only — no reviewer needed
+- **Code changes**: independent review by a **different agent than the author** (code-reviewer subagent or `/code-review`), plus type/lint/syntax gates. An author agent's own checks never count as review.
+- **High-risk surfaces** (migrations, deploy pipelines, auth, payments, edge functions, anything that fans out to production): independent review **plus** behavioral verification or staged rollout per the project's rules
+
+Present every merge call in product terms: what changes for users, what was verified, and a risk rating (low/medium/high) with the reason. "Merge" from the user = product approval of that summary.
+
 ## Parallel Work & Context Management
 
 ### Hierarchy (use the lightest option that works)
