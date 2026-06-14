@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-06-14
 
-## Overall State: v1.6.8 LIVE on npm. v1.6.9 (statusline installed by default) on branch feat/optional-statusline → PR #1 open, awaiting merge + npm publish. Local version markers at 1.6.9.
+## Overall State: v1.6.9 LIVE on npm (published 2026-06-14, registry confirmed; extras/statusline ships in tarball). Statusline installed by default. PR #1 merged to main, branch deleted. All version markers aligned at 1.6.9.
 
 ---
 
