@@ -1,10 +1,21 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-12
+## Last updated: 2026-06-14
 
-## Overall State: v1.6.8 committed and pushed (NOT yet published to npm — git/curl update path covers installed users). Bucket 6 resolved (claude-personal private repo).
+## Overall State: v1.6.8 LIVE on npm (published 2026-06-14). All version markers aligned at 1.6.8. Bucket 6 resolved (claude-personal private repo).
 
 ---
+
+## Session: 2026-06-14 — Fable cleanup + Iris caching pattern + v1.6.8 npm publish
+
+### Done
+- **Fable removal verified clean**: Anthropic removed the Fable model. `~/.claude/settings.json` is `model: opus` with zero Fable refs; grep across all commands, `templates/CLAUDE.md`, and installed `~/.claude/CLAUDE.md` clean. Default policy (Sonnet 4.6 → Opus 4.8) was always the real plan; Fable was only ever a one-session manual pin. Memory `fable-pin-temporary` tombstoned. Only residue: historical mentions in this WORK_LOG (harmless).
+- **Iris caching plan preserved** (cross-project, off-Playbook ask): the untracked `prompt-caching-iris-api.md` existed identically in clenta (canonical home) + nanoclaw (at-risk copy). Per Max's choice, extracted the generalizable pattern to `~/Documents/Reference/prompt-library/anthropic-prompt-caching-agentic-loops.md`; full Iris-specific version backed up at `~/Documents/Reference/preserved-plans/prompt-caching-iris-api.2026-06-14.md`. `reference-personal-library` memory updated to surface both.
+- **v1.6.8 published to npm**: caught a version-sync bug — the v1.6.8 commit had bumped VERSION + CHANGELOG but missed `package.json` (still 1.6.7), which would have blocked publish. Bumped package.json → 1.6.8, bumped local `.playbook-version` → 1.6.8, verified dry-run pack ships templates/CLAUDE.md, committed + pushed (1bac836). Max ran `npm publish`; confirmed `npm view playbook-ai version` = 1.6.8 (published 14:15Z).
+
+### Notes for next session
+- **Process gap to watch**: the v1.6.8 commit missing package.json shows the "bump all four markers in one commit" rule (VERSION, CHANGELOG, package.json, .playbook-version) can slip on cross-session drive-by commits from other projects. Worth a pre-publish checklist or guard.
+- `WORK_LOG.md:67` (older session) flags a stale model-policy line in the template — now doubly stale post-Fable. Candidate cleanup for a future release.
 
 ## Session: 2026-06-12 — Merge & Review Workflow (v1.6.8, cross-session drive-by from clenta)
 
