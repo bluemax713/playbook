@@ -64,13 +64,14 @@ gradient_bar() {
     fi
     color="${RAMP[$ramp_idx]}"
     # Even-pace target marker: thin line. Over the filled bar it sits on the fill
-    # color in a contrasting hue (no black notch); over the empty track it is white.
+    # color in a contrasting hue (no black notch); over the empty track it is a
+    # bright sky-blue — visible on both dark and light terminal backgrounds.
     if [ -n "$marker" ] && [ "$i" -eq "$marker" ]; then
       if (( i < full || (i == full && part > 0) )); then
         contrast="${CONTRAST[$ramp_idx]}"
         out+="\033[0m\033[48;5;${color}m\033[38;5;${contrast}m│\033[0m"
       else
-        out+="\033[0m\033[97m│\033[0m"
+        out+="\033[0m\033[38;5;39m│\033[0m"
       fi
       continue
     fi

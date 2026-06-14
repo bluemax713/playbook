@@ -80,6 +80,16 @@ else
   echo "  Installed settings.json"
 fi
 
+# Copy statusline (won't overwrite if exists — users are encouraged to customize it).
+# Its config ships in settings.json, so a fresh install gets a working statusline by default.
+if [ -f "$CLAUDE_DIR/statusline.sh" ]; then
+  echo "  statusline.sh already exists — skipping (yours is preserved)"
+else
+  cp "$PLAYBOOK_DIR/extras/statusline/statusline.sh" "$CLAUDE_DIR/statusline.sh"
+  chmod +x "$CLAUDE_DIR/statusline.sh"
+  echo "  Installed statusline.sh"
+fi
+
 # Install hooks script
 mkdir -p "$CLAUDE_DIR/hooks"
 cp "$PLAYBOOK_DIR/hooks/precompact-save.sh" "$CLAUDE_DIR/hooks/precompact-save.sh"

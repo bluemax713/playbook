@@ -219,13 +219,23 @@ This drops a DESIGN.md file into your project. Then just tell Claude "build this
 
 **When to use this:** Any time you're building a UI and want it to look polished and familiar rather than generic. "Make my dashboard look like Linear" or "style this like Apple" becomes a one-liner that actually works.
 
-## Optional extras
+## The statusline
 
-Add-ons that aren't part of the core install — opt in if you want them.
+Playbook installs a **statusline** by default: a three-line dashboard at the bottom of your terminal so you always know what Claude is doing and using.
 
-| Extra | What it does |
-|-------|-------------|
-| **[Statusline](extras/statusline/)** | A three-line dashboard at the bottom of your terminal: model + context-window usage + session cost, git branch + PR, and your 5-hour / weekly plan-limit bars. Costs zero tokens (it's a local script). Best on a 256-color dark-theme terminal. See [`extras/statusline/`](extras/statusline/) for install steps and requirements. |
+```
+Opus 4.8  ▕████████▍░░░▏ 415k/1.0M (42%)  +501 -77 | $67.85
+main #42 Fix flaky test | myrepo
+Session ▕████░░│░▏ 50% ↻ 05:43 PM   Weekly ▕█▌░│░░░░▏ 20% ↻ 06-15 02:00 AM
+```
+
+1. **This conversation** — the model, how full the chat's memory is (the bar + tokens + %), lines changed, and the session's cost.
+2. **Your code** — git branch, a clickable PR link, the session name, and a repo-aware folder name.
+3. **Your plan limits** — your 5-hour and weekly usage bars, with a marker showing whether you're burning faster or slower than an even pace.
+
+It costs **zero tokens** — it's a local script Claude Code runs, not a call to a model. The colors are tuned to look great on a dark terminal and stay readable on a light one.
+
+**Don't want it?** Remove the `statusLine` block from `~/.claude/settings.json`. **Want to tweak it?** The source and customization knobs are in [`extras/statusline/`](extras/statusline/) — and your edits are never overwritten by updates.
 
 ## Troubleshooting
 

@@ -1,4 +1,4 @@
-# Statusline (optional)
+# Statusline
 
 A three-line custom statusline for Claude Code — a live dashboard that sits at the
 bottom of your terminal. It shows, at a glance:
@@ -9,8 +9,10 @@ main #42 Fix flaky test | myrepo
 Session ▕████░░│░▏ 50% ↻ 05:43 PM   Weekly ▕█▌░│░░░░▏ 20% ↻ 06-15 02:00 AM
 ```
 
-This is **optional**. It is not part of the standard Playbook install — nothing
-runs it unless you wire it up yourself with the two steps below.
+**Playbook installs this by default.** This folder is the source — read on if you
+want to customize it, turn it off, or reinstall it. To **turn it off**, remove the
+`statusLine` block from `~/.claude/settings.json`. Your own edits to
+`~/.claude/statusline.sh` are never overwritten by updates.
 
 ## What each line tells you
 
@@ -30,13 +32,14 @@ runs it unless you wire it up yourself with the two steps below.
 ## Requirements
 
 - `bash` and [`jq`](https://jqlang.github.io/jq/)
-- A **256-color**, Unicode-capable terminal on a **dark background**. On a default
-  light terminal the bars and box characters may look wrong — this is built for a
-  dark theme.
+- A **256-color**, Unicode-capable terminal. The colors are tuned to look great on
+  a **dark** background and stay readable on a **light** one.
 - Optional: [`gh`](https://cli.github.com/) for the clickable open-PR display.
 - macOS or Linux (date handling is cross-platform).
 
-## Install
+## Reinstall manually
+
+Playbook installs this for you. If you removed it and want it back:
 
 1. Copy `statusline.sh` into your Claude config folder and make it executable:
    ```bash
