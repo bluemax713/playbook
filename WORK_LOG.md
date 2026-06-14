@@ -2,9 +2,25 @@
 
 ## Last updated: 2026-06-14
 
-## Overall State: v1.6.8 LIVE on npm (published 2026-06-14). All version markers aligned at 1.6.8. Bucket 6 resolved (claude-personal private repo).
+## Overall State: v1.6.8 LIVE on npm. v1.6.9 (optional statusline) on branch feat/optional-statusline → PR #1 open, awaiting merge + npm publish. Local version markers at 1.6.9.
 
 ---
+
+## Session: 2026-06-14 (2) — Optional statusline extra (v1.6.9) + personal backup
+
+### Done
+- **Vetted a third-party statusline** Max's brother sent (`~/Downloads/claude-statusline/`): read all 3 files line-by-line. Clean — no injection/exfil/file-writes/obfuscation; reads stdin JSON via jq, read-only git/gh, prints colored text. Zero token cost (local script, not a model call).
+- **Installed + customized for Max**: copied to `~/.claude/statusline.sh` (checksum-verified), wired `statusLine` block into `~/.claude/settings.json`. Per Max's preference, stripped ALL faces — the `mascot_for` mood-emoticons on the usage line AND the `($‿$)` money-eyes cost easter egg — and switched reset times to AM/PM (`%I:%M %p`). Verified face-free render at multiple usage states.
+- **Part A — personal backup**: committed customized `statusline.sh` to `claude-personal` repo (f33c7f7, pushed). `install.sh` now copies it to `~/.claude/`; README documents the settings.json block (not auto-wired). settings.json itself is not versioned there.
+- **Part B — public Playbook**: added as OPT-IN extra at `extras/statusline/` (statusline.sh + preview.sh + README), linked from main README under new "Optional extras" section. NOT wired into install flow (sidesteps terminal-compat support burden for non-technical users → zero installer changes, so the two-install-path rule needs no sync). Bumped VERSION/package.json/CHANGELOG → 1.6.9, added `extras/` to npm files array, bumped live `.playbook-version` → 1.6.9. Branch `feat/optional-statusline`, **PR #1 open**.
+- **Independent review** (code-reviewer subagent): security clean, version discipline consistent, installer-sync correctly skipped. Flagged README pace-marker wording as ambiguous for non-technical readers → rewrote it concretely (fill short-of-marker = under burn rate; past = faster). Declined the "marker stuck at cell 0 early in window" flag — inherent to an 8-cell discrete bar, original-author design, not a bug.
+
+### Remaining
+- **Merge PR #1** (Max's product call) — then **npm publish 1.6.9** (Max's explicit trigger; not auto-run).
+- After merge, delete local `feat/optional-statusline` branch.
+
+### Notes
+- Provenance: Max waved off "who wrote it" for personal use (correct — it's safe). For the public republish we kept a neutral "adapted from a community statusline" credit + the original's public-domain license note. A confirm-with-brother on origin is optional, low-stakes.
 
 ## Session: 2026-06-14 — Fable cleanup + Iris caching pattern + v1.6.8 npm publish
 
