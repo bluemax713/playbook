@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.9] — 2026-06-14
+
+### Extras
+- **Optional statusline** — a new opt-in `extras/statusline/` add-on: a three-line terminal dashboard showing model + context-window usage + session cost, git branch + open PR, and your 5-hour / weekly plan-limit bars with even-pace markers. It costs zero tokens (a local shell script Claude Code runs, not a model call) and is not part of the standard install — you wire it up yourself with two steps. Ships face-free with AM/PM reset times; requirements and customization knobs are documented in `extras/statusline/README.md`.
+
 ## [1.6.8] — 2026-06-12
 
 ### Workflow

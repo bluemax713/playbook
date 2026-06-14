@@ -219,6 +219,14 @@ This drops a DESIGN.md file into your project. Then just tell Claude "build this
 
 **When to use this:** Any time you're building a UI and want it to look polished and familiar rather than generic. "Make my dashboard look like Linear" or "style this like Apple" becomes a one-liner that actually works.
 
+## Optional extras
+
+Add-ons that aren't part of the core install — opt in if you want them.
+
+| Extra | What it does |
+|-------|-------------|
+| **[Statusline](extras/statusline/)** | A three-line dashboard at the bottom of your terminal: model + context-window usage + session cost, git branch + PR, and your 5-hour / weekly plan-limit bars. Costs zero tokens (it's a local script). Best on a 256-color dark-theme terminal. See [`extras/statusline/`](extras/statusline/) for install steps and requirements. |
+
 ## Troubleshooting
 
 **Sessions are slow or timing out?** It might be your connection, not Claude. Install the [Speedtest CLI](https://www.speedtest.net/apps/cli) to rule out network issues:
