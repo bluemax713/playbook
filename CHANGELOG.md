@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.9] — 2026-06-14
+
+### Added
+- **Statusline now installed by default** — a three-line terminal dashboard that gives you live visibility into what Claude is doing and using: model + context-window usage (how full the chat's memory is) + session cost, git branch + clickable open PR, and your 5-hour / weekly plan-limit bars with even-pace markers. It costs **zero tokens** (a local shell script Claude Code runs, not a model call). Fresh installs get it automatically; the colors are tuned to look great on a dark terminal and stay readable on a light one. Source and customization knobs live in `extras/statusline/`. To turn it off, remove the `statusLine` block from `~/.claude/settings.json`. Your own edits to `statusline.sh` are never overwritten by updates.
+
 ## [1.6.8] — 2026-06-12
 
 ### Workflow

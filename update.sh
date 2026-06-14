@@ -33,10 +33,14 @@ fetch_via_curl() {
 
   mkdir -p "$PLAYBOOK_DIR/commands"
   mkdir -p "$PLAYBOOK_DIR/templates"
+  mkdir -p "$PLAYBOOK_DIR/extras/statusline"
 
   for f in "${files[@]}"; do
     curl -sf "$RAW_BASE/$f" -o "$PLAYBOOK_DIR/$f" || return 1
   done
+
+  # Fetch the statusline script (non-fatal — a curl hiccup shouldn't abort the update)
+  curl -sf "$RAW_BASE/extras/statusline/statusline.sh" -o "$PLAYBOOK_DIR/extras/statusline/statusline.sh" 2>/dev/null
 
   for f in "${cmd_files[@]}"; do
     curl -sf "$RAW_BASE/commands/$f" -o "$PLAYBOOK_DIR/commands/$f" || return 1
@@ -109,6 +113,14 @@ fi
 if [ ! -f "$CLAUDE_DIR/tech_stack.md" ] && [ -f "$PLAYBOOK_DIR/templates/tech_stack.md" ]; then
   cp "$PLAYBOOK_DIR/templates/tech_stack.md" "$CLAUDE_DIR/tech_stack.md"
   echo "  Installed tech_stack.md template"
+fi
+
+# --- Install statusline if missing (never overwrite — users customize it) ---
+# Existing users get the script here; the statusLine setting is offered in /start.
+if [ ! -f "$CLAUDE_DIR/statusline.sh" ] && [ -f "$PLAYBOOK_DIR/extras/statusline/statusline.sh" ]; then
+  cp "$PLAYBOOK_DIR/extras/statusline/statusline.sh" "$CLAUDE_DIR/statusline.sh"
+  chmod +x "$CLAUDE_DIR/statusline.sh"
+  echo "  Installed statusline.sh"
 fi
 
 # --- Update version (LAST — only on success) ---

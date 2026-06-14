@@ -219,6 +219,24 @@ This drops a DESIGN.md file into your project. Then just tell Claude "build this
 
 **When to use this:** Any time you're building a UI and want it to look polished and familiar rather than generic. "Make my dashboard look like Linear" or "style this like Apple" becomes a one-liner that actually works.
 
+## The statusline
+
+Playbook installs a **statusline** by default: a three-line dashboard at the bottom of your terminal so you always know what Claude is doing and using.
+
+```
+Opus 4.8  ▕████████▍░░░▏ 415k/1.0M (42%)  +501 -77 | $67.85
+main #42 Fix flaky test | myrepo
+Session ▕████░░│░▏ 50% ↻ 05:43 PM   Weekly ▕█▌░│░░░░▏ 20% ↻ 06-15 02:00 AM
+```
+
+1. **This conversation** — the model, how full the chat's memory is (the bar + tokens + %), lines changed, and the session's cost.
+2. **Your code** — git branch, a clickable PR link, the session name, and a repo-aware folder name.
+3. **Your plan limits** — your 5-hour and weekly usage bars, with a marker showing whether you're burning faster or slower than an even pace.
+
+It costs **zero tokens** — it's a local script Claude Code runs, not a call to a model. The colors are tuned to look great on a dark terminal and stay readable on a light one.
+
+**Don't want it?** Remove the `statusLine` block from `~/.claude/settings.json`. **Want to tweak it?** The source and customization knobs are in [`extras/statusline/`](extras/statusline/) — and your edits are never overwritten by updates.
+
 ## Troubleshooting
 
 **Sessions are slow or timing out?** It might be your connection, not Claude. Install the [Speedtest CLI](https://www.speedtest.net/apps/cli) to rule out network issues:

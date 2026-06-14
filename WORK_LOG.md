@@ -2,9 +2,31 @@
 
 ## Last updated: 2026-06-14
 
-## Overall State: v1.6.8 LIVE on npm (published 2026-06-14). All version markers aligned at 1.6.8. Bucket 6 resolved (claude-personal private repo).
+## Overall State: v1.6.8 LIVE on npm. v1.6.9 (statusline installed by default) on branch feat/optional-statusline → PR #1 open, awaiting merge + npm publish. Local version markers at 1.6.9.
 
 ---
+
+## Session: 2026-06-14 (2) — Optional statusline extra (v1.6.9) + personal backup
+
+### Done
+- **Vetted a third-party statusline** Max's brother sent (`~/Downloads/claude-statusline/`): read all 3 files line-by-line. Clean — no injection/exfil/file-writes/obfuscation; reads stdin JSON via jq, read-only git/gh, prints colored text. Zero token cost (local script, not a model call).
+- **Installed + customized for Max**: copied to `~/.claude/statusline.sh` (checksum-verified), wired `statusLine` block into `~/.claude/settings.json`. Per Max's preference, stripped ALL faces — the `mascot_for` mood-emoticons on the usage line AND the `($‿$)` money-eyes cost easter egg — and switched reset times to AM/PM (`%I:%M %p`). Verified face-free render at multiple usage states.
+- **Part A — personal backup**: committed customized `statusline.sh` to `claude-personal` repo (f33c7f7, pushed). `install.sh` now copies it to `~/.claude/`; README documents the settings.json block (not auto-wired). settings.json itself is not versioned there.
+- **Part B — public Playbook (final: DEFAULT-ON, not opt-in)**: source lives at `extras/statusline/` (statusline.sh + preview.sh + README). Max challenged "why optional" — value of a usage dashboard is wasted if buried. Resolved the light-bg blocker (see below), then made it **install by default**:
+  - `statusLine` config ships in the repo default `settings.json`. Installers write settings.json ONLY when the user has none → an existing custom statusLine can never be clobbered (non-destructive by construction).
+  - `statusline.sh` copied **install-if-missing** in all 3 entry points (install.sh, lib/installer.js, update.sh) — same pattern as CLAUDE.md, so user color tweaks survive updates. installer.js also mirrors `extras/` into `.playbook/`; update.sh fetches it in the curl path.
+  - Bumped VERSION/package.json/CHANGELOG → 1.6.9, `extras/` in npm files array, live `.playbook-version` → 1.6.9. **PR #1 open.**
+- **Light-background fix**: only ONE element was invisible on white — the pace marker over the empty track (was pure white `\033[97m`). Changed to bright sky-blue (256-color `39`): pops on dark, readable on white. Everything else (colored blocks, reds, gray track) already readable on both. Max's call: optimize for dark (most users), just don't break on light. Synced to all 3 copies (checksums match) + committed to claude-personal.
+- **Two independent reviews** (code-reviewer subagent, ≠ author). R1 (script): security clean, no injection/exfil. R2 (install wiring): both paths in sync, non-destructive holds, version discipline consistent; fixed 2 findings (npm `.playbook` extras mirror was missing; stale "optional default" comment). Declined the "marker stuck at cell 0 early in window" flag — inherent to an 8-cell discrete bar, not a bug.
+- **Verified**: fresh install via BOTH install.sh and installer.js lands script+config and renders; existing settings.json with custom statusLine preserved; `.playbook/` extras mirror seeded for npm updates; bash -n / node --check / jq gates pass.
+
+### Remaining
+- **Merge PR #1** (Max's product call) — then **npm publish 1.6.9** (Max's explicit trigger; not auto-run).
+- After merge, delete local `feat/optional-statusline` branch.
+
+### Notes
+- Provenance: Max waved off "who wrote it" for personal use (correct — it's safe). For the public republish we kept a neutral "adapted from a community statusline" credit + the original's public-domain license note. Optional confirm-with-brother on origin, low-stakes.
+- Branch is still named `feat/optional-statusline` though the feature shipped as default-on — cosmetic, not worth renaming mid-PR.
 
 ## Session: 2026-06-14 — Fable cleanup + Iris caching pattern + v1.6.8 npm publish
 
