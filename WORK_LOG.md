@@ -1,8 +1,24 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-14
+## Last updated: 2026-06-24
 
-## Overall State: v1.6.9 LIVE on npm (published 2026-06-14, registry confirmed; extras/statusline ships in tarball). Statusline installed by default. PR #1 merged to main, branch deleted. All version markers aligned at 1.6.9.
+## Overall State: v1.6.10 merged to main (PR #2, fixes /start session-start error). **npm publish PENDING** — Max away from computer, publish 1.6.10 later. v1.6.9 still the live npm version until then. All version markers aligned at 1.6.10.
+
+---
+
+## Session: 2026-06-24 — Fix /start InputValidationError (v1.6.10)
+
+### Done
+- **Diagnosed (in a subagent, per Max's ask)** a recurring `InputValidationError` at session start: the Agent/Task tool's `model` param only accepts short aliases (`sonnet|opus|haiku|fable`), but `commands/start.md:9` spawned the PM-task helper with the full ID `model: 'claude-haiku-4-5'`. Error fired on every start where a PM tool MCP (ClickUp etc.) is connected. Only broken spawn in the repo — chess/plan/handoff already use short aliases.
+- **Fixed** `commands/start.md:9` + installed copy `~/.claude/commands/start.md:9` → `model: 'haiku'`.
+- **Version bump 1.6.9 → 1.6.10**: VERSION, package.json, `~/.claude/.playbook-version`, CHANGELOG (all four in sync, verified).
+- **PR #2 opened and squash-merged to main**, branch deleted. Local back on main, pulled.
+
+### Pending
+- **npm publish 1.6.10** — held at Max's request (not at computer). Commands: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`.
+
+### Note
+- Root cause is a rule-application slip, not a bad rule: "always use explicit model IDs" governs the **session** model (settings.json / `--model`), NOT the Agent tool's `model` param. Worth keeping in mind for any future command that spawns Agents.
 
 ---
 
