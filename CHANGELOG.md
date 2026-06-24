@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.10] — 2026-06-24
+
+### Fixed
+- **`/start` no longer throws an error at session start** — when a PM tool (ClickUp, Linear, etc.) is connected, `/start` spawns a small helper to pull your open tasks. It was asking for the helper using a model name the tool doesn't accept, so Claude Code showed an `InputValidationError` every session. Fixed to use the accepted name. No behavior change beyond the error disappearing.
+
 ## [1.6.9] — 2026-06-14
 
 ### Added
