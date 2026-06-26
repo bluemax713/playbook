@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-06-26
 
-## Overall State: v1.6.11 committed on branch `cep-coexistence` (cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`). **npm publish PENDING** for BOTH 1.6.10 and 1.6.11 — Max to publish when ready. v1.6.9 still the live npm version. All version markers aligned at 1.6.11.
+## Overall State: **v1.6.11 LIVE on npm** (published 2026-06-26, rolls up 1.6.10). PR #3 merged to main. Cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`. CEP coexistence rolled out on clenta + emd-platform. All version markers aligned at 1.6.11.
 
 ---
 
