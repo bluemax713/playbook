@@ -6,6 +6,20 @@
 
 ---
 
+## Session: 2026-06-26 (2) — Codex handoff setup: decided to NOT pre-provision
+
+Discussion only, no code. Question: set up Playbook or CEP *inside* Codex for the `/goal` handoffs?
+
+**Decision: No — keep handoffs stateless, gate any setup on the first real Codex job.**
+- **Playbook in Codex → no (category error):** its value is Claude-Code session ceremony (`/start`, `/plan`, WORK_LOG, model routing). Those are Claude-harness slash commands; they don't execute in Codex's runtime. Codex is a dispatch target, not a quarterback.
+- **CEP in Codex → no (redundant):** CEP ships Codex converters, but the only thing we want from a Codex job is a PR that passes our bar — and that loop is already closed on the Claude side via `/ce-code-review` before merge. Standing up the full `/ce-*` suite in a tool we don't daily-drive = the speculative setup the gate already forbids.
+- **The one real gap + the right fix:** Codex reads `AGENTS.md` at repo root (its native instructions convention, the way Claude reads CLAUDE.md). So when the first Codex job lands, the lightweight move is a thin `AGENTS.md` in the target dev repo mirroring the must-honor rules (branch/PR discipline, no-push-to-main, commit format). That's a **repo artifact, not a second tool** — context travels with the repo; job-specific context travels in the `/goal` brief; review stays on the Claude side.
+- **Optional, declined for now:** a throwaway `/goal` smoke test (junk task → confirm a PR comes back) to de-risk the *mechanics* before a real job depends on them. Max chose to leave it parked.
+
+**Net:** nothing to set up in Codex now. First fitting job triggers it; Claude flags + drives the setup then (write `AGENTS.md`, confirm correct Codex identity per repo — EMD still needs its own isolated login).
+
+---
+
 ## Session: 2026-06-26 — CEP + Playbook coexistence (v1.6.11)
 
 Evaluated Every's compound-engineering-plugin (CEP) vs Playbook; decided **Option C: coexist** (CEP owns code pipeline, Playbook stays operating shell) on clenta + emd-platform. Validated via `/chess` System Mode. Decision doc: `docs/decisions/2026-06-26-cep-playbook-coexistence.md`.
