@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-06-26
 
-## Overall State: **v1.6.11 LIVE on npm** (published 2026-06-26, rolls up 1.6.10). PR #3 merged to main. Cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`. CEP coexistence rolled out on clenta + emd-platform. All version markers aligned at 1.6.11.
+## Overall State: **v1.6.11 LIVE on npm** (published 2026-06-26, rolls up 1.6.10). PR #3 + #4 merged to main. Cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`. CEP coexistence rolled out on clenta + emd-platform. Codex `/goal` handoff routing encoded into both dev projects' CLAUDE.md (dispatch-target model — Claude quarterbacks, Max dispatches). All version markers aligned at 1.6.11.
 
 ---
 
@@ -22,13 +22,20 @@ Evaluated Every's compound-engineering-plugin (CEP) vs Playbook; decided **Optio
 - [x] `/ce-setup` + machine-local `.compound-engineering/config.local.yaml` (gitignored) in both repos. Codex-delegation section left OFF.
 - [x] Routing + memory-ownership + `/lfg` guardrail + **exclusion line** (`/ce-work-beta` + `/ce-proof` off) in both CLAUDE.md files. Committed in-session per repo.
 
+### Also done (2nd half of session)
+- [x] **Plain-English comprehension layer** added to both clenta + emd-platform CLAUDE.md (`### Plain-English layer`). Default altitude **plain-first, detail on request** (Max's pick). I translate dense CEP output (plan, review, learnings) into plain terms + decisions; hard rule = simplify language, never drop a risk. *Uncommitted in both dev repos.*
+- [x] **Codex (OpenAI) evaluated** via Perplexity (live web, June 2026 data). Findings: Codex = multi-surface agentic platform on GPT-5.5; its `/goal` command (autonomous run to a verifiable finish line) is the standout. Benchmarks: Claude Opus 4.8 LEADS multi-file repo work (SWE-bench Pro 69 vs 59); Codex leads terminal-bench + cost-steadiness on long grinds. Verdict: don't daily-drive Codex — use it as a **dispatch target**.
+- [x] **Codex handoff rule** written into both dev projects' CLAUDE.md (`### Codex handoff`). Model: Claude stays quarterback, flags when a job fits Codex, writes the `/goal` brief, Max pastes + walks away, reports back, Claude reviews the PR (`/ce-code-review`) before merge. **Threshold = equal-or-better OUTCOME for same-or-less cost while freeing Max + the main session** (NOT "better code" — Claude leads on quality; the win is fit + offload). 3 gates: fit / quality-floor / leverage. *Uncommitted in both dev repos.*
+
 ### Still pending
-- [ ] First test: `/ce-brainstorm` → `/ce-plan` on a small clenta feature (with Max, to learn the loop)
-- [ ] npm publish 1.6.10 + 1.6.11 when ready
+- [ ] **Commit pending dev-repo edits in their own sessions:** clenta + emd-platform each have uncommitted `### Plain-English layer` + `### Codex handoff` additions to CLAUDE.md (commit on next `/start` in each)
+- [ ] First test: `/ce-brainstorm` → `/ce-plan` on a small clenta feature (with Max, to learn the loop) — THE top next-action; everything else is set up
+- [ ] **Codex install is gated on a real candidate job** — don't set up speculatively. When the first fitting job appears: clenta uses Max's personal Codex identity; **EMD needs its OWN isolated Codex login** (mirrors `~/.claude-emd` separation, EMD = separate LLC). Verify exact config-dir/env-var switching mechanism at install time.
 - [ ] **Decide-later gate (~mid-July):** if coexistence proves out, add optional caveated CEP pointer to README/GUIDE
 
-### Note
-CEP's other-LLM converters (Kimi/Codex/Cursor/etc.) are Every's distribution plumbing — never load into Claude context, zero token cost. Only `/ce-*` skill descriptions load, and only where the plugin is enabled.
+### Notes
+- CEP's other-LLM converters (Kimi/Codex/Cursor/etc.) are Every's distribution plumbing — never load into Claude context, zero token cost. Only `/ce-*` skill descriptions load, and only where the plugin is enabled.
+- CEP model-routing (semantic tiers, no hardcoded model names, capability-aware) evaluated for porting into Playbook → **not worth it** (Playbook too small-scale; already has cost-warnings + centralized model guidance). Revisit only if Playbook grows a wide fan-out surface.
 
 ---
 
