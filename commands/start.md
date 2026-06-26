@@ -83,6 +83,7 @@ Present a concise briefing:
 - **Current status** — what's working, what's not
 - **Known issues** — bugs, blockers, pending items
 - **PM tasks** — open/in-progress tasks if PM tool is available
+- **Code learnings** — **only if a `docs/solutions/` directory exists** at the project root: surface the count and the 1–2 most recently modified learning titles, so prior solved problems are visible at session start. If `docs/solutions/` doesn't exist, skip this line entirely — say nothing.
 - **Suggested next steps** — prioritized list of what to tackle, flagging anything that needs a decision
 
 Keep it short and scannable. Bullet points. No fluff. Wait for direction before making changes.

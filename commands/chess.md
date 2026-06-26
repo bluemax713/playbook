@@ -175,6 +175,8 @@ Follow `/handoff` steps 3–6: show the intake summary in chat (situation in one
 
 If the system, plan, and constraints are already established in the conversation, skip directly to the stress-test. Only ask for information that's genuinely missing.
 
+**If the system is technical and a `docs/solutions/` directory exists** at the project root, skim the relevant learnings there as grounding before mapping assumptions — past solved problems often name the failure modes worth attacking. Skip this if there's no `docs/solutions/`.
+
 If context is thin, ask conversationally:
 
 **The system**

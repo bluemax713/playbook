@@ -1,8 +1,34 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-24
+## Last updated: 2026-06-26
 
-## Overall State: v1.6.10 merged to main (PR #2, fixes /start session-start error). **npm publish PENDING** — Max away from computer, publish 1.6.10 later. v1.6.9 still the live npm version until then. All version markers aligned at 1.6.10.
+## Overall State: v1.6.11 committed on branch `cep-coexistence` (cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`). **npm publish PENDING** for BOTH 1.6.10 and 1.6.11 — Max to publish when ready. v1.6.9 still the live npm version. All version markers aligned at 1.6.11.
+
+---
+
+## Session: 2026-06-26 — CEP + Playbook coexistence (v1.6.11)
+
+Evaluated Every's compound-engineering-plugin (CEP) vs Playbook; decided **Option C: coexist** (CEP owns code pipeline, Playbook stays operating shell) on clenta + emd-platform. Validated via `/chess` System Mode. Decision doc: `docs/decisions/2026-06-26-cep-playbook-coexistence.md`.
+
+### Done
+- [x] `## Working with CEP` section added to **clenta/CLAUDE.md** and **emd-platform/CLAUDE.md** (routing map, memory-ownership map, `/lfg` guardrail, escape hatch) — *uncommitted in those repos, commit in their own sessions*
+- [x] Playbook cross-grounding (v1.6.11): `/start` surfaces `docs/solutions/` in briefing; `/plan` + `/chess` skim it on technical work — all conditional/no-op without the dir
+- [x] Synced 3 commands to `~/.claude/commands/`; bumped VERSION + package.json + .playbook-version → 1.6.11; CHANGELOG entry
+- [x] Records: decision doc; `~/.claude/tech_stack.md` (CEP row); consulting stack-catalog candidate line
+- [x] Committed playbook on branch `cep-coexistence` (Option 3 — dev repos left uncommitted)
+
+### Pending (Max's hand-off — runs in each project's own session)
+- [ ] `/plugin marketplace add EveryInc/compound-engineering-plugin`
+- [ ] `/plugin install compound-engineering@compound-engineering-plugin`
+- [ ] **Scope it:** enable CEP only on clenta + emd-platform, disabled elsewhere (confirm exact toggle live in `/plugin` UI)
+- [ ] `/ce-setup` in a clenta session, and in an emd-platform session
+- [ ] First test: `/ce-brainstorm` → `/ce-plan` on a small clenta feature
+- [ ] Commit the `## Working with CEP` edits in clenta + emd-platform from their own sessions
+- [ ] npm publish 1.6.10 + 1.6.11 when ready
+- [ ] **Decide-later gate (~mid-July):** if coexistence proves out, add optional caveated CEP pointer to README/GUIDE
+
+### Note
+CEP's other-LLM converters (Kimi/Codex/Cursor/etc.) are Every's distribution plumbing — never load into Claude context, zero token cost. Only `/ce-*` skill descriptions load, and only where the plugin is enabled.
 
 ---
 
