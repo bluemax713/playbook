@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.11] — 2026-06-26
+
+### Added
+- **`/start` surfaces your code learnings** — if a project keeps a `docs/solutions/` folder (solved-problem write-ups), the session briefing now shows how many you have and the latest one or two titles, so past fixes are visible before you start. Projects without that folder see no change. `/plan` and `/chess` also glance at those learnings on technical work, so prior solutions inform new plans and stress-tests. This makes Playbook compound with knowledge-capture tools that write to `docs/solutions/`.
+
 ## [1.6.10] — 2026-06-24
 
 ### Fixed

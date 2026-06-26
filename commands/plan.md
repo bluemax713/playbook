@@ -18,7 +18,7 @@ Before starting, confirm this is the right command:
 
 **First, clarify the task if needed.** Read what was asked. If the desired outcome, scope, or key constraints are unclear, ask before proceeding — 1–3 targeted questions in a single message. Once answered (or if the task is already clear), state the spec in one sentence: "We are [doing X] to [achieve Y], [constraint]." This anchors the rest of the plan.
 
-Read all relevant files first. Then determine:
+Read all relevant files first. **If the task is technical and a `docs/solutions/` directory exists** at the project root, skim the relevant learnings there as grounding before shaping approaches — prior solved problems should inform the plan. Skip this if there's no `docs/solutions/`. Then determine:
 - **Is this straightforward?** (One obvious approach, clear requirements) → proceed directly to Phase 2 inline.
 - **Are there meaningful tradeoffs?** (Multiple approaches, architectural choices, unclear requirements) → Brainstorm first:
   - Present 2-3 approaches with pros/cons in short, scannable sections
