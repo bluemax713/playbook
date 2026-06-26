@@ -17,13 +17,13 @@ Evaluated Every's compound-engineering-plugin (CEP) vs Playbook; decided **Optio
 - [x] Records: decision doc; `~/.claude/tech_stack.md` (CEP row); consulting stack-catalog candidate line
 - [x] Committed playbook on branch `cep-coexistence` (Option 3 — dev repos left uncommitted)
 
-### Pending (Max's hand-off — runs in each project's own session)
-- [ ] `/plugin marketplace add EveryInc/compound-engineering-plugin`
-- [ ] `/plugin install compound-engineering@compound-engineering-plugin`
-- [ ] **Scope it:** enable CEP only on clenta + emd-platform, disabled elsewhere (confirm exact toggle live in `/plugin` UI)
-- [ ] `/ce-setup` in a clenta session, and in an emd-platform session
-- [ ] First test: `/ce-brainstorm` → `/ce-plan` on a small clenta feature
-- [ ] Commit the `## Working with CEP` edits in clenta + emd-platform from their own sessions
+### Rollout status
+- [x] CEP installed **local scope (Max-only, per-repo)** in clenta + emd-platform — NOT user scope (avoids ambient token cost on ops/playbook projects). Marketplace add must be re-run per repo (didn't carry across sessions). Plugin healthy v3.14.3.
+- [x] `/ce-setup` + machine-local `.compound-engineering/config.local.yaml` (gitignored) in both repos. Codex-delegation section left OFF.
+- [x] Routing + memory-ownership + `/lfg` guardrail + **exclusion line** (`/ce-work-beta` + `/ce-proof` off) in both CLAUDE.md files. Committed in-session per repo.
+
+### Still pending
+- [ ] First test: `/ce-brainstorm` → `/ce-plan` on a small clenta feature (with Max, to learn the loop)
 - [ ] npm publish 1.6.10 + 1.6.11 when ready
 - [ ] **Decide-later gate (~mid-July):** if coexistence proves out, add optional caveated CEP pointer to README/GUIDE
 
