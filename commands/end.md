@@ -49,6 +49,11 @@ Session closeout. Do everything needed so the user can walk away without taking 
 
 Keep it concise. The goal is zero information loss between sessions.
 
-9. **Sign off.** After everything above is complete, end your response with a clear, unmissable closing line so the user knows the session is fully wrapped — even if they scroll back later:
+9. **Shut down all background agents.** Idle spawned agents/teammates block the user from exiting the CLI. Before signing off:
+   - Send every named agent/teammate spawned this session a shutdown request via SendMessage: `{"type": "shutdown_request", "reason": "Session closing"}`
+   - If any agent is still mid-task, wait for it to finish (or stop it via TaskStop if its work is no longer needed) before sending the shutdown
+   - Verify none remain — the user must be able to `/exit` cleanly with nothing left running or idle in the background
+
+10. **Sign off.** After everything above is complete, end your response with a clear, unmissable closing line so the user knows the session is fully wrapped — even if they scroll back later:
 
    > **Session complete. You can close this window.**
