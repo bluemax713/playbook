@@ -2,6 +2,15 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.6.12] — 2026-07-10
+
+### Commands
+- **`/plan` gains an optional red-team gate** — for multi-file or high-risk plans, a fresh subagent attacks the plan before implementation steps are written (gaps, wrong assumptions, mis-sequenced steps), findings get folded in, and the same reviewer confirms the revision. The cheapest place to catch a bad build is the blueprint. Simple plans skip it entirely. Adapted from the community 10-80-10 orchestration pattern.
+- **`/handoff` gains a spec quality bar** — every brief must carry one task + end state, an exact verification loop, a scope boundary (with any small out-of-scope edit pre-authorized by name), and a compact output contract. The bar: the subagent can execute with zero questions back.
+
+### Template
+- **Two new verification rules in the CLAUDE.md template** — never accept a subagent's self-reported success (run the verification yourself), and a green test suite is not end-to-end (a change that crosses an integration boundary needs at least one real call on the live surface).
+
 ## [1.6.11] — 2026-06-26
 
 ### Added
