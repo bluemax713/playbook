@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-07-10
 
-## Overall State: **v1.6.12 committed on branch `steal-108010`** (PR pending merge + npm publish; npm is live at 1.6.11). Harvested the community 10-80-10 pattern: `/plan` red-team gate, `/handoff` spec quality bar, two new template verification rules. Codex dispatch-target decision (2026-06-26) re-validated and unchanged. All local version markers at 1.6.12.
+## Overall State: **v1.6.12 LIVE on npm** (published 2026-07-10). PR #7 merged to main. Harvested the community 10-80-10 pattern: `/plan` red-team gate, `/handoff` spec quality bar, two new template verification rules. Codex dispatch-target decision (2026-06-26) re-validated and unchanged. All version markers aligned at 1.6.12.
 
 ---
 
@@ -20,8 +20,10 @@ Lee sent two community skills (`fable-108010` + `-codex` variant): Fable plans 1
 - [x] Synced plan.md + handoff.md to `~/.claude/commands/`; bumped VERSION, package.json, CHANGELOG, `.playbook-version` → 1.6.12
 - [x] Stack-catalog tee-up line appended (consulting inbox)
 
-### Pending
-- [ ] Merge PR, then npm publish 1.6.12
+### Shipped
+- [x] PR #7 merged to main (docs-only; mechanical checks: package.json valid, version markers aligned, command-sync diff-verified). npm publish confirmed live: `npm view playbook-ai version` → 1.6.12
+- Note: the merge pull also brought in Max's 2026-07-02 `end.md` fix (step 9, background-agent shutdown) that this machine's local main lacked; installed copy verified in sync
+- Message to Lee drafted + clipboard'd (evaluation verdict in one line); Downloads cleaned (2 folders + 2 zips removed, content archived in claude-personal)
 
 ---
 
