@@ -108,6 +108,8 @@ Present every merge call in product terms: what changes for users, what was veri
   - Confirm the output matches expectations
   - Check for regressions in related functionality
 - "It should work" is not verification. Show the evidence.
+- **Never accept a subagent's or tool's self-reported success.** Run the verification yourself — a confident-but-wrong result survives self-report; it doesn't survive being run.
+- **A green test suite is not end-to-end.** If a change crosses an integration boundary (one layer feeding another, a query hitting real data volumes), drive at least one real call on the live surface. Tests prove the layer; only a live call proves the seam.
 
 ## Research Integration
 - If a Perplexity MCP is connected, use it to ground planning and decision-making in current data

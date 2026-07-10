@@ -61,6 +61,17 @@ Spawn a Sonnet subagent (`model: 'sonnet'`): *"Read [absolute path], then execut
 
 When the subagent returns, present the hardened plan to the user and wait for approval before making any changes.
 
+**Optional red-team gate (risky builds only):**
+
+For multi-file or high-risk plans — greenfield architecture, anything expensive to unwind if the blueprint is wrong — offer to red-team the plan before writing implementation steps. The cheapest place to catch a bad build is the blueprint, not the finished work. If the user accepts:
+
+1. Spawn a fresh Sonnet subagent (`model: 'sonnet'`) with the full plan (goal, definition of done, steps, risks) and this instruction: *"Challenge this plan. Find gaps, missed edge cases, wrong assumptions, and steps that are under-specified or wrongly sequenced. Return findings only — each as [severity] the flaw + why it bites + what to change. Do not rewrite the plan."* If the plan lives in a file, give the subagent the path plus permission to read the code paths the plan names, so it can check the plan's claims against the actual source — stronger than pasting text.
+2. Triage the findings — they're inputs, not verdicts. Fold in what's real, discard what isn't.
+3. After revising, send the revised sections back to the SAME subagent to confirm each finding is addressed and nothing new was introduced — a reviewer that already has the context is faster and catches revision-introduced problems a fresh one would miss. Loop until clean.
+4. If the reviewer found nothing load-bearing, note that and proceed — don't manufacture changes to look busy.
+
+Skip this gate for simple plans, and for plans already stress-tested by `/chess` System Mode — that's the same review, already done.
+
 ---
 
 ## Phase 3: Implementation Steps

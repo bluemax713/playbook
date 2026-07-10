@@ -1,8 +1,27 @@
 # Playbook Work Log
 
-## Last updated: 2026-06-26
+## Last updated: 2026-07-10
 
-## Overall State: **v1.6.11 LIVE on npm** (published 2026-06-26, rolls up 1.6.10). PR #3 + #4 merged to main. Cross-grounding: `/start` `/plan` `/chess` read `docs/solutions/`. CEP coexistence rolled out on clenta + emd-platform. Codex `/goal` handoff routing encoded into both dev projects' CLAUDE.md (dispatch-target model — Claude quarterbacks, Max dispatches). All version markers aligned at 1.6.11.
+## Overall State: **v1.6.12 committed on branch `steal-108010`** (PR pending merge + npm publish; npm is live at 1.6.11). Harvested the community 10-80-10 pattern: `/plan` red-team gate, `/handoff` spec quality bar, two new template verification rules. Codex dispatch-target decision (2026-06-26) re-validated and unchanged. All local version markers at 1.6.12.
+
+---
+
+## Session: 2026-07-10 — Evaluated fable-108010 skills (from Lee); harvested 3 ideas → v1.6.12
+
+Lee sent two community skills (`fable-108010` + `-codex` variant): Fable plans 10%, Codex codes 80%, Fable reviews 10%, with an adversarial plan-review gate in the variant.
+
+**Evaluation verdict: don't adopt as-is; harvest the best parts.** The skill's economics are inverted for Max (built for abundant Codex quota + scarce Claude quota; Max is the reverse). Adopting would also reverse the 2026-06-26 Codex decision (dispatch target, no pre-provisioning). Perplexity pricing pull (July 2026): Codex is ~3–7x cheaper **per task** (token efficiency, ~4x fewer tokens), but Claude is cheaper per token (Sonnet 5 intro $2/$10 vs GPT-5.5 $5/$30) and leads quality on hard work (SWE-bench Pro 69.2 vs high-50s/low-60s). Deciding variable for ever adding Codex: whether Max regularly hits Claude subscription caps.
+
+### Done (v1.6.12)
+- [x] `/plan`: optional red-team gate at end of Phase 2 — fresh Sonnet subagent attacks risky plans; findings triaged as inputs; same-reviewer confirm loop; skip for simple plans or `/chess`-tested ones
+- [x] `/handoff`: spec quality bar in Step 2 — one task + end state / verification loop / scope boundary with pre-authorized touches / compact output contract; zero-questions-back bar
+- [x] `templates/CLAUDE.md` + personal `~/.claude/CLAUDE.md` Verification: never accept self-reported success; green suite ≠ end-to-end (drive one live call across seams). Personal copy synced + pushed to claude-personal
+- [x] Source SKILL.md files archived to **claude-personal (private)** `reference/codex-orchestration/` as the future Codex setup map — deliberately NOT in this public repo (third-party authorship)
+- [x] Synced plan.md + handoff.md to `~/.claude/commands/`; bumped VERSION, package.json, CHANGELOG, `.playbook-version` → 1.6.12
+- [x] Stack-catalog tee-up line appended (consulting inbox)
+
+### Pending
+- [ ] Merge PR, then npm publish 1.6.12
 
 ---
 

@@ -36,6 +36,12 @@ Append all output under ## Output in this file.
 *(appended by subagent)*
 ```
 
+**Spec quality bar.** The bar for every brief: the subagent can execute it with **zero questions back**. Before spawning, confirm the brief carries all four:
+- **One task + end state** — what to do, and what exists and is true when it's done, plus the repo facts the subagent can't infer on its own
+- **Verification loop** — the exact commands or checks the subagent must run, and what passing looks like
+- **Scope boundary** — what not to touch, what may stay rough, no unrelated refactors. If the correct result plausibly needs one small edit outside scope (a config entry, an export line), name that file as allowed — a blanket ban forces the subagent to either violate scope or ship a workaround
+- **Compact output contract** — what to report back: what changed, how it was verified, anything surprising. Conclusions, not narration
+
 **Step 3 — Show intake summary in chat**
 Display 150-250 words covering what was captured. This is what the user reviews and approves — not the full brief or the framework. Say: *"Here's what I captured — [summary]. Does this look right?"*
 
