@@ -23,7 +23,7 @@ Before starting, confirm this is the right command:
 
 **First, clarify the task if needed.** Read what was asked. If the desired outcome, scope, or key constraints are unclear, ask before proceeding — 1–3 targeted questions in a single message. Once answered (or if the task is already clear), state the spec in one sentence: "We are [doing X] to [achieve Y], [constraint]." This anchors the rest of the plan.
 
-Read all relevant files first. Then determine:
+Read all relevant files first. **If the task is technical and a `docs/solutions/` directory exists** at the project root, skim the relevant learnings there as grounding before shaping approaches — prior solved problems should inform the plan. Skip this if there's no `docs/solutions/`. Then determine:
 - **Is this straightforward?** (One obvious approach, clear requirements) → proceed directly to Phase 2 inline.
 - **Are there meaningful tradeoffs?** (Multiple approaches, architectural choices, unclear requirements) → Brainstorm first:
   - Present 2-3 approaches with pros/cons in short, scannable sections
@@ -65,6 +65,17 @@ Show the user a short summary of the direction and context captured. Confirm bef
 Spawn a Sonnet subagent (`model: 'sonnet'`): *"Read [absolute path], then execute exactly as instructed. Do not ask questions. Do not invoke slash commands. Append all output under ## Output in that file."*
 
 When the subagent returns, present the hardened plan to the user and wait for approval before making any changes.
+
+**Optional red-team gate (risky builds only):**
+
+For multi-file or high-risk plans — greenfield architecture, anything expensive to unwind if the blueprint is wrong — offer to red-team the plan before writing implementation steps. The cheapest place to catch a bad build is the blueprint, not the finished work. If the user accepts:
+
+1. Spawn a fresh Sonnet subagent (`model: 'sonnet'`) with the full plan (goal, definition of done, steps, risks) and this instruction: *"Challenge this plan. Find gaps, missed edge cases, wrong assumptions, and steps that are under-specified or wrongly sequenced. Return findings only — each as [severity] the flaw + why it bites + what to change. Do not rewrite the plan."* If the plan lives in a file, give the subagent the path plus permission to read the code paths the plan names, so it can check the plan's claims against the actual source — stronger than pasting text.
+2. Triage the findings — they're inputs, not verdicts. Fold in what's real, discard what isn't.
+3. After revising, send the revised sections back to the SAME subagent to confirm each finding is addressed and nothing new was introduced — a reviewer that already has the context is faster and catches revision-introduced problems a fresh one would miss. Loop until clean.
+4. If the reviewer found nothing load-bearing, note that and proceed — don't manufacture changes to look busy.
+
+Skip this gate for simple plans, and for plans already stress-tested by `/chess` System Mode — that's the same review, already done.
 
 ---
 

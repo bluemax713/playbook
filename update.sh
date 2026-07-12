@@ -29,7 +29,7 @@ fetch_via_git() {
 fetch_via_curl() {
   # Download key files individually via GitHub raw content
   local files=("VERSION" "CHANGELOG.md" "settings.json" "install.sh" "update.sh")
-  local cmd_files=("start.md" "end.md" "plan.md" "debug.md" "quick.md" "handoff.md" "new-project.md")
+  local cmd_files=("start.md" "end.md" "plan.md" "chess.md" "future.md" "autopilot.md" "debug.md" "quick.md" "handoff.md" "new-project.md")
 
   mkdir -p "$PLAYBOOK_DIR/commands"
   mkdir -p "$PLAYBOOK_DIR/templates"
