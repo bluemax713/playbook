@@ -44,6 +44,22 @@ const SKILL_META = {
       'Generates a self-contained prompt for a parallel Claude Code session. Creates a complete context block with task instructions, file paths, and output rules for pasting into a new terminal. For Claude to invoke when work should be split into a parallel session.',
     disableModelInvocation: true,
   },
+  chess: {
+    description:
+      'Adversarial strategy analysis. Human Mode models a real opponent and traces move branches; System Mode attacks a technical plan to find failure points before building. Use for negotiations, partnerships, competitive moves, or stress-testing a plan.',
+  },
+  future: {
+    description:
+      'Scenario planning via three futures (The Win, The Unraveling, The Headwind). Rewinds each path to today, surfaces the decisions that matter most across scenarios, and gives one specific action this week. Use when navigating uncertainty.',
+  },
+  'new-project': {
+    description:
+      'Full project setup with a guided interview — clone or create a repo, wire local config (CLAUDE.md, WORK_LOG.md, MCP servers), and get ready for a first session. Use when starting work on a new project.',
+  },
+  autopilot: {
+    description:
+      'Unattended multi-task execution for one project. Harvests the backlog, resolves every ambiguity in one up-front interview, gets a flight plan approved, then plans/builds/reviews through it with parallel subagents. Builds but never merges — the user returns to a landing report and a merge queue. Use before stepping away for hours.',
+  },
 };
 
 async function build() {

@@ -2,6 +2,15 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.7.0] — 2026-07-12
+
+### New command
+- **`/autopilot` — unattended multi-task execution.** For when you're away from the computer for hours (working elsewhere, driving, overnight). Claude pre-flights the run (permissions, tool auth, git state), harvests your project's backlog from your PM tool, WORK_LOG, issues, and unbuilt plans, then asks every clarifying question in one up-front interview — each with full context and Claude's recommendation, so you can answer well in minutes. You approve a flight-plan manifest (or hold it — the manifest doubles as a dry run), and Claude works through it with parallel subagents in isolated worktrees: planning via `/plan`, building on feature branches, verifying, and getting every build independently reviewed. Hard rails throughout: never merges, never publishes, never guesses (ambiguity parks the task with a written question). You return to a landing report with a merge queue, risk ratings, and a question queue. `/autopilot resume` picks up an interrupted run from its on-disk log. One project per run — for two projects, run it in two terminals.
+
+### Fixed
+- **Gitless updates now deliver every command** — the curl fallback in `update.sh` was missing `/chess` and `/future`, so users without git silently never received them. All commands are now in the list.
+- **Plugin build repaired** — `scripts/build-skills.js` was missing metadata for `/chess`, `/future`, and `/new-project`, so the plugin distribution silently dropped them. All ten commands now build.
+
 ## [1.6.12] — 2026-07-10
 
 ### Commands

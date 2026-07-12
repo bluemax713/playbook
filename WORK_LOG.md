@@ -1,8 +1,29 @@
 # Playbook Work Log
 
-## Last updated: 2026-07-10
+## Last updated: 2026-07-12
 
-## Overall State: **v1.6.12 LIVE on npm** (published 2026-07-10). PR #7 merged to main. Harvested the community 10-80-10 pattern: `/plan` red-team gate, `/handoff` spec quality bar, two new template verification rules. Codex dispatch-target decision (2026-06-26) re-validated and unchanged. All version markers aligned at 1.6.12.
+## Overall State: **v1.7.0 built on branch `autopilot-command`** — new `/autopilot` command (unattended multi-task execution), PR pending Max's merge call. Not yet published to npm. v1.6.12 remains the live npm version.
+
+---
+
+## Session: 2026-07-12 — Built `/autopilot` (v1.7.0)
+
+New command for when Max is away for hours: pre-flight → harvest (parallel Haiku subagents) → GREEN/YELLOW/RED triage → one batched interview (context + recommendation per question) → manifest approval gate (doubles as the dry run — no separate dry mode) → flight (handoff-pattern Sonnet subagents, worktree isolation, waves, reviewer ≠ author, two-strikes parking, run log at `docs/autopilot/`) → landing report with merge queue. Hard rails: never merge/publish/deploy/send/delete; never guess (park + queue question). Scope: ONE project per run (Max corrected from multi-project mid-design); PM writes allowed anytime; `/autopilot resume` continues from the run log.
+
+### Done
+- [x] `commands/autopilot.md` written (196 lines)
+- [x] `update.sh` curl fallback: added autopilot + fixed stale list (chess.md, future.md were missing — gitless users never got them)
+- [x] `scripts/build-skills.js`: added SKILL_META for autopilot + missing chess/future/new-project (plugin build was failing on 4 commands); regenerated `skills/` — 10/10 now build
+- [x] `.claude-plugin/marketplace.json` description updated
+- [x] README: table row + Commands section entry
+- [x] Version bump 1.7.0: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version`
+- [x] Synced to `~/.claude/commands/autopilot.md` (global) + copied to `emd-secure/emd-platform/.claude/commands/` (dir created; left uncommitted in that repo)
+- [x] Verified: bash -n both scripts, JSON valid, versions consistent, curl list == commands dir
+
+### Remains
+- [ ] Independent code review of the diff (update.sh + build-skills.js are code)
+- [ ] Max's merge call on the PR
+- [ ] `npm publish` after merge (Max runs it)
 
 ---
 

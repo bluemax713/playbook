@@ -14,6 +14,7 @@ Most Claude Code configs are built for developers. This one is built for operato
 | `commands/plan.md` | `/plan` — brainstorm + plan in one command (auto-detects complexity) |
 | `commands/chess.md` | `/chess` — adversarial strategy (Human Mode: opponent-modeled; System Mode: failure-traced) |
 | `commands/future.md` | `/future` — scenario planning via three futures, surfaces the decisions that matter most |
+| `commands/autopilot.md` | `/autopilot` — unattended multi-task execution while you're away; builds but never merges |
 | `commands/debug.md` | `/debug` — 4-step systematic debugging |
 | `commands/quick.md` | `/quick` — lightweight mode for small fixes |
 | `commands/new-project.md` | `/new-project` — full project setup with guided interview |
@@ -123,6 +124,7 @@ Every session follows a consistent pattern:
 - **`/plan`** — Before complex work. Claude assesses whether brainstorming is needed (multiple approaches? tradeoffs?) and either explores options first or jumps straight to an implementation plan. Always waits for your approval.
 - **`/chess`** — For decisions with a real adversary (negotiation, partnerships, competitive moves) or a system you need to break before it breaks you. Human Mode traces move branches against an opponent; System Mode attacks a technical plan for failure points. Always thorough — never a quick check.
 - **`/future`** — Scenario planning via three futures (The Win, The Unraveling, The Headwind). Rewinds each path to today, surfaces the 3 decisions that matter most, and gives you one specific action this week.
+- **`/autopilot`** — Before stepping away for hours (working elsewhere, driving, overnight). Claude harvests your project's task backlog, asks every clarifying question up front in one interview (with its recommendation for each), and presents a flight plan for your approval. Then it works unattended — planning, building, and reviewing with parallel subagents — but never merges anything. You come back to a landing report: what's ready to merge, what got parked, and what questions came up.
 - **`/debug`** — When something is broken. Follows: reproduce, isolate root cause, fix, verify. No guessing.
 - **`/quick`** — For small fixes that don't need the full session ceremony.
 - **`/new-project`** — Sets up a new project from scratch. Claude interviews you — what's the project about, do you have an existing repo or need a new one, do you want to connect a PM tool? Then it creates the repo, wires your terminal shortcut, and generates a comprehensive CLAUDE.md (the rules file) based on what it learned about your project and how you want to work. One command, everything ready.

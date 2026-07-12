@@ -11,7 +11,7 @@ Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
 
 Check your project management tool for current task priorities — via a Haiku subagent, never inline:
 
-- If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'claude-haiku-4-5'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
+- If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'haiku'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
 - Use the returned summary in the briefing's **PM tasks** section.
 - Why a subagent: PM tool responses are verbose (descriptions, custom fields, metadata) and would bloat the main session's context. The subagent runs on Haiku regardless of what model the main session is on — a slash command can't change the main session's model, but it can route the heavy pull to a cheap one.
 - If no PM MCP is connected, skip this step entirely and rely on WORK_LOG.md.
@@ -88,6 +88,7 @@ Present a concise briefing:
 - **Current status** — what's working, what's not
 - **Known issues** — bugs, blockers, pending items
 - **PM tasks** — open/in-progress tasks if PM tool is available
+- **Code learnings** — **only if a `docs/solutions/` directory exists** at the project root: surface the count and the 1–2 most recently modified learning titles, so prior solved problems are visible at session start. If `docs/solutions/` doesn't exist, skip this line entirely — say nothing.
 - **Suggested next steps** — prioritized list of what to tackle, flagging anything that needs a decision
 
 Keep it short and scannable. Bullet points. No fluff. Wait for direction before making changes.
