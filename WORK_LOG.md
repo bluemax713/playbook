@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-07-12
 
-## Overall State: **v1.7.0 built on branch `autopilot-command`** — new `/autopilot` command (unattended multi-task execution), PR pending Max's merge call. Not yet published to npm. v1.6.12 remains the live npm version.
+## Overall State: **v1.7.0 LIVE on npm** (published 2026-07-12). PR #9 merged to main. New `/autopilot` command shipped — unattended multi-task execution, one project per run. All version markers aligned at 1.7.0; plugin marketplace version 1.3.0.
 
 ---
 
@@ -20,10 +20,14 @@ New command for when Max is away for hours: pre-flight → harvest (parallel Hai
 - [x] Synced to `~/.claude/commands/autopilot.md` (global) + copied to `emd-secure/emd-platform/.claude/commands/` (dir created; left uncommitted in that repo)
 - [x] Verified: bash -n both scripts, JSON valid, versions consistent, curl list == commands dir
 
+### Closed out same session
+- [x] Independent review (code-reviewer agent): 2 findings in the command's safety language — hard rails said "no exceptions" while Phase 6 merges greenlit PRs; interview whitelist readable as overriding the never-list. Both fixed (rails scoped to unattended phases, explicit Phase 6 interactive carve-out, whitelist barred from the never-list); same reviewer confirmed resolved, nothing new introduced
+- [x] Plugin marketplace version bumped 1.2.0 → 1.3.0 (plugin gains a command)
+- [x] PR #9 merged by Max; branch deleted
+- [x] `npm publish` — **playbook-ai@1.7.0 live** (2026-07-12)
+
 ### Remains
-- [ ] Independent code review of the diff (update.sh + build-skills.js are code)
-- [ ] Max's merge call on the PR
-- [ ] `npm publish` after merge (Max runs it)
+- [ ] EMD copy of autopilot.md is uncommitted in `emd-secure/emd-platform` — commit it in the next EMD session
 
 ---
 
