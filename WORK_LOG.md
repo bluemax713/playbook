@@ -27,7 +27,7 @@ New command for when Max is away for hours: pre-flight → harvest (parallel Hai
 - [x] `npm publish` — **playbook-ai@1.7.0 live** (2026-07-12)
 
 ### Remains
-- [ ] EMD copy of autopilot.md is uncommitted in `emd-secure/emd-platform` — commit it in the next EMD session
+- [x] EMD copy committed same session after all — via isolated worktree (no contact with the active EMD session's tree), PR #35 merged to emd-platform main (`c2fa8fb`). Nothing remains.
 
 ---
 
