@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-07-15
 
-## Overall State: **v1.7.1 committed, PR open, NOT yet published to npm.** Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. v1.7.0 remains the published npm version. All version markers aligned at 1.7.1; plugin marketplace version unchanged at 1.3.0 (no command added or removed).
+## Overall State: **v1.7.1 LIVE on npm** (published 2026-07-15, PR #12 merged to main same day). Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. All version markers aligned at 1.7.1 across npm, main, and `~/.claude/`; plugin marketplace version unchanged at 1.3.0 (no command added or removed). Auto-resume after usage limits: investigated and **parked, decided against** — see the closed thread below.
 
 ---
 
@@ -20,24 +20,38 @@ Max reported two problems from live autopilot runs: runs kept getting confused a
 - [x] Version bump 1.7.1: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version`
 - [x] Verified: package.json valid JSON, all four version markers read 1.7.1, generated skill contains the new rules, installed copy identical. Prompt-copy change — mechanical checks only per the review rules, no code reviewer needed.
 
-### What remains
-- [ ] **Merge PR and publish v1.7.1 to npm** — `npm login`, then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+### Closed out same session
+- [x] Published `playbook-ai@1.7.1` to npm (verified: `npm view playbook-ai version` → 1.7.1, dist-tag `latest`)
+- [x] PR #12 merged to main, branch deleted. Verified main VERSION reads 1.7.1 and all three new rule sections are present on `origin/main`
+- [x] Note: published from the feature branch before merging, so npm was briefly ahead of main. Harmless here (identical content) but worth merging first next time — a branch cut from main during that window would start from an already-published version.
 
 ---
 
-## Open thread: `/autopilot` auto-resume after usage limits (investigation, not yet started)
+## PARKED (decided against): `/autopilot` auto-resume after usage limits
 
-**The question Max asked (2026-07-15):** does autopilot have built-in cron to restart itself after session/usage limits expire? **Answer: no.** Nothing in the command does this. `/autopilot resume` is entirely manual — Max returns, sees the stall, pastes the command. The run log survives the stall on disk, but nothing acts on it.
+**Status: closed 2026-07-15. Researched, decided not to build. Do not re-open without a real stall as evidence.**
 
-**Why we did not just build it.** It looks buildable: `CronCreate` supports one-shot jobs in local time, so at a stall the run could log the reset time and schedule `/autopilot resume` for a few minutes after. But three things have to be resolved first, and two of them are assumptions, not facts:
+**The question Max asked:** does autopilot have built-in cron to restart itself after usage limits expire? **Answer: no.** Nothing in the command does this. `/autopilot resume` is manual — Max returns, sees the stall, pastes the command. The run log survives on disk, but nothing acts on it.
 
-1. **Cron jobs here are in-memory and session-only.** The `durable` flag is documented as having no effect. Close the terminal and the job is gone. An overnight run on a MacBook that sleeps (lid closed, Max asleep) is the exact target scenario and the exact failure case. Making it real likely means `caffeinate` plus a terminal left open.
-2. **Jobs only fire while the REPL is idle**, not mid-query. Whether a usage-limit stall leaves the REPL in a state where cron can fire is **unverified**. This is the load-bearing assumption and it needs a real test, not a guess.
-3. **Double-resume risk.** A cron-fired resume plus Max pasting `/autopilot resume` on waking = two orchestrators on one manifest and one set of worktrees.
+### Research findings (2026-07-15, two subagents + local verification)
 
-**Decision:** ship the time fix now (done, v1.7.1); treat auto-resume as separate work that **starts by testing what actually happens at a usage limit** rather than writing prompt instructions that assume an answer. Priority per Max: not urgent, no date set.
+- **No built-in auto-resume exists.** VERIFIED (negative) via GitHub: three separate feature requests (#38263, #36320, #47276) all describe manual resume as current behavior; no maintainer timeline. The auto-retry shipped in Claude Code v2.1.198 covers **transient 429/5xx only** and explicitly excludes usage-limit stalls. Every working auto-resume in the wild is a third-party tmux wrapper injecting keystrokes into a live pane.
+- **The reset-time field is documented-broken.** VERIFIED: format varies (bare "resets at 2pm" with no timezone / hardcoded UTC / named zone), with two open issues (#32550, #1450) filed because the timezone is missing or wrong. **This kills the cron plan on its own** — scheduling requires parsing that field into a real local timestamp, i.e. building on the exact class of bug v1.7.1 just fixed in autopilot.
+- **The load-bearing question is still unverified.** Whether a stalled REPL is "idle and waiting for input" (cron could fire) vs. "blocked mid-query" (it can't) came back **INFERRED, not VERIFIED** — inferred from how third-party tmux tools behave, with no doc or code confirming it. Unknowable without a real stall.
+- **Local install is Claude Code 2.1.210**, so the v2.1.199 subagent fixes DO apply here: a subagent cut off mid-task by a rate limit now returns its **partial work** to the parent instead of failing silently or returning empty. Autopilot's worst structural risk (subagents dying invisibly at 2am) is already handled upstream.
+- **No evidence Max has ever hit a usage limit.** Grepped every session transcript on this machine: zero real stalls. All hits were false positives — Clenta product copy about *its own* rate limiting ("Iris is at capacity, resets at midnight"), and `AUTO-COMPACT ... Context limit reached` markers, which are **context compaction, a different mechanism entirely**. Caveat: the limit message is likely CLI-rendered and may never be written to the JSONL, so absence in transcripts is not proof.
 
-**Deciding factor if revisited:** whether the value (a few extra hours of work done by morning) beats the added failure modes. If Max is asleep anyway, resuming at 3am vs. on waking may not be worth the complexity.
+### Decision and reasoning
+
+**Do not build.** It would be a complex recovery mechanism resting on an unverified assumption (REPL state during a stall), fed by a documented-broken field (reset time), running on in-memory cron that dies when the laptop sleeps — which is the exact overnight scenario it targets — for a failure mode never once observed on this machine. `CronCreate`'s `durable` flag is documented as having no effect, so jobs are session-only regardless.
+
+**The existing fallback is adequate:** the run log is on disk, so a stall costs "resumes when Max wakes up" rather than "resumes at 3am." If Max is asleep anyway, that delta is small.
+
+**If it ever bites, that is the moment to instrument it** — a real stall hands over the artifact for free instead of paying to manufacture one. Re-open only then.
+
+### The better question this surfaced (not pursued, available if wanted)
+
+The interesting problem is not *recovering* from usage limits but *not hitting them*. Phase 5's wave checkpoints already ask "anything degrading (usage limits)?" but the command does nothing concrete with the answer — no shed-work-on-approach behavior. Unlike auto-resume, this needs no unverified assumptions. Max was offered this and chose to park the thread instead; pick it up if autopilot ever runs hot.
 
 ---
 
