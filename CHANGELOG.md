@@ -2,6 +2,12 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.7.1] — 2026-07-15
+
+### Fixed
+- **`/autopilot` now knows what time it is.** A Claude session is given today's date but no clock: no hour, no timezone. Runs were estimating elapsed time instead of checking it, that estimate ran long, and runs were landing early and cutting the night short. Autopilot now reads the actual system clock at pre-flight, converts "I'm away until 7" into a real timestamp it reads back to you, and re-checks the clock at every wave checkpoint and wind-down decision. Takeoff and hard stop are recorded as real times, never as durations.
+- **`/autopilot` lands as soon as the work is done.** The hard stop was being treated as a schedule rather than a ceiling. If the manifest finishes at 3am, the run now writes its landing report at 3am and goes fully dormant: no wake-ups, no polling, no token spend while it waits for you. The report is written to the run log on disk, so it is intact whenever you return, however much later that is.
+
 ## [1.7.0] — 2026-07-12
 
 ### New command
