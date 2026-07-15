@@ -1,8 +1,43 @@
 # Playbook Work Log
 
-## Last updated: 2026-07-12
+## Last updated: 2026-07-15
 
-## Overall State: **v1.7.0 LIVE on npm** (published 2026-07-12). PR #9 merged to main. New `/autopilot` command shipped — unattended multi-task execution, one project per run. All version markers aligned at 1.7.0; plugin marketplace version 1.3.0.
+## Overall State: **v1.7.1 committed, PR open, NOT yet published to npm.** Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. v1.7.0 remains the published npm version. All version markers aligned at 1.7.1; plugin marketplace version unchanged at 1.3.0 (no command added or removed).
+
+---
+
+## Session: 2026-07-15 — `/autopilot` clock + early-landing fixes (v1.7.1)
+
+Max reported two problems from live autopilot runs: runs kept getting confused about local time and landing early, and a run that finished its work in the middle of the night had no clear instruction to stand down.
+
+**Root cause of the time bug:** a Claude session is given `Today's date is YYYY-MM-DD` and nothing else. No hour, no timezone, no elapsed-time counter. The command never told the run to check the clock, so it estimated elapsed time from work done. That estimate drifts long, so the run believed it was later than it was and wound down early. Phase 5's "time remaining to hard stop?" checkpoint was asking a question the run had no way to answer.
+
+### Done
+- [x] `commands/autopilot.md`: new **Clock discipline** standing section — never estimate time, run `date`. Wired into the four places that make time calls: Phase 0 pre-flight (new check #1, records wall clock + timezone), Phase 3 interview (converts "away until 7" to an absolute stamp, reads it back), Phase 4 manifest (takeoff + hard stop as absolute stamps, never durations), Phase 5 wave checkpoints (compute real remaining time)
+- [x] `commands/autopilot.md`: Phase 6 rewritten — **"the hard stop is a ceiling, not a schedule."** Land when the manifest is done OR at the hard stop, whichever comes first. Explicit ban on padding remaining hours (no unapproved work, no re-reviewing finished tasks, no polling). New **"Then go dormant"** section: write the report to the run log on disk, then zero token spend until Max returns; cancel anything scheduled earlier. Landing early is framed as a good outcome to report plainly, not a failure.
+- [x] `skills/autopilot/SKILL.md` regenerated via `scripts/build-skills.js` (10/10 build)
+- [x] Synced to `~/.claude/commands/autopilot.md` (verified byte-identical to source)
+- [x] Version bump 1.7.1: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version`
+- [x] Verified: package.json valid JSON, all four version markers read 1.7.1, generated skill contains the new rules, installed copy identical. Prompt-copy change — mechanical checks only per the review rules, no code reviewer needed.
+
+### What remains
+- [ ] **Merge PR and publish v1.7.1 to npm** — `npm login`, then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+
+---
+
+## Open thread: `/autopilot` auto-resume after usage limits (investigation, not yet started)
+
+**The question Max asked (2026-07-15):** does autopilot have built-in cron to restart itself after session/usage limits expire? **Answer: no.** Nothing in the command does this. `/autopilot resume` is entirely manual — Max returns, sees the stall, pastes the command. The run log survives the stall on disk, but nothing acts on it.
+
+**Why we did not just build it.** It looks buildable: `CronCreate` supports one-shot jobs in local time, so at a stall the run could log the reset time and schedule `/autopilot resume` for a few minutes after. But three things have to be resolved first, and two of them are assumptions, not facts:
+
+1. **Cron jobs here are in-memory and session-only.** The `durable` flag is documented as having no effect. Close the terminal and the job is gone. An overnight run on a MacBook that sleeps (lid closed, Max asleep) is the exact target scenario and the exact failure case. Making it real likely means `caffeinate` plus a terminal left open.
+2. **Jobs only fire while the REPL is idle**, not mid-query. Whether a usage-limit stall leaves the REPL in a state where cron can fire is **unverified**. This is the load-bearing assumption and it needs a real test, not a guess.
+3. **Double-resume risk.** A cron-fired resume plus Max pasting `/autopilot resume` on waking = two orchestrators on one manifest and one set of worktrees.
+
+**Decision:** ship the time fix now (done, v1.7.1); treat auto-resume as separate work that **starts by testing what actually happens at a usage limit** rather than writing prompt instructions that assume an answer. Priority per Max: not urgent, no date set.
+
+**Deciding factor if revisited:** whether the value (a few extra hours of work done by morning) beats the added failure modes. If Max is asleep anyway, resuming at 3am vs. on waking may not be worth the complexity.
 
 ---
 
