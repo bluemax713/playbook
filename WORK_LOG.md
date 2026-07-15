@@ -24,6 +24,15 @@ Max reported two problems from live autopilot runs: runs kept getting confused a
 - [x] Published `playbook-ai@1.7.1` to npm (verified: `npm view playbook-ai version` → 1.7.1, dist-tag `latest`)
 - [x] PR #12 merged to main, branch deleted. Verified main VERSION reads 1.7.1 and all three new rule sections are present on `origin/main`
 - [x] Note: published from the feature branch before merging, so npm was briefly ahead of main. Harmless here (identical content) but worth merging first next time — a branch cut from main during that window would start from an already-published version.
+- [x] Researched the auto-resume question (two subagents + direct binary verification), decided against building, recorded in `docs/decisions/`. PR #13 merged to main, branch deleted. **Correction mid-session:** the first WORK_LOG entry (commit 2626613) contained a false claim sourced from GitHub research; it was caught by direct binary inspection, the PR was marked draft to prevent an accidental merge, then amended (d96bdd3) before merging.
+
+### Nothing left in progress
+
+Everything from this session is merged and live. `/autopilot` v1.7.1 is on npm and main; the auto-resume thread is closed with a decision record. No blocked items, no half-finished work, no open PRs.
+
+**Next session has no forced priority from this one.** Two optional items exist if wanted, neither urgent:
+1. **Test `CLAUDE_CODE_RETRY_WATCHDOG=1`** on an overnight `/autopilot` run (scoped to that terminal only, never settings.json). The decision doc's findings are code-reading, not observed behavior — append the result to it if tested.
+2. **Shed-work-on-approaching-limits** in `/autopilot` Phase 5. Wave checkpoints already ask "anything degrading (usage limits)?" and do nothing with the answer. Needs no unverified assumptions, unlike auto-resume. Deferred by Max 2026-07-15.
 
 ---
 
