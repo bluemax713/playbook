@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-07-15
 
-## Overall State: **v1.7.1 LIVE on npm** (published 2026-07-15, PR #12 merged to main same day). Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. All version markers aligned at 1.7.1 across npm, main, and `~/.claude/`; plugin marketplace version unchanged at 1.3.0 (no command added or removed). Auto-resume after usage limits: investigated and **parked, decided against** — see the closed thread below.
+## Overall State: **v1.7.1 LIVE on npm** (published 2026-07-15, PR #12 merged to main same day). Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. All version markers aligned at 1.7.1 across npm, main, and `~/.claude/`; plugin marketplace version unchanged at 1.3.0 (no command added or removed). Auto-resume after usage limits: investigated and **parked, decided against** — see [`docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md`](docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md).
 
 ---
 
@@ -29,29 +29,13 @@ Max reported two problems from live autopilot runs: runs kept getting confused a
 
 ## PARKED (decided against): `/autopilot` auto-resume after usage limits
 
-**Status: closed 2026-07-15. Researched, decided not to build. Do not re-open without a real stall as evidence.**
+**Status: closed 2026-07-15. Full decision record: [`docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md`](docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md).**
 
-**The question Max asked:** does autopilot have built-in cron to restart itself after usage limits expire? **Answer: no.** Nothing in the command does this. `/autopilot resume` is manual — Max returns, sees the stall, pastes the command. The run log survives on disk, but nothing acts on it.
+Max asked whether autopilot has built-in cron to restart itself after usage limits expire. Short answer: no cron, and we are not building one. But an undocumented CLI mechanism does exist, which is why this needed a decision doc rather than a log line.
 
-### Research findings (2026-07-15, two subagents + local verification)
+The one-paragraph version: `CLAUDE_CODE_RETRY_WATCHDOG` (undocumented env var, off by default) gates a path in the shipped binary that reads the `anthropic-ratelimit-unified-reset` header and sleeps up to 6h in 30s chunks to resume across a real usage-limit reset. By default the CLI gives up once the wait exceeds 60s, which is why GitHub feature requests describe resume as manual — they describe the default, not the gated path. **Decision: don't build, don't depend on it, and above all don't enable it globally** (it would make interactive sessions silently sleep for up to six hours instead of telling Max the limit was hit). Try it scoped to one terminal if wanted: `CLAUDE_CODE_RETRY_WATCHDOG=1 claude`. Re-open only if a real stall ever occurs.
 
-- **No built-in auto-resume exists.** VERIFIED (negative) via GitHub: three separate feature requests (#38263, #36320, #47276) all describe manual resume as current behavior; no maintainer timeline. The auto-retry shipped in Claude Code v2.1.198 covers **transient 429/5xx only** and explicitly excludes usage-limit stalls. Every working auto-resume in the wild is a third-party tmux wrapper injecting keystrokes into a live pane.
-- **The reset-time field is documented-broken.** VERIFIED: format varies (bare "resets at 2pm" with no timezone / hardcoded UTC / named zone), with two open issues (#32550, #1450) filed because the timezone is missing or wrong. **This kills the cron plan on its own** — scheduling requires parsing that field into a real local timestamp, i.e. building on the exact class of bug v1.7.1 just fixed in autopilot.
-- **The load-bearing question is still unverified.** Whether a stalled REPL is "idle and waiting for input" (cron could fire) vs. "blocked mid-query" (it can't) came back **INFERRED, not VERIFIED** — inferred from how third-party tmux tools behave, with no doc or code confirming it. Unknowable without a real stall.
-- **Local install is Claude Code 2.1.210**, so the v2.1.199 subagent fixes DO apply here: a subagent cut off mid-task by a rate limit now returns its **partial work** to the parent instead of failing silently or returning empty. Autopilot's worst structural risk (subagents dying invisibly at 2am) is already handled upstream.
-- **No evidence Max has ever hit a usage limit.** Grepped every session transcript on this machine: zero real stalls. All hits were false positives — Clenta product copy about *its own* rate limiting ("Iris is at capacity, resets at midnight"), and `AUTO-COMPACT ... Context limit reached` markers, which are **context compaction, a different mechanism entirely**. Caveat: the limit message is likely CLI-rendered and may never be written to the JSONL, so absence in transcripts is not proof.
-
-### Decision and reasoning
-
-**Do not build.** It would be a complex recovery mechanism resting on an unverified assumption (REPL state during a stall), fed by a documented-broken field (reset time), running on in-memory cron that dies when the laptop sleeps — which is the exact overnight scenario it targets — for a failure mode never once observed on this machine. `CronCreate`'s `durable` flag is documented as having no effect, so jobs are session-only regardless.
-
-**The existing fallback is adequate:** the run log is on disk, so a stall costs "resumes when Max wakes up" rather than "resumes at 3am." If Max is asleep anyway, that delta is small.
-
-**If it ever bites, that is the moment to instrument it** — a real stall hands over the artifact for free instead of paying to manufacture one. Re-open only then.
-
-### The better question this surfaced (not pursued, available if wanted)
-
-The interesting problem is not *recovering* from usage limits but *not hitting them*. Phase 5's wave checkpoints already ask "anything degrading (usage limits)?" but the command does nothing concrete with the answer — no shed-work-on-approach behavior. Unlike auto-resume, this needs no unverified assumptions. Max was offered this and chose to park the thread instead; pick it up if autopilot ever runs hot.
+Two process lessons worth carrying to other projects, both recorded in the decision doc: **read the artifact, not the discussion about it** (GitHub research produced a confident wrong answer twice in this session; the binary corrected it both times), and **control-test a verification method before trusting a negative** (the first check "disproved" the correct agent because `grep -c` chokes on a 241MB single-line bundle — use `rg -a -o -c`).
 
 ---
 
