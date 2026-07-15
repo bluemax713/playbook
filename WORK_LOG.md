@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-07-15
 
-## Overall State: **v1.7.1 committed, PR open, NOT yet published to npm.** Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. v1.7.0 remains the published npm version. All version markers aligned at 1.7.1; plugin marketplace version unchanged at 1.3.0 (no command added or removed).
+## Overall State: **v1.7.1 LIVE on npm** (published 2026-07-15, PR #12 merged to main same day). Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. All version markers aligned at 1.7.1 across npm, main, and `~/.claude/`; plugin marketplace version unchanged at 1.3.0 (no command added or removed). Auto-resume after usage limits: investigated and **parked, decided against** — see [`docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md`](docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md).
 
 ---
 
@@ -20,24 +20,22 @@ Max reported two problems from live autopilot runs: runs kept getting confused a
 - [x] Version bump 1.7.1: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version`
 - [x] Verified: package.json valid JSON, all four version markers read 1.7.1, generated skill contains the new rules, installed copy identical. Prompt-copy change — mechanical checks only per the review rules, no code reviewer needed.
 
-### What remains
-- [ ] **Merge PR and publish v1.7.1 to npm** — `npm login`, then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+### Closed out same session
+- [x] Published `playbook-ai@1.7.1` to npm (verified: `npm view playbook-ai version` → 1.7.1, dist-tag `latest`)
+- [x] PR #12 merged to main, branch deleted. Verified main VERSION reads 1.7.1 and all three new rule sections are present on `origin/main`
+- [x] Note: published from the feature branch before merging, so npm was briefly ahead of main. Harmless here (identical content) but worth merging first next time — a branch cut from main during that window would start from an already-published version.
 
 ---
 
-## Open thread: `/autopilot` auto-resume after usage limits (investigation, not yet started)
+## PARKED (decided against): `/autopilot` auto-resume after usage limits
 
-**The question Max asked (2026-07-15):** does autopilot have built-in cron to restart itself after session/usage limits expire? **Answer: no.** Nothing in the command does this. `/autopilot resume` is entirely manual — Max returns, sees the stall, pastes the command. The run log survives the stall on disk, but nothing acts on it.
+**Status: closed 2026-07-15. Full decision record: [`docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md`](docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md).**
 
-**Why we did not just build it.** It looks buildable: `CronCreate` supports one-shot jobs in local time, so at a stall the run could log the reset time and schedule `/autopilot resume` for a few minutes after. But three things have to be resolved first, and two of them are assumptions, not facts:
+Max asked whether autopilot has built-in cron to restart itself after usage limits expire. Short answer: no cron, and we are not building one. But an undocumented CLI mechanism does exist, which is why this needed a decision doc rather than a log line.
 
-1. **Cron jobs here are in-memory and session-only.** The `durable` flag is documented as having no effect. Close the terminal and the job is gone. An overnight run on a MacBook that sleeps (lid closed, Max asleep) is the exact target scenario and the exact failure case. Making it real likely means `caffeinate` plus a terminal left open.
-2. **Jobs only fire while the REPL is idle**, not mid-query. Whether a usage-limit stall leaves the REPL in a state where cron can fire is **unverified**. This is the load-bearing assumption and it needs a real test, not a guess.
-3. **Double-resume risk.** A cron-fired resume plus Max pasting `/autopilot resume` on waking = two orchestrators on one manifest and one set of worktrees.
+The one-paragraph version: `CLAUDE_CODE_RETRY_WATCHDOG` (undocumented env var, off by default) gates a path in the shipped binary that reads the `anthropic-ratelimit-unified-reset` header and sleeps up to 6h in 30s chunks to resume across a real usage-limit reset. By default the CLI gives up once the wait exceeds 60s, which is why GitHub feature requests describe resume as manual — they describe the default, not the gated path. **Decision: don't build, don't depend on it, and above all don't enable it globally** (it would make interactive sessions silently sleep for up to six hours instead of telling Max the limit was hit). Try it scoped to one terminal if wanted: `CLAUDE_CODE_RETRY_WATCHDOG=1 claude`. Re-open only if a real stall ever occurs.
 
-**Decision:** ship the time fix now (done, v1.7.1); treat auto-resume as separate work that **starts by testing what actually happens at a usage limit** rather than writing prompt instructions that assume an answer. Priority per Max: not urgent, no date set.
-
-**Deciding factor if revisited:** whether the value (a few extra hours of work done by morning) beats the added failure modes. If Max is asleep anyway, resuming at 3am vs. on waking may not be worth the complexity.
+Two process lessons worth carrying to other projects, both recorded in the decision doc: **read the artifact, not the discussion about it** (GitHub research produced a confident wrong answer twice in this session; the binary corrected it both times), and **control-test a verification method before trusting a negative** (the first check "disproved" the correct agent because `grep -c` chokes on a 241MB single-line bundle — use `rg -a -o -c`).
 
 ---
 
