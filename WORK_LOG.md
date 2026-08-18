@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-08-18
 
-## Overall State: **v1.7.2 ready to publish** (branch `end-ticket-closure`, PR pending). `/end` step 4 rewritten from a vague "update PM tool" note into a ship-time ticket closure ritual: pull the open queue (Haiku subagent or REST reader script), match open tasks against the session's actual work, close matches automatically via the PM MCP, and mirror every closure into WORK_LOG so `/start` never re-tees finished work. Motivated by Max's Clenta pain: sessions kept wrapping without closing ClickUp tickets, and later sessions wasted time teeing up already-completed tasks. Plugin marketplace version unchanged at 1.3.0 (no command added or removed). npm publish of 1.7.2 pending after merge.
+## Overall State: **v1.7.2 LIVE on npm** (published 2026-08-18; PR #15 merged to main first, publish second — order lesson from v1.7.1 applied). `/end` step 4 rewritten from a vague "update PM tool" note into a ship-time ticket closure ritual: pull the open queue (Haiku subagent or REST reader script), match open tasks against the session's actual work, close matches automatically via the PM MCP, and mirror every closure into WORK_LOG so `/start` never re-tees finished work. Motivated by Max's Clenta pain: sessions kept wrapping without closing ClickUp tickets, and later sessions wasted time teeing up already-completed tasks. Plugin marketplace version unchanged at 1.3.0 (no command added or removed).
 
 ---
 
@@ -20,8 +20,12 @@ Max's request: `/end` wraps sessions without reviewing/closing ClickUp tasks or 
 ### This session's own ticket check
 - ClickUp Playbook project queue pulled at `/start`: empty, nothing to close.
 
-### Remaining
-- [ ] Merge PR to main, then `npm publish` 1.7.2 (needs Max's Touch ID login) — merge first, publish second, per the v1.7.1 lesson
+### Closed out same session
+- [x] PR #15 merged to main, branch deleted. Merge first, publish second — the v1.7.1 ordering lesson applied
+- [x] Published `playbook-ai@1.7.2` to npm (verified: `npm view playbook-ai version` → 1.7.2, dist-tag `latest` → 1.7.2)
+- [x] First publish attempt 404'd — root cause was an npm login that never landed (`npm whoami` → 401). Re-login fixed it; nothing was wrong with the package or registry
+
+### Nothing left in progress
 
 ---
 
