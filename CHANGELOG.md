@@ -2,6 +2,11 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.7.2] — 2026-08-18
+
+### Commands
+- **`/end` now closes your tickets at ship time.** Session closeout used to note "update PM tool" and leave it at that, so completed ClickUp tasks stayed open and later sessions wasted time teeing up work that was already done. `/end` now pulls the project's open ticket queue (via a cheap Haiku subagent or the project's REST reader script), matches every open task against what the session actually accomplished — including tasks nobody mentioned — and closes the matches automatically. Every closure is mirrored into WORK_LOG.md and scrubbed from "Next Steps" so both records agree, and the closeout summary reports exactly which tickets were closed. Uncertain matches are left open and flagged rather than guessed at.
+
 ## [1.7.1] — 2026-07-15
 
 ### Fixed

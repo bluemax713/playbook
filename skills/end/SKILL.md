@@ -3,7 +3,7 @@ name: end
 description: Session closeout. Saves all progress to WORK_LOG.md, updates PM tools, cleans up temp files, commits and pushes changes, and presents a summary. Ensures zero information loss between sessions.
 ---
 
-Session closeout. Do everything needed so the user can walk away without taking notes or remembering anything. The next `/start` must pick up seamlessly. Runs inline on Sonnet. No subagents.
+Session closeout. Do everything needed so the user can walk away without taking notes or remembering anything. The next `/start` must pick up seamlessly. Runs inline on Sonnet. No subagents — with one exception: the PM ticket pull in step 4 routes through a Haiku subagent, same as `/start`.
 
 ## Steps
 
@@ -25,7 +25,13 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - Result: you drop from 101+ entries to ~92, with history preserved in compressed form
    - This fires roughly once every 9-10 sessions — not every session after the limit
 
-4. **Update PM tool** (if MCP is connected). Mark completed tasks as done. Update in-progress tasks with status notes. Create new tasks for anything discovered during the session that needs tracking.
+4. **Ticket closure** (if a PM tool MCP is connected). Reconcile the session against the ticket queue so the next `/start` doesn't tee up work that's already finished. This is not optional bookkeeping — skipping it is how future sessions waste time re-opening completed tasks.
+   - **Pull the open queue.** Get the project's open and in-progress tasks. If the project has a REST reader script (e.g. `scripts/clickup-tasks.sh`), use it. Otherwise spawn an Agent (`model: 'haiku'`) to query the PM MCP and return a compact list (task name, status, ID) — never pull the list inline, the responses are too verbose.
+   - **Match against the session's work.** Compare every open task to what was actually done — including tasks nobody mentioned this session that the work happens to have finished. Match on outcomes, not title similarity: read the task's intent and ask "did this session accomplish it?"
+   - **Close completed tasks automatically.** Mark every matched task done/closed via the PM MCP (writes stay on the MCP). Do not ask for confirmation — closing a finished ticket is just recording reality. If a match is genuinely uncertain, leave the task open and flag it in the closeout summary instead of guessing.
+   - **Update in-progress tasks** with a one-line status note of where they stand.
+   - **Create new tasks** for anything discovered during the session that needs tracking.
+   - **Mirror every closure in WORK_LOG.md.** List the closed tickets by name in this session's entry, and delete them from "Known Issues / Next Steps" (or equivalent) so they can't resurface at the next `/start`. A ticket closed in the PM tool but still listed as open in the work log will get teed up again — both records must agree.
 
 5. **Cleanup** — remove temporary artifacts:
    - Delete `HANDOFF_RESULT.md` if it exists in the project root
@@ -48,6 +54,7 @@ Session closeout. Do everything needed so the user can walk away without taking 
 
 8. **Present the closeout summary:**
    - **Done this session** — bullet list of completed work
+   - **Tickets closed** — which PM tasks were closed (or "none matched"), plus any uncertain matches left open for the user to judge
    - **Left in progress** — anything partially done and where it stands
    - **Next session priorities** — what `/start` will surface as the top items
    - **Action items** — anything that requires action outside of Claude Code
