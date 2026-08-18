@@ -1,8 +1,27 @@
 # Playbook Work Log
 
-## Last updated: 2026-07-15
+## Last updated: 2026-08-18
 
-## Overall State: **v1.7.1 LIVE on npm** (published 2026-07-15, PR #12 merged to main same day). Two `/autopilot` fixes from live-run feedback: the run now reads the real system clock instead of estimating elapsed time (it was landing early), and it lands the moment the manifest is done rather than idling until the hard stop. All version markers aligned at 1.7.1 across npm, main, and `~/.claude/`; plugin marketplace version unchanged at 1.3.0 (no command added or removed). Auto-resume after usage limits: investigated and **parked, decided against** — see [`docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md`](docs/decisions/2026-07-15-autopilot-usage-limit-auto-resume.md).
+## Overall State: **v1.7.2 ready to publish** (branch `end-ticket-closure`, PR pending). `/end` step 4 rewritten from a vague "update PM tool" note into a ship-time ticket closure ritual: pull the open queue (Haiku subagent or REST reader script), match open tasks against the session's actual work, close matches automatically via the PM MCP, and mirror every closure into WORK_LOG so `/start` never re-tees finished work. Motivated by Max's Clenta pain: sessions kept wrapping without closing ClickUp tickets, and later sessions wasted time teeing up already-completed tasks. Plugin marketplace version unchanged at 1.3.0 (no command added or removed). npm publish of 1.7.2 pending after merge.
+
+---
+
+## Session: 2026-08-18 — `/end` ship-time ticket closure (v1.7.2)
+
+Max's request: `/end` wraps sessions without reviewing/closing ClickUp tasks or marking them closed in the work log, so later sessions tee up work that's already done. Decision from Max: closure is **automatic** — no confirm-first step.
+
+### Done
+- [x] `commands/end.md`: step 4 rewritten as **Ticket closure** — pull open queue (REST reader script if the project has one, else a Haiku subagent, never inline), match on outcomes not titles (including tasks nobody mentioned that the session happened to finish), close matches automatically via the PM MCP, leave genuinely uncertain matches open and flagged, update in-progress tasks, mirror every closure into WORK_LOG.md and scrub it from Next Steps so both records agree
+- [x] `commands/end.md`: header "No subagents" now carries the one exception (Haiku PM pull); closeout summary gains a **Tickets closed** line
+- [x] `skills/end/SKILL.md` regenerated via `scripts/build-skills.js` (10/10 build, new section verified present)
+- [x] Synced to `~/.claude/commands/end.md` (verified byte-identical)
+- [x] Version bump 1.7.2: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version` (package.json validated as JSON)
+
+### This session's own ticket check
+- ClickUp Playbook project queue pulled at `/start`: empty, nothing to close.
+
+### Remaining
+- [ ] Merge PR to main, then `npm publish` 1.7.2 (needs Max's Touch ID login) — merge first, publish second, per the v1.7.1 lesson
 
 ---
 
