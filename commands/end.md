@@ -12,6 +12,8 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - Update "Known Issues / Next Steps" — remove anything completed, add anything new discovered, reprioritize if needed. Be explicit about what's next and what's blocked
    - If any task is partially done, document exactly where it was left off and what remains
 
+2b. **Refresh the project's living workstream map, if one exists.** Check for `docs/WORKSTREAMS.md` (or a similarly-purposed living map named in the project's CLAUDE.md). If present: follow the maintenance rules in its own header, update every workstream the session touched, and bump its "Last refresh" date. If that date shows prior sessions missed the refresh, catch the file up from WORK_LOG.md history before adding the current session. If no such file exists, skip silently.
+
 3. **Compress WORK_LOG.md if needed.** Count the number of entries — dated session headers (`## YYYY-MM-DD` or `### YYYY-MM-DD`) plus any existing `## Compressed:` blocks. If the total exceeds 100:
    - Read the 10 oldest entries (whether raw sessions or prior compressed blocks)
    - Summarize each to 2-3 bullets: what was done, what changed, what was decided
