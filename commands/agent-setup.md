@@ -31,8 +31,9 @@ Set up (or re-sync) the outside-agent coordination pattern in the current projec
 
 ## Step 3: Fill `instructions.md` (new files only)
 
-Draft every placeholder from what you read in Step 0, then show the user the full draft for confirmation before writing. Mark anything you can't source as `[TBD]` rather than inventing it.
+Draft every placeholder from what you read in Step 0, then show the user the full draft for confirmation before writing. No `{{...}}` may survive in the written file; check with `grep -n '{{' agents/<name>/instructions.md`. Mark anything you can't source as `[TBD]` rather than inventing it.
 
+- `{{PROJECT}}`, `{{AGENT}}`, `{{AGENT_DISPLAY}}`: same values as LOG.md in Step 2.
 - `{{REPO}}`, `{{ONE_LINE_PURPOSE}}`: the repo slug and one line on what the project does (from CLAUDE.md).
 - `{{AGENT_LABEL}}`: the label from Step 0.
 - `{{AGENT_OWNS}}` / `{{CLAUDE_CODE_OWNS}}`: propose a division of labor and ask the user to confirm. Sensible default: the outside agent owns monitoring, scheduled checks and audits, drafted follow-ups for the user's approval, and small well-scoped PRs; Claude Code owns architecture, production writes, PR review and merge calls, and anything high-risk.
@@ -58,7 +59,7 @@ Tasks Claude Code is working right now. Used only when the project has no PM too
 - _(none)_
 ```
 
-Include the **Claimed** block only when the project has no PM tool. If the Handoffs block already exists but has no `→ <Label>:` line for this agent, add one. Touch nothing else in WORK_LOG.
+Include the **Claimed** block only when the project has no PM tool. On a re-run, add whichever piece is missing: the Handoffs block, a `→ <Label>:` line for this agent inside it, or (no PM tool only) the Claimed block below it. Touch nothing else in WORK_LOG.
 
 ## Step 5: Project `CLAUDE.md` "Other Agents" section
 
@@ -80,7 +81,7 @@ Outside agents work on this repo between Claude Code sessions. Shared rules: `ag
 
 ## Step 6: Claim tags in the PM tool
 
-- **PM tool MCP connected:** check whether tags `<name>` and `claude-code` exist in the project's space/board. Create any that are missing (via a Haiku subagent if the lookup is verbose). Report which existed and which were created. Record the location (workspace/space/list names or IDs) for Step 3's `{{CLAIM_DETAILS}}` — these IDs go in the project's own files, never anywhere public.
+- **PM tool MCP connected:** check whether tags `<name>` and `claude-code` exist in the project's space/board (via a Haiku subagent if the lookup is verbose). List any that are missing and create them once the user OKs it (one question, not one per tag). Report which existed and which were created. Record the location (workspace/space/list names or IDs) for Step 3's `{{CLAIM_DETAILS}}` — these IDs go in the project's own files, never anywhere public.
 - **No PM tool:** skip tagging. The Claimed fallback (WORK_LOG Claimed block + each agent log's Claimed block) is the claim mechanism; make sure Step 3 and Step 4 documented it.
 
 ## Step 7: Branch protection on main
@@ -93,7 +94,7 @@ Outside agents are trusted not to push to main; branch protection is what enforc
 
 ## Step 8: Commit
 
-Make the changes on a feature branch (never main), commit (`chore: set up agents/ coordination for <name>`), push, and open a PR — docs-only, so mechanical checks suffice. On a re-run with nothing changed, skip this step and say the repo was already in sync.
+Make the changes on a feature branch (never main) and commit (`chore: set up agents/ coordination for <name>`). Show the user the list of changed files, then push and open a PR once they OK it — docs-only, so mechanical checks suffice. On a re-run with nothing changed, skip this step and say the repo was already in sync.
 
 ## Step 9: Paste-ready channel section
 

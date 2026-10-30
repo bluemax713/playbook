@@ -36,6 +36,7 @@ The agents working here are the folders under `agents/` (every `agents/*/LOG.md`
 
 - Outside agents work on `<name>/<topic>` branches and open PRs. Never push to main.
 - Outside agents never edit `CLAUDE.md`, `WORK_LOG.md`, this file, their own `instructions.md`, or another agent's folder.
+- Outside agents' log updates (claims, handoffs) usually sit on an unmerged branch. Claude Code reads every log from main **and** from open `<name>/` branches, so a claim or handoff counts as soon as it's pushed. Push the log update before starting the claimed work.
 - Claude Code reviews and merges outside agents' PRs. If a PR needs changes, Claude Code leaves review comments plus a `→ <name>:` handoff in `WORK_LOG.md`.
 
 ## Multi-repo work

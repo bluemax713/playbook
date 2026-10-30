@@ -83,6 +83,7 @@ Only if an `agents/` folder exists at the project root (set up by `/agent-setup`
 
 1. From `WORK_LOG.md`, read the **Handoffs** block and the **Claimed** block (if present). Note any `→ <agent>:` items still open.
 2. For every `agents/*/LOG.md`: read its **Handoffs** block, its **Claimed** block, and its **latest dated entry** only. Not the whole log.
+   - Agents can't push to main, so their newest log is usually on a branch. Run `git fetch origin --quiet`, list `origin/<agent>/*` branches, and for each read `git show origin/<branch>:agents/<agent>/LOG.md` (same three parts). Merge what you find with the main copy: a claim or handoff on any open agent branch counts.
 3. List open PRs from outside agents: `gh pr list --state open --json number,title,headRefName,url` and keep the ones whose branch starts with `<agent>/` for any agent folder. Skip silently if `gh` isn't available or there's no remote.
 4. Note which tasks are claimed by another agent (PM tags from the PM check above, or Claimed lists in the logs). Those are off-limits for this session.
 5. Surface it all in the briefing's **Outside agents** section (below). Items addressed `→ Claude Code:` and open agent PRs awaiting review go to the top of **Suggested next steps**.

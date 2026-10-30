@@ -1,8 +1,33 @@
 # Playbook Work Log
 
-## Last updated: 2026-08-18
+## Last updated: 2026-10-29
 
-## Overall State: **v1.7.2 LIVE on npm** (published 2026-08-18; PR #15 merged to main first, publish second — order lesson from v1.7.1 applied). `/end` step 4 rewritten from a vague "update PM tool" note into a ship-time ticket closure ritual: pull the open queue (Haiku subagent or REST reader script), match open tasks against the session's actual work, close matches automatically via the PM MCP, and mirror every closure into WORK_LOG so `/start` never re-tees finished work. Motivated by Max's Clenta pain: sessions kept wrapping without closing ClickUp tickets, and later sessions wasted time teeing up already-completed tasks. Plugin marketplace version unchanged at 1.3.0 (no command added or removed).
+## Overall State: **v1.8.0 on branch `agent-coordination`, PR pending review/merge** (not yet published to npm). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+
+---
+
+## Session: 2026-10-29 — Outside-agent coordination pattern + `/agent-setup` (v1.8.0)
+
+Max's request: generalize palm_beach's Duet coordination (decision doc lives in that repo, `docs/decisions/2026-10-29-agent-coordination-pattern.md`) into the Playbook so every project can use it. Generic only: repo is public.
+
+### Done
+- [x] `templates/agents/README.md`: shared rules adopted from the palm_beach draft. Improvements: no hard-coded "current agents" line (agents discovered from folders, so the file stays byte-identical across repos and `/agent-setup` diffs are meaningful), a "Before any work" section, handoff naming rule (label matches folder, case-insensitive), outside agents can't edit their own instructions.md, secrets rule
+- [x] `templates/agents/_template/LOG.md` + `instructions.md`: skeletons with Handoffs + Claimed blocks and `{{PLACEHOLDERS}}` for role, hard rules, claim details, references
+- [x] `commands/agent-setup.md`: new command, steps 0–9 per Max's spec (README create/refresh with diff + ask, never overwrite a log, draft hard rules from CLAUDE.md/memory for confirmation, WORK_LOG Handoffs/Claimed blocks, CLAUDE.md Other Agents section, PM claim tags or Claimed fallback, branch protection check that never enables without approval, channel section output, idempotent)
+- [x] `commands/start.md`: new Step 3 Outside Agents Check + briefing line; PM subagent also returns tags so tasks claimed by another agent are excluded. Silent when no `agents/`
+- [x] `commands/end.md`: new step 4b (write `→ <agent>:` handoffs, clear picked-up items, update Claimed, flag unaddressed `→ Claude Code:` items) + closeout summary line
+- [x] `templates/CLAUDE.md`: short Other Agents pointer
+- [x] **Bug fixed before it shipped:** `lib/installer.js` copied `templates/` file-by-file and would have crashed on the new subfolder. Now `fs.cp` recursive. `update.sh` curl fallback fetches `agent-setup.md` + the three agent templates
+- [x] `scripts/build-skills.js` SKILL_META entry; skills regenerated (11/11). README command tables. marketplace.json description + version 1.4.0
+- [x] Version 1.8.0: VERSION, package.json, CHANGELOG
+- [x] Verified: JSON parses, `bash -n update.sh`, `node --check lib/installer.js`, real npm install into a temp HOME placed all agent templates + `/agent-setup`; leak scan of new files clean
+
+- [x] Independent review (feature-dev:code-reviewer, Sonnet): no blocking issues. Fixed: (1) **no-PM Claimed fallback didn't work across branches**: agents' log updates sit on unmerged `<name>/` branches, so `/start` and `/end` now also read `origin/<agent>/*` copies of each LOG.md, and README tells agents to push the log update before starting claimed work; (2) PM tag creation and the setup PR push now ask first; (3) all instructions.md placeholders listed + grep check that none survive; (4) re-run adds a missing Claimed block too; (5) end.md wording notes `/agent-setup`'s one-time log creation. Not changed: `fs.cp` may print an ExperimentalWarning on Node 18/20 (cosmetic; none on Node 26)
+- [x] Synced `agent-setup.md`, `start.md`, `end.md` to `~/.claude/commands/` (byte-identical), agent templates to `~/.claude/.playbook/templates/agents/`, `~/.claude/.playbook-version` → 1.8.0
+
+### Remaining
+- [ ] Max: merge the PR, then publish: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+- [ ] palm_beach re-sync: run `/agent-setup duet` there. Expect a README diff (canonical version drops the hard-coded "Current agents" line and adds Before-any-work, branch-log, and secrets sections). Its existing LOG.md lacks a Claimed block; ClickUp is connected there, so that's fine
 
 ---
 
