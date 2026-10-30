@@ -29,10 +29,10 @@ fetch_via_git() {
 fetch_via_curl() {
   # Download key files individually via GitHub raw content
   local files=("VERSION" "CHANGELOG.md" "settings.json" "install.sh" "update.sh")
-  local cmd_files=("start.md" "end.md" "plan.md" "chess.md" "future.md" "autopilot.md" "debug.md" "quick.md" "handoff.md" "new-project.md")
+  local cmd_files=("start.md" "end.md" "plan.md" "chess.md" "future.md" "autopilot.md" "debug.md" "quick.md" "handoff.md" "new-project.md" "agent-setup.md")
 
   mkdir -p "$PLAYBOOK_DIR/commands"
-  mkdir -p "$PLAYBOOK_DIR/templates"
+  mkdir -p "$PLAYBOOK_DIR/templates/agents/_template"
   mkdir -p "$PLAYBOOK_DIR/extras/statusline"
 
   for f in "${files[@]}"; do
@@ -51,6 +51,11 @@ fetch_via_curl() {
 
   # Fetch templates (non-fatal if missing — they're optional)
   curl -sf "$RAW_BASE/templates/tech_stack.md" -o "$PLAYBOOK_DIR/templates/tech_stack.md" 2>/dev/null
+
+  # Fetch the outside-agent templates /agent-setup copies from (non-fatal — it falls back to curl itself)
+  for f in "agents/README.md" "agents/_template/LOG.md" "agents/_template/instructions.md"; do
+    curl -sf "$RAW_BASE/templates/$f" -o "$PLAYBOOK_DIR/templates/$f" 2>/dev/null
+  done
 
   return 0
 }

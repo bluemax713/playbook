@@ -18,6 +18,8 @@ Most Claude Code configs are built for developers. This one is built for operato
 | `commands/debug.md` | `/debug` — 4-step systematic debugging |
 | `commands/quick.md` | `/quick` — lightweight mode for small fixes |
 | `commands/new-project.md` | `/new-project` — full project setup with guided interview |
+| `commands/agent-setup.md` | `/agent-setup` — lets an outside agent (e.g. Claude Duet) work in a project alongside Claude Code without collisions |
+| `templates/agents/` | Shared rules + log/instructions skeletons that `/agent-setup` installs into a project |
 | `commands/handoff.md` | `/handoff` — generates parallel session prompts (Claude invokes this, not you) |
 | `settings.json` | Permission allowlist for common tools |
 | `update.sh` | Handles updates when a new Playbook version is available |
@@ -128,6 +130,7 @@ Every session follows a consistent pattern:
 - **`/debug`** — When something is broken. Follows: reproduce, isolate root cause, fix, verify. No guessing.
 - **`/quick`** — For small fixes that don't need the full session ceremony.
 - **`/new-project`** — Sets up a new project from scratch. Claude interviews you — what's the project about, do you have an existing repo or need a new one, do you want to connect a PM tool? Then it creates the repo, wires your terminal shortcut, and generates a comprehensive CLAUDE.md (the rules file) based on what it learned about your project and how you want to work. One command, everything ready.
+- **`/agent-setup`** — When an outside agent (like Claude Duet) will work in a project alongside Claude Code. Creates an `agents/` folder with shared rules, a log and rules file for that agent, a handoffs block in your WORK_LOG, and claim tags in your PM tool, then gives you a paste-ready snippet for the agent's instructions. From then on `/start` shows what the agent did and handed you, and `/end` leaves it handoffs. Safe to re-run.
 - **`/handoff`** — Claude uses this (not you) when a task should run in a separate terminal with fresh context.
 
 **Each strategic command has a primary enemy:**

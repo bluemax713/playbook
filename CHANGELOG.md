@@ -2,6 +2,18 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.8.0] — 2026-10-29
+
+### New command
+- **`/agent-setup` — run an outside agent alongside Claude Code.** If another agent (Claude Duet, or any other) works in your project between Claude Code sessions, the two can pick up the same task, overwrite each other's notes, or drop handoffs. `/agent-setup <agent-name>` (default `duet`) sets up a simple shared protocol: an `agents/` folder with the shared rules, a log and a rules file for that agent (hard rules drafted from your project's CLAUDE.md for you to confirm), a Handoffs block in your WORK_LOG, and claim tags in your PM tool (or a "Claimed" list if you don't use one). It checks that your main branch is protected and recommends turning protection on if it isn't (never without your OK), then gives you a paste-ready snippet for the agent's channel instructions. Safe to re-run: it never overwrites an agent's log, and a re-run picks up newer shared rules after showing you the diff.
+
+### Commands
+- **`/start` shows what your outside agents did.** If a project has an `agents/` folder, the briefing now covers each agent's latest log entry, handoffs addressed to Claude Code, its open PRs awaiting review, and the tasks it has claimed (which Claude Code won't touch). Projects without `agents/` see no change.
+- **`/end` leaves handoffs for your outside agents.** Anything an agent should pick up goes into WORK_LOG's Handoffs block with enough context to act cold, items the agent has already picked up get cleared, and any handoffs addressed to Claude Code that went unaddressed are flagged in the closeout summary.
+
+### Fixed
+- **npm installs copy template subfolders.** The installer copied `templates/` one file at a time, which would have failed on the new `templates/agents/` folder.
+
 ## [1.7.2] — 2026-08-18
 
 ### Commands

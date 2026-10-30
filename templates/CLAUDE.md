@@ -146,6 +146,10 @@ Present every merge call in product terms: what changes for users, what was veri
 - **Frontend Design** (`frontend-design@claude-plugins-official`) is installed by default. It generates distinctive, production-grade frontend interfaces with bold typography, unique color palettes, and creative layouts. No action needed — it's active automatically.
 - **Code Review Agents** (`code-review@claude-plugins-official`) is recommended for PR-based workflows. Install with: `/plugin install code-review@claude-plugins-official`. It runs multiple specialized review agents in parallel (comment analysis, test coverage, silent failure detection, type design, code quality, simplification) with confidence-based scoring.
 
+## Other Agents
+- If an outside agent (e.g. Claude Duet) works in a project alongside Claude Code, the rules live in that repo's `agents/README.md`, with each agent's own rules in `agents/<name>/instructions.md`
+- Set a project up (or re-sync it) with `/agent-setup <agent-name>`. `/start` and `/end` read the agents' logs and handoffs automatically once `agents/` exists
+
 ## Decision Tracking
 - When making non-trivial architectural or design decisions, save them to `docs/decisions/` in the relevant project repo
 - Format: `YYYY-MM-DD-<topic>.md` (e.g., `2026-03-01-auth-approach.md`)
