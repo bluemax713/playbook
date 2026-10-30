@@ -12,6 +12,7 @@ Read WORK_LOG.md **efficiently** — do NOT read the entire file if it's long:
 Check your project management tool for current task priorities — via a Haiku subagent, never inline:
 
 - If a PM tool MCP is connected (ClickUp, Linear, Notion, Jira, etc.), spawn an Agent (`model: 'haiku'`): *"Query the connected PM tool via MCP for this project's open and in-progress tasks. Return a compact list only: task name, status, priority, due date if set. No descriptions, no custom fields, no commentary. If the query fails or returns nothing, say so in one line."*
+- **If an `agents/` folder exists** (see Step 3), add to the prompt: *"Also return each task's tags."* Then drop tasks tagged with an outside agent's name (any folder under `agents/`) from **PM tasks** and list them under **Outside agents** as claimed instead. Never suggest working a task another agent has claimed.
 - Use the returned summary in the briefing's **PM tasks** section.
 - Why a subagent: PM tool responses are verbose (descriptions, custom fields, metadata) and would bloat the main session's context. The subagent runs on Haiku regardless of what model the main session is on — a slash command can't change the main session's model, but it can route the heavy pull to a cheap one.
 - If no PM MCP is connected, skip this step entirely and rely on WORK_LOG.md.
@@ -81,6 +82,18 @@ Check if an `inbox/` folder exists at the project root and contains any files.
 
 ---
 
+## Step 3: Outside Agents Check
+
+Only if an `agents/` folder exists at the project root (set up by `/agent-setup`). If it doesn't exist, skip this step and say nothing.
+
+1. From `WORK_LOG.md`, read the **Handoffs** block and the **Claimed** block (if present). Note any `→ <agent>:` items still open.
+2. For every `agents/*/LOG.md`: read its **Handoffs** block, its **Claimed** block, and its **latest dated entry** only. Not the whole log.
+3. List open PRs from outside agents: `gh pr list --state open --json number,title,headRefName,url` and keep the ones whose branch starts with `<agent>/` for any agent folder. Skip silently if `gh` isn't available or there's no remote.
+4. Note which tasks are claimed by another agent (PM tags from the PM check above, or Claimed lists in the logs). Those are off-limits for this session.
+5. Surface it all in the briefing's **Outside agents** section (below). Items addressed `→ Claude Code:` and open agent PRs awaiting review go to the top of **Suggested next steps**.
+
+---
+
 ## Normal Briefing
 
 Present a concise briefing:
@@ -88,6 +101,7 @@ Present a concise briefing:
 - **Current status** — what's working, what's not
 - **Known issues** — bugs, blockers, pending items
 - **PM tasks** — open/in-progress tasks if PM tool is available
+- **Outside agents** — **only if `agents/` exists**: per agent, its latest log entry (one line), open handoffs addressed to Claude Code, open handoffs Claude Code left for it, what it has claimed, and its open PRs awaiting review. If `agents/` doesn't exist, skip this line entirely.
 - **Code learnings** — **only if a `docs/solutions/` directory exists** at the project root: surface the count and the 1–2 most recently modified learning titles, so prior solved problems are visible at session start. If `docs/solutions/` doesn't exist, skip this line entirely — say nothing.
 - **Suggested next steps** — prioritized list of what to tackle, flagging anything that needs a decision
 

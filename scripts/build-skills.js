@@ -56,6 +56,10 @@ const SKILL_META = {
     description:
       'Full project setup with a guided interview — clone or create a repo, wire local config (CLAUDE.md, WORK_LOG.md, MCP servers), and get ready for a first session. Use when starting work on a new project.',
   },
+  'agent-setup': {
+    description:
+      'Sets up or re-syncs the outside-agent coordination pattern (agents/ folder, shared rules, per-agent log and instructions, WORK_LOG handoffs, PM claim tags, branch protection check) so an agent like Claude Duet can work alongside Claude Code without collisions. Outputs a paste-ready channel section. Safe to re-run.',
+  },
   autopilot: {
     description:
       'Unattended multi-task execution for one project. Harvests the backlog, resolves every ambiguity in one up-front interview, gets a flight plan approved, then plans/builds/reviews through it with parallel subagents. Builds but never merges — the user returns to a landing report and a merge queue. Use before stepping away for hours.',

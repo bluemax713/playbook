@@ -28,6 +28,12 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - **Create new tasks** for anything discovered during the session that needs tracking.
    - **Mirror every closure in WORK_LOG.md.** List the closed tickets by name in this session's entry, and delete them from "Known Issues / Next Steps" (or equivalent) so they can't resurface at the next `/start`. A ticket closed in the PM tool but still listed as open in the work log will get teed up again — both records must agree.
 
+4b. **Outside agent handoffs** (only if an `agents/` folder exists at the project root; otherwise skip and say nothing). Claude Code writes only `WORK_LOG.md`, never an agent's log (rules: `agents/README.md`).
+   - **Write new handoffs.** For anything this session left that an outside agent should pick up (a monitoring check, a follow-up, review comments on its PR), add a `→ <Label>:` item to WORK_LOG's **Handoffs** block with enough context to act cold: task link, PR link, what was verified, what's expected back.
+   - **Clear picked-up items.** Read each `agents/*/LOG.md`. For every `→ <Label>:` item in WORK_LOG's Handoffs block that the agent has noted as picked up in its log, delete it from the block. Leave items the agent hasn't acknowledged.
+   - **Claims.** If the project uses the Claimed fallback (no PM tool), remove Claude Code's lines for tasks finished this session and add lines for any it's still working.
+   - **Flag unaddressed handoffs to Claude Code.** List any `→ Claude Code:` items in the agents' logs that this session didn't address. Note pickup in WORK_LOG for the ones it did, so the agent can clear them.
+
 5. **Cleanup** — remove temporary artifacts:
    - Delete `HANDOFF_RESULT.md` if it exists in the project root
    - Remove any other temp files created during the session (scratch scripts, debug output, etc.)
@@ -51,6 +57,7 @@ Session closeout. Do everything needed so the user can walk away without taking 
    - **Done this session** — bullet list of completed work
    - **Tickets closed** — which PM tasks were closed (or "none matched"), plus any uncertain matches left open for the user to judge
    - **Left in progress** — anything partially done and where it stands
+   - **Agent handoffs** — only if `agents/` exists: handoffs written, items cleared, and any `→ Claude Code:` items still unaddressed
    - **Next session priorities** — what `/start` will surface as the top items
    - **Action items** — anything that requires action outside of Claude Code
 
