@@ -7,11 +7,12 @@ Set up (or re-sync) the outside-agent coordination pattern in the current projec
 ## Step 0: Inputs and templates
 
 1. **Agent name.** Take it from the argument; default `duet`. Normalize to lowercase, one word, no spaces (this is the folder name and the claim tag). Work out two display forms:
-   - **Display name** for headings (`duet` → `Claude Duet`; anything else → ask the user, defaulting to the capitalized name).
+   - **Display name** for headings (`duet` → `Claude Duet`; anything else → the defaults file if it lists one, otherwise ask the user, defaulting to the capitalized name).
    - **Label** for handoff lines (`duet` → `Duet`; anything else → the capitalized name).
    - The name `claude-code` is reserved for Claude Code. Refuse it.
 2. **Project facts.** Read the project's `CLAUDE.md`, the top of `WORK_LOG.md`, and auto-memory. Get the repo slug with `gh repo view --json nameWithOwner -q .nameWithOwner` (if that fails, use `git remote get-url origin`; if there's no remote, use the directory name and note that branch protection and PR checks don't apply).
-3. **Templates.** The canonical files ship with the Playbook:
+3. **Personal defaults.** Read `~/.claude/agent-setup-defaults.md` if it exists (see "Personal defaults file" below). It holds the user's standing answers for this agent, so a new project only asks what's genuinely project-specific.
+4. **Templates.** The canonical files ship with the Playbook:
    - `~/.claude/.playbook/templates/agents/README.md`
    - `~/.claude/.playbook/templates/agents/_template/LOG.md`
    - `~/.claude/.playbook/templates/agents/_template/instructions.md`
@@ -36,7 +37,7 @@ Draft every placeholder from what you read in Step 0, then show the user the ful
 - `{{PROJECT}}`, `{{AGENT}}`, `{{AGENT_DISPLAY}}`: same values as LOG.md in Step 2.
 - `{{REPO}}`, `{{ONE_LINE_PURPOSE}}`: the repo slug and one line on what the project does (from CLAUDE.md).
 - `{{AGENT_LABEL}}`: the label from Step 0.
-- `{{AGENT_OWNS}}` / `{{CLAUDE_CODE_OWNS}}`: propose a division of labor and ask the user to confirm. Sensible default: the outside agent owns monitoring, scheduled checks and audits, drafted follow-ups for the user's approval, and small well-scoped PRs; Claude Code owns architecture, production writes, PR review and merge calls, and anything high-risk.
+- `{{AGENT_OWNS}}` / `{{CLAUDE_CODE_OWNS}}`: use the division of labor from the defaults file if it has one for this agent; otherwise propose one (it's confirmed together with the rest of the draft, not as a separate question). Sensible default: the outside agent owns monitoring, scheduled checks and audits, drafted follow-ups for the user's approval, and small well-scoped PRs; Claude Code owns architecture, production writes, PR review and merge calls, and anything high-risk.
 - `{{HARD_RULES}}`: the project's own non-negotiables, drawn from CLAUDE.md and memory: systems the agent must never write to, read-only connectors it must use instead of write-capable ones, audience or data-isolation rules, formatting and time-zone conventions, writing style. One bullet each, bolded lead. Only include rules that actually appear in the sources; cite where each came from when you show the draft. The template already carries the generic rules (no production writes without approval, no fabricated data, no secrets, branches + PRs only), so don't repeat them.
 - `{{CLAIM_DETAILS}}`: from Step 6. With a PM tool: where tasks live and the tags (`<name>`, `claude-code`), e.g. "In <PM tool> (<workspace/space/list>): if the task is tagged `claude-code`, don't touch it. Otherwise tag it `<name>` and move it to in progress." Without one: "This project has no PM tool. Add the task under **Claimed** at the top of your log and check every other log's Claimed list first (see `agents/README.md` rule 1)."
 - `{{REFERENCES}}`: pointers to where the agent will find IDs, data flow, and exports (CLAUDE.md sections, `docs/`, export folders and whether they're read-only for the agent). Pointers, not copies.
@@ -81,7 +82,7 @@ Outside agents work on this repo between Claude Code sessions. Shared rules: `ag
 
 ## Step 6: Claim tags in the PM tool
 
-- **PM tool MCP connected:** check whether tags `<name>` and `claude-code` exist in the project's space/board (via a Haiku subagent if the lookup is verbose). List any that are missing and create them once the user OKs it (one question, not one per tag). Report which existed and which were created. Record the location (workspace/space/list names or IDs) for Step 3's `{{CLAIM_DETAILS}}` — these IDs go in the project's own files, never anywhere public.
+- **PM tool MCP connected:** check whether tags `<name>` and `claude-code` exist in the project's space/board (via a Haiku subagent if the lookup is verbose). List any that are missing and create them once the user OKs it (one question, not one per tag). Skip the question if the defaults file says tag creation is pre-approved. Report which existed and which were created. Record the location (workspace/space/list names or IDs) for Step 3's `{{CLAIM_DETAILS}}` — these IDs go in the project's own files, never anywhere public.
 - **No PM tool:** skip tagging. The Claimed fallback (WORK_LOG Claimed block + each agent log's Claimed block) is the claim mechanism; make sure Step 3 and Step 4 documented it.
 
 ## Step 7: Branch protection on main
@@ -89,25 +90,49 @@ Outside agents work on this repo between Claude Code sessions. Shared rules: `ag
 Outside agents are trusted not to push to main; branch protection is what enforces it.
 
 - Check with `gh api repos/<owner>/<repo>/branches/main/protection` (a 404 means unprotected; if the call errors for a different reason, such as permissions or a plan that doesn't support protection on private repos, say so plainly).
-- **Protected:** report it in one line.
+- **Protected, and it blocks direct pushes to main** (a PR is required, with or without required approvals): report the current rule in one line and move on. Don't propose changes or ask about it; a stricter rule than the recommendation below is fine.
+- **Protected, but direct pushes are still allowed** (e.g. it only blocks force-pushes): recommend adding "require a PR before merging", with the same approval rule as below.
 - **Not protected:** recommend enabling it (require a PR before merging; no direct pushes). **Do not enable it yourself without explicit approval** — it changes how everyone pushes to this repo. If the user approves, apply it with `gh api -X PUT` and confirm by re-reading the protection.
 
 ## Step 8: Commit
 
-Make the changes on a feature branch (never main) and commit (`chore: set up agents/ coordination for <name>`). Show the user the list of changed files, then push and open a PR once they OK it — docs-only, so mechanical checks suffice. On a re-run with nothing changed, skip this step and say the repo was already in sync.
+Make the changes on a feature branch (never main) and commit (`chore: set up agents/ coordination for <name>`). Show the user the list of changed files, then push and open a PR once they OK it (or straight away if the defaults file says setup PRs are pre-approved) — docs-only, so mechanical checks suffice. On a re-run with nothing changed, skip this step and say the repo was already in sync.
 
 ## Step 9: Paste-ready channel section
 
 Outside agents like Duet often have per-channel (or per-workspace) instructions covering several repos. Those instructions point at repo files rather than copying the rules, so they rarely need re-pasting.
 
-1. **Pick the channel.** Decide which of the agent's channels this repo belongs to, from CLAUDE.md, memory, and what the project is. If it isn't clear, ask the user, and list the channels you know about.
+1. **Pick the channel.** If the defaults file maps this repo to a channel, use it without asking. Otherwise decide from the defaults file's channel list, CLAUDE.md, memory, and what the project is; if it isn't clear, ask the user, listing the channels you know about.
 2. **Output the section** in a code block, ready to paste:
 
    ```
    You work on repo <owner/repo>. Before working in it, read agents/README.md and agents/<name>/instructions.md and follow them. Log work in agents/<name>/LOG.md.
    ```
 
-3. Tell the user: if other repos share this channel, each repo's `/agent-setup` produces its own section; concatenate them into the channel's instructions. Remember the channel choice in auto-memory so a re-run doesn't ask again.
+3. Tell the user: if other repos share this channel, each repo's `/agent-setup` produces its own section; concatenate them into the channel's instructions. Record the channel choice in the defaults file so neither a re-run nor another repo asks again.
+
+## Personal defaults file
+
+`~/.claude/agent-setup-defaults.md` stores the user's standing answers across all projects. It is personal: it lives in `~/.claude/`, never in a project repo, and never holds secrets or PM IDs (those stay in each project's own files).
+
+- **Create it** after the user's first confirmed setup, from the answers they gave. **Update it** whenever they give a new standing answer (a new channel, a repo's channel, a pre-approval). Tell the user in one line when you write to it.
+- If a project differs from a default (e.g. a different division of labor), use the project's answer for that project and leave the default alone unless the user says it's the new default.
+- Shape:
+
+```markdown
+# /agent-setup defaults
+
+## <agent name>
+- Display name: <e.g. Claude Duet> | Label: <e.g. Duet>
+- Agent owns: <one line>
+- Claude Code owns: <one line>
+- Pre-approved: PM tag creation (yes/no), setup PR push (yes/no)
+
+### Channels
+- <channel name>: <owner/repo>, <owner/repo>
+```
+
+With the defaults file filled in, a first run in a new repo should need one confirmation (the drafted `instructions.md`, mainly its hard rules) plus branch protection when it's off. A re-run on a set-up repo should need none unless the Playbook's shared rules changed.
 
 ## Summary
 

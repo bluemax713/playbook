@@ -2,7 +2,23 @@
 
 ## Last updated: 2026-10-29
 
-## Overall State: **v1.8.0 LIVE on npm** (published 2026-10-29; PR #17 merged to main first, publish second). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+## Overall State: **v1.8.1 on branch `agent-setup-defaults`, PR pending** (v1.8.0 LIVE on npm, published 2026-10-29; PR #17 merged to main first, publish second). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+
+---
+
+## Session: 2026-10-29 (cont.) — `/agent-setup` fewer questions (v1.8.1)
+
+Max ran `/agent-setup duet` in palm_beach and hit several questions, one of which (branch protection) shouldn't have been asked. Asked whether every run would be like that.
+
+### Done
+- [x] `commands/agent-setup.md`: new **personal defaults file** `~/.claude/agent-setup-defaults.md` (outside the repo, no secrets/PM IDs): standing division of labor, display name/label, channel list + repo→channel map, pre-approvals for tag creation and setup PR push. Read in Step 0, written after the first confirmed setup. Replaces per-project auto-memory for the channel choice (per-project memory can't be seen from a new repo)
+- [x] Step 7 branch protection: any rule that already blocks direct pushes (incl. stricter, approval-required) → one-line report, no question. New middle case: protected but direct pushes allowed → recommend adding PR requirement
+- [x] Target after this: new repo = one confirmation (instructions.md draft) + branch protection if off; re-run = zero
+- [x] Version 1.8.1; skills rebuilt; command synced to `~/.claude/commands/`
+- [x] palm_beach advice given this session: Use Playbook README; add the missing "read every log / Claimed list (if present) / hand off to Claude Code" lines to instructions.md; **keep** palm_beach's 1-approval branch rule (it's the only barrier to Duet self-merging if Duet's GitHub identity isn't admin). Open question for palm_beach's onboarding task: check the author on Duet's first PR; if it's Max's account, the approval rule adds nothing and Duet needs its own identity
+
+### Remaining
+- [ ] Max: merge the PR, then `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
 
 ---
 
