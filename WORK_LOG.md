@@ -21,6 +21,9 @@ Max ran `/agent-setup duet` in palm_beach and hit several questions, one of whic
 - [x] PR #19 merged (closed #18 too), branches deleted. Published `playbook-ai@1.8.1` (verified on registry: latest = 1.8.1)
 - [x] **Found during merge:** commit b68862f (`/end` step 2b, refresh `docs/WORKSTREAMS.md`) was pushed directly to main mid-session, outside a PR, with no version bump or CHANGELOG entry. It merged cleanly and shipped in 1.8.0/1.8.1. My pre-merge sync of `end.md` had overwritten it in `~/.claude/commands/`; re-synced from main, all installed commands now byte-identical to the repo. Flagged to Max: whichever session pushed it broke the never-push-to-main rule
 
+### Ticket check
+- ClickUp Playbook space pulled at `/end` (both lists): no open or in-progress tasks, nothing to close. No new Playbook tasks: the remaining items belong to palm_beach (its own onboarding task tracks them).
+
 ### Next
 - [ ] palm_beach: finish the `/agent-setup duet` PR there (README → Playbook version, instructions.md additions); on Duet's first PR, check the author identity (if it's Max's account, the approval rule doesn't stop Duet self-merging)
 - [ ] First `/agent-setup` run in any repo will create `~/.claude/agent-setup-defaults.md`; re-running in palm_beach seeds it now
