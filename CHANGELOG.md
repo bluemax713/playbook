@@ -2,6 +2,12 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.8.1] — 2026-10-29
+
+### Commands
+- **`/agent-setup` asks far fewer questions.** Your standing answers (what the outside agent owns vs. Claude Code, which of the agent's channels each repo belongs to, whether tag creation and the setup PR need a confirm) are now saved once in a personal file, `~/.claude/agent-setup-defaults.md`, and reused in every project. A new repo now needs one confirmation (the agent's project-specific rules) plus branch protection if it's off; re-running on a set-up repo usually needs none.
+- **`/agent-setup` no longer questions branch protection that already works.** If main already requires a pull request (including stricter setups that also require an approval), it reports the rule in one line and moves on.
+
 ## [1.8.0] — 2026-10-29
 
 ### New command
