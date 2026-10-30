@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-10-29
 
-## Overall State: **v1.8.0 on branch `agent-coordination`, PR pending review/merge** (not yet published to npm). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+## Overall State: **v1.8.0 LIVE on npm** (published 2026-10-29; PR #17 merged to main first, publish second). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
 
 ---
 
@@ -26,7 +26,8 @@ Max's request: generalize palm_beach's Duet coordination (decision doc lives in 
 - [x] Synced `agent-setup.md`, `start.md`, `end.md` to `~/.claude/commands/` (byte-identical), agent templates to `~/.claude/.playbook/templates/agents/`, `~/.claude/.playbook-version` → 1.8.0
 
 ### Remaining
-- [ ] Max: merge the PR, then publish: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+- [x] PR #17 merged, branch deleted. Raw GitHub serves all new files (curl update path verified)
+- [x] Published `playbook-ai@1.8.0` (verified on registry: latest = 1.8.0, tarball includes `agent-setup.md` + all three agent templates)
 - [ ] palm_beach re-sync: its PR #31 (`agents/` layout) merged 2026-10-29, so it's unblocked. Run `/agent-setup duet` there. Expect a README diff (canonical version drops the hard-coded "Current agents" line and adds Before-any-work, branch-log, and secrets sections). Its existing LOG.md lacks a Claimed block; ClickUp is connected there, so that's fine
 
 ---
