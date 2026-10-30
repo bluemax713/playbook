@@ -27,7 +27,7 @@ Max's request: generalize palm_beach's Duet coordination (decision doc lives in 
 
 ### Remaining
 - [ ] Max: merge the PR, then publish: `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
-- [ ] palm_beach re-sync: run `/agent-setup duet` there. Expect a README diff (canonical version drops the hard-coded "Current agents" line and adds Before-any-work, branch-log, and secrets sections). Its existing LOG.md lacks a Claimed block; ClickUp is connected there, so that's fine
+- [ ] palm_beach re-sync: its PR #31 (`agents/` layout) merged 2026-10-29, so it's unblocked. Run `/agent-setup duet` there. Expect a README diff (canonical version drops the hard-coded "Current agents" line and adds Before-any-work, branch-log, and secrets sections). Its existing LOG.md lacks a Claimed block; ClickUp is connected there, so that's fine
 
 ---
 
