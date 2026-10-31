@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-10-29
 
-## Overall State: **v1.8.1 on branch `agent-setup-defaults`, PR pending** (v1.8.0 LIVE on npm, published 2026-10-29; PR #17 merged to main first, publish second). New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+## Overall State: **v1.8.1 LIVE on npm** (published 2026-10-29; PR #19 merged first, publish second). `/agent-setup` + outside-agent pattern shipped in 1.8.0; 1.8.1 adds the personal defaults file and the quieter branch-protection check. New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
 
 ---
 
@@ -18,7 +18,15 @@ Max ran `/agent-setup duet` in palm_beach and hit several questions, one of whic
 - [x] palm_beach advice given this session: Use Playbook README; add the missing "read every log / Claimed list (if present) / hand off to Claude Code" lines to instructions.md; **keep** palm_beach's 1-approval branch rule (it's the only barrier to Duet self-merging if Duet's GitHub identity isn't admin). Open question for palm_beach's onboarding task: check the author on Duet's first PR; if it's Max's account, the approval rule adds nothing and Duet needs its own identity
 
 ### Remaining
-- [ ] Max: merge the PR, then `npm login` then `cd ~/Documents/GitHub/playbook && npm publish --access public`
+- [x] PR #19 merged (closed #18 too), branches deleted. Published `playbook-ai@1.8.1` (verified on registry: latest = 1.8.1)
+- [x] **Found during merge:** commit b68862f (`/end` step 2b, refresh `docs/WORKSTREAMS.md`) was pushed directly to main mid-session, outside a PR, with no version bump or CHANGELOG entry. It merged cleanly and shipped in 1.8.0/1.8.1. My pre-merge sync of `end.md` had overwritten it in `~/.claude/commands/`; re-synced from main, all installed commands now byte-identical to the repo. Flagged to Max: whichever session pushed it broke the never-push-to-main rule
+
+### Ticket check
+- ClickUp Playbook space pulled at `/end` (both lists): no open or in-progress tasks, nothing to close. No new Playbook tasks: the remaining items belong to palm_beach (its own onboarding task tracks them).
+
+### Next
+- [ ] palm_beach: finish the `/agent-setup duet` PR there (README → Playbook version, instructions.md additions); on Duet's first PR, check the author identity (if it's Max's account, the approval rule doesn't stop Duet self-merging)
+- [ ] First `/agent-setup` run in any repo will create `~/.claude/agent-setup-defaults.md`; re-running in palm_beach seeds it now
 
 ---
 
