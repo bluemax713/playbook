@@ -17,7 +17,7 @@ Max shared 10 social-media prompt cards (Thinking Partner, Ruthless Critic, Reve
 - [x] ClickUp Playbook space: no open tasks
 
 ### Remaining
-- [x] PR #21 merged; published `playbook-ai@1.8.2` (verified on registry)
+- [x] PR #21 merged; published `playbook-ai@1.8.2` (npm reported success; registry still showed 1.8.1 at last check)
 
 ---
 
