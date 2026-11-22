@@ -138,6 +138,20 @@ Every session follows a consistent pattern:
 - `/chess` fights **an opponent** — a counterparty, or a system that will fail in ways you haven't anticipated
 - `/future` fights **uncertainty** — which decisions matter across scenarios you can't control
 
+**Already have favorite prompts?** If you've saved prompts from social media or a course, most of them map to a command that already knows your project, so you don't have to paste in background every time:
+
+| If you'd normally ask... | Use |
+|---|---|
+| "Ask me questions before you answer" | `/plan` (asks what it needs before it starts) |
+| "Tear my idea apart, find its weaknesses" | `/chess` |
+| "Work backward from my goal" | `/future` |
+| "Act as my strategic advisor" | `/future` for the long view, `/plan` for the next move |
+| "Compare option A and option B" | `/chess` if someone is on the other side, otherwise `/plan` |
+| "Act as a top expert in [field]" | Built in: `/plan`, `/chess`, and `/future` each bring in a council of real-world advisors picked for your situation |
+| "Pull the insights out of this article" | Drop it in `inbox/` and ask what's worth taking from it |
+
+One tip: prompts that demand a fixed count ("give me 10 ideas") push Claude to pad the list. Ask for the ones that matter instead.
+
 ### Context management
 Claude proactively manages session quality:
 - Saves state incrementally during long sessions (not just at the end)
