@@ -2,6 +2,14 @@
 
 All notable updates to Playbook are documented here. Only impactful changes are listed — new commands, upgraded behavior, and things that make your workflow better. Cosmetic fixes and internal housekeeping are omitted.
 
+## [1.8.2] — 2026-11-21
+
+### Docs
+- **"Already have favorite prompts?" cheat sheet in the README.** Maps popular saved prompts ("tear my idea apart", "work backward from my goal", "act as my strategic advisor") to the command that already does it with your project's context loaded.
+
+### Rules
+- **Better reviews of outside material.** When you share a post, article, or someone else's setup to evaluate, Claude now names what it quietly assumes, what's surprising, and what's worth adopting versus already covered, instead of just summarizing it.
+
 ## [1.8.1] — 2026-10-29
 
 ### Commands

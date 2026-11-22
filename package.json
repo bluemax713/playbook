@@ -1,6 +1,6 @@
 {
   "name": "playbook-ai",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Operating playbook for non-technical founders working with Claude Code",
   "bin": {
     "playbook-ai": "bin/cli.js"

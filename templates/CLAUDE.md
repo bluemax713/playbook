@@ -123,6 +123,9 @@ Present every merge call in product terms: what changes for users, what was veri
 - When a manual task is performed repeatedly (copy-pasting between apps, checking status in external tools, triggering actions manually), proactively suggest connecting the tool as an MCP server to eliminate the manual step
 - Frame the suggestion with the time/effort saved vs. setup cost
 
+## Reviewing Outside Material
+- When the user shares outside material to evaluate (posts, articles, other people's setups, transcripts), don't just summarize it. Name what it assumes without saying so, what's surprising or cuts against the usual advice, and what's worth adopting versus already covered.
+
 ## Inbox
 - Every project can have an `inbox/` folder at the repo root — a drop zone for files you want Claude to read
 - `inbox/` must be in `.gitignore` — nothing in it should ever be committed

@@ -1,8 +1,23 @@
 # Playbook Work Log
 
-## Last updated: 2026-10-29
+## Last updated: 2026-11-21
 
 ## Overall State: **v1.8.1 LIVE on npm** (published 2026-10-29; PR #19 merged first, publish second). `/agent-setup` + outside-agent pattern shipped in 1.8.0; 1.8.1 adds the personal defaults file and the quieter branch-protection check. New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+
+---
+
+## Session: 2026-11-21 — Saved-prompts cheat sheet + outside-material rule (v1.8.2)
+
+Max shared 10 social-media prompt cards (Thinking Partner, Ruthless Critic, Reverse Engineer, Expert Simulator, Decision Architect, Opportunity Hunter, Learning Accelerator, System Builder, Knowledge Extractor, Strategic Advisor). Verdict: 8 of 10 already covered by `/plan`, `/chess`, `/future`, and the council, with project context loaded. None adopted as commands (fixed-count prompts produce filler, command sprawl, persona prompts add little). Max chose both small additions.
+
+### Done
+- [x] README: "Already have favorite prompts?" table under Commands, mapping familiar prompts to commands, plus a tip against fixed-count asks
+- [x] `templates/CLAUDE.md` + Max's global `~/.claude/CLAUDE.md`: new "Reviewing Outside Material" section (name hidden assumptions, what's surprising, adopt vs. already covered). Global copy committed + pushed to claude-personal
+- [x] Version 1.8.2: VERSION, package.json, CHANGELOG, `~/.claude/.playbook-version`
+- [x] ClickUp Playbook space: no open tasks
+
+### Remaining
+- [ ] Merge PR, then `npm publish` 1.8.2
 
 ---
 
