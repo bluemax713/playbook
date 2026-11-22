@@ -2,7 +2,7 @@
 
 ## Last updated: 2026-11-21
 
-## Overall State: **v1.8.1 LIVE on npm** (published 2026-10-29; PR #19 merged first, publish second). `/agent-setup` + outside-agent pattern shipped in 1.8.0; 1.8.1 adds the personal defaults file and the quieter branch-protection check. New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
+## Overall State: **v1.8.2 LIVE on npm** (published 2026-11-21, PR #21: saved-prompts cheat sheet + outside-material rule). v1.8.1 (2026-10-29, PR #19): `/agent-setup` + outside-agent pattern shipped in 1.8.0; 1.8.1 adds the personal defaults file and the quieter branch-protection check. New "outside agents" pattern: any project can run Claude Duet (or another agent) alongside Claude Code via a per-repo `agents/` folder, a new `/agent-setup` command, and agent-aware `/start` + `/end`. Reference implementation was palm_beach; its draft `agents/README.md` is now canonical here as `templates/agents/README.md`. Plugin marketplace bumped 1.3.0 → 1.4.0 (command added).
 
 ---
 
@@ -17,7 +17,15 @@ Max shared 10 social-media prompt cards (Thinking Partner, Ruthless Critic, Reve
 - [x] ClickUp Playbook space: no open tasks
 
 ### Remaining
-- [ ] Merge PR, then `npm publish` 1.8.2
+- [x] PR #21 merged; published `playbook-ai@1.8.2` (verified on registry 2026-11-22. First publish never landed despite a success line; retry registered at 00:32 UTC then printed a misleading 403 "cannot publish over 1.8.2". Check the registry with a cache-busting request, since `npm view` lags)
+- [x] Gotcha saved to auto-memory (`feedback-npm-publish.md`): verify publishes with a no-cache registry request, not the terminal success line
+
+### Ticket check
+- ClickUp Playbook space pulled this session (Haiku subagent at `/start`): both lists empty, nothing to close. No new tasks: the work shipped in full.
+
+### Next
+- [ ] palm_beach (carried from 2026-10-29): finish the `/agent-setup duet` PR there; on Duet's first PR, check the author identity
+- [ ] Housekeeping: remote branch `worklog-v181-close` is fully merged via PR #21 and can be deleted
 
 ---
 
