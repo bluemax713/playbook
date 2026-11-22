@@ -18,6 +18,14 @@ Max shared 10 social-media prompt cards (Thinking Partner, Ruthless Critic, Reve
 
 ### Remaining
 - [x] PR #21 merged; published `playbook-ai@1.8.2` (verified on registry 2026-11-22. First publish never landed despite a success line; retry registered at 00:32 UTC then printed a misleading 403 "cannot publish over 1.8.2". Check the registry with a cache-busting request, since `npm view` lags)
+- [x] Gotcha saved to auto-memory (`feedback-npm-publish.md`): verify publishes with a no-cache registry request, not the terminal success line
+
+### Ticket check
+- ClickUp Playbook space pulled this session (Haiku subagent at `/start`): both lists empty, nothing to close. No new tasks: the work shipped in full.
+
+### Next
+- [ ] palm_beach (carried from 2026-10-29): finish the `/agent-setup duet` PR there; on Duet's first PR, check the author identity
+- [ ] Housekeeping: remote branch `worklog-v181-close` is fully merged via PR #21 and can be deleted
 
 ---
 
